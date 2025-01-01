@@ -1,16 +1,462 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury & Sports Car Rental Germany</title>
+    <style>
+        /* body {
+            font-family: 'Lucida Sans', sans-serif;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        } */
+
+        body {
+            font-family: 'Lucida Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1e1e1e, #343a40);
+            color: #f4a261;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid #f4a261;
+        }
+
+        header .header-container h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header .header-container p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ccc;
+        }
+
+        nav {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: #f4a261;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 15px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #f4a261;
+            color: #1e1e1e;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a:active {
+            background-color: #e76f51;
+            color: white;
+        }
+
+
+        .hero {
+            background: url('car-image.jpg') no-repeat center center/cover;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: black;
+        }
+
+        .hero p {
+            color: black;
+        }
+
+
+        .most-container h3 {
+            font-size: 2rem;
+            color: #222;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .car-image-container {
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .car-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .car-image-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .car-listings {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .car {
+            width: 30%;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .car img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .car-info h3 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .car-info p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .car-info button {
+            background-color: #f4a261;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .car-info button:hover {
+            background-color: #e76f51;
+        }
+
+        .contact-form {
+            background-color: #333;
+            color: white;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .contact-form button {
+            background-color: #f4a261;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #e76f51;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .car-listings {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .car {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            nav a {
+                padding: 10px 15px;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                font-size: 0.9rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+
+    <script>
+        function selectCar(carName, price) {
+            // Store car details in localStorage
+            localStorage.setItem('selectedCar', carName);
+            localStorage.setItem('selectedCarPrice', price);
+
+            // Redirect to Rules page
+            window.location.href = 'Rules.html';
+        }
+    </script>
+
 </head>
 
 <body>
-  Hello world
-  <script src="script.js"></script>
+
+    <header>
+        <div class="header-container">
+            <h1>Luxury & Sports Car Rental Germany</h1>
+            <p>Experience the ultimate ride with our premium car rentals.</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="/index.html#featured-cars">Available Cars</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+    </nav>
+
+
+    <section class="hero">
+        <h1>Experience Luxury and Power on the Road</h1>
+        <p>Rent premium cars for an unforgettable driving experience.</p>
+    </section>
+
+    <div class="most-container">
+        <h3>Our Newest Car Ready to Rent</h3>
+        <div class="car-image-container">
+            <img src="https://pictures.porsche.com/rtt/iris?COSY-EU-100-1711coMvsi60AAt5FwcmBEgA4qP8iBUDxPE3Cb9pNXABuN9dMGF4tl3U0%25z8rMHIspbWvanYb%255y%25oq%25vSTmjMXD4qAZeoNBPUSfUx4RmHlCgI7Zl2dioCLafQDcFGDTvYnfurR7eV6iTCSozhp4NdTxf4KxJhvaqJFmOcuLAlWRDdV2ia"
+                alt="Our Newest Car" />
+        </div>
+    </div>
+
+    <div class="container" id="featured-cars">
+        <h2>Featured Cars</h2>
+
+        <div class="car-listings">
+            <div class="car">
+                <img src="https://media.drive.com.au/obj/tx_q:50,rs:auto:1920:1080:1/caradvice/private/f148cc86d2acca496774ef41c3639ba0"
+                    alt="Luxury Car 1">
+                <div class="car-info">
+                    <h3>Porsche 911</h3>
+                    <p>💶Price: €1200/day</p>
+                    <p>💨Top speed: 308 km/h</p>
+                    <p>⏱️0-100 km/h: 3.4 seconds</p>
+                    <p>
+                    <p>⚡Horsepower: 443 hp</p>
+                    <P><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 4
+                    </p>
+                    <button onclick="selectCar('Porsche 911', 1200)">Rent</button>
+                </div>
+            </div>
+
+            <div class="car">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/2022_Lamborghini_Huracan_Evo_RWD.jpg/1200px-2022_Lamborghini_Huracan_Evo_RWD.jpg"
+                    alt="Luxury Car 2">
+                <div class="car-info">
+                    <h3>Lamborghini Huracán</h3>
+                    <p>💶Price: €1500/day</p>
+                    <p>💨Top speed: 323 km/h</p>
+                    <p>⏱️0-100 km/h: 2.9 seconds</p>
+                    <p>⚡Horsepower: 602 hp</p>
+                    <p><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 2
+                    </p>
+                    <button onclick="selectCar('Lamborghini Huracán', 1500)">Rent</button>
+                </div>
+            </div>
+
+            <div class="car">
+                <img src="https://www.mercedes-benz.nl/content/netherlands/nl/passengercars/models/suv/w465-24-1/amg/_jcr_content/root/responsivegrid/tabs_118721272_copy_/tabitem/simple_teaser/simple_teaser_item_c.component.damq2.3422216185211.jpg/mercedes-amg-g-class-w465-amg-options-exterior-night-package-II-764x573-02-2024.jpg"
+                    alt="Luxury Car 3">
+                <div class="car-info">
+                    <h3>Mercedes Benz G63 AMG</h3>
+                    <p>💶Price: €1500/day</p>
+                    <p>💨Top speed: 220 km/h</p>
+                    <p>⏱️0-100 km/h: 4.5 seconds</p>
+                    <p>⚡Horsepower: 577 hp</p>
+                    <p><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 5
+                    </p>
+                    <button onclick="selectCar('Mercedes Benz G63 AMG', 1500)">Rent</button>
+                </div>
+            </div>
+
+            <!-- New Car 1 -->
+            <div class="car">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/2021_Ferrari_Roma_in_Rosso_Fiorano%2C_front_right.jpg/640px-2021_Ferrari_Roma_in_Rosso_Fiorano%2C_front_right.jpg"
+                    alt="Luxury Car 4">
+                <div class="car-info">
+                    <h3>Ferrari Roma</h3>
+                    <p>💶Price: €1500/day</p>
+                    <p>💨Top speed: 320 km/h</p>
+                    <p>⏱️0-100 km/h: 3.4 seconds</p>
+                    <p>⚡Horsepower: 612 hp</p>
+                    <p><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 4
+                    </p>
+                    <button onclick="selectCar('Ferrari Roma', 1500)">Rent</button>
+                </div>
+            </div>
+
+            <!-- New Car 2 -->
+            <div class="car">
+                <img src="https://cdn.motor1.com/images/mgl/EnzYq/s1/2018-mclaren-570s-spider-review.jpg"
+                    alt="Luxury Car 5">
+                <div class="car-info">
+                    <h3>McLaren 570S</h3>
+                    <p>💶Price: €1500/day</p>
+                    <p>💨Top speed: 328 km/h</p>
+                    <p>⏱️0-100 km/h: 3.2 seconds</p>
+                    <p>⚡Horsepower: 562 hp</p>
+
+                    <p><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 2
+                    </p>
+                    <button onclick="selectCar('McLaren 570S', 1500)">Rent</button>
+                </div>
+            </div>
+
+            <!-- New Car 3 -->
+            <div class="car">
+                <img
+                    src="https://media.ed.edmunds-media.com/audi/rs-6/2024/oem/2024_audi_rs-6_wagon_performance_fq_oem_1_1600.jpg">
+                <div class=" car-info">
+                    <h3>Audi Rs 6</h3>
+                    <p>💶Price: €1000/day</p>
+                    <p>💨Top speed: 305 km/h</p>
+                    <p>⏱️0-100 km/h: 3.5 seconds</p>
+                    <p>⚡Horsepower: 591 hp</p>
+
+
+                    <p><!-- Car Seat Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
+                            height="16px" style="vertical-align: middle;">
+                            <path d="M6 4v10H4V4a2 2 0 012-2h8a2 2 0 012 2v10h-2V4H6zM6 16v6h12v-6H6zm1 1h10v4H7v-4z" />
+                        </svg>
+                        Seats: 5
+                    </p>
+                    <button onclick="selectCar('Audi Rs6', 1000)">Rent</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section class="contact-form" id="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; L&S Car Rentals. All rights reserved.</p>
+    </footer>
+
 </body>
 
 </html>

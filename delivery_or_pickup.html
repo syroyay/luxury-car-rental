@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery or Pickup</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .address-box,
+        .pickup-location {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .address-box label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .address-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .pickup-location p {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #f4a261;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #e76f51;
+        }
+    </style>
+    <script>
+        function handleOptionChange() {
+            const deliveryOption = document.getElementById('delivery');
+            const pickupOption = document.getElementById('pickup');
+            const addressBox = document.querySelector('.address-box');
+            const pickupLocation = document.querySelector('.pickup-location');
+            const errorMessage = document.getElementById('error-message');
+
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            if (deliveryOption.checked) {
+                addressBox.style.display = 'block';
+                pickupLocation.style.display = 'none';
+            } else if (pickupOption.checked) {
+                addressBox.style.display = 'none';
+                pickupLocation.style.display = 'block';
+            }
+        }
+
+        function confirmChoice() {
+            const deliveryOption = document.getElementById('delivery').checked;
+            const pickupOption = document.getElementById('pickup').checked;
+            const addressInput = document.getElementById('address');
+            const errorMessage = document.getElementById('error-message');
+
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            if (deliveryOption) {
+                const address = addressInput.value.trim();
+                if (!address) {
+                    errorMessage.textContent = "Please fill in your address for delivery.";
+                    return;
+                }
+                localStorage.setItem('deliveryAddress', address);
+            } else if (pickupOption) {
+                localStorage.setItem('pickupLocation', 'Straat 1');
+            } else {
+                errorMessage.textContent = "Please select an option.";
+                return;
+            }
+
+            // Redirect to confirmation or summary page
+            window.location.href = "confirmation.html";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Delivery or Pickup</h1>
+        <div class="option">
+            <input type="radio" id="delivery" name="option" value="delivery" onclick="handleOptionChange()">
+            <label for="delivery">Get Car Delivered</label>
+        </div>
+        <div class="option">
+            <input type="radio" id="pickup" name="option" value="pickup" onclick="handleOptionChange()">
+            <label for="pickup">Pick Up from Location</label>
+        </div>
+
+        <div class="address-box">
+            <label for="address">Please Fill in Your Address:</label>
+            <input type="text" id="address" placeholder="Enter your delivery address">
+        </div>
+
+        <div class="pickup-location">
+            <p>Pickup Location: Straat 1</p>
+        </div>
+
+        <p class="error-message" id="error-message"></p>
+
+        <button onclick="confirmChoice()">Confirm</button>
+    </div>
+</body>
+
+</html>

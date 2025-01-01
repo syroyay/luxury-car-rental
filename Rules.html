@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Rental Rules</title>
+  <style>
+    body {
+      font-family: 'Lucida Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #555;
+    }
+
+    ul {
+      margin: 20px 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    ul li {
+      background: #f4f4f4;
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 5px solid #333;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #f4a261;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      max-width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    a:hover {
+      background-color: #e76f51;
+    }
+
+    /* Consistent button styles for the continue button */
+    .continue-button {
+      background-color: #f4a261;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .continue-button:hover {
+      background-color: #e76f51;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+    <h1>Car Rental Rules</h1>
+  </header>
+
+  <div class="container">
+
+    <h1>Terms & Conditions</h1>
+    <div id="carInfo">
+      <h2 id="carName"></h2>
+      <p id="carPrice"></p>
+    </div>
+    <p>Welcome to our luxury and sports car rental service! Before you rent a car, please read the following rules:
+    </p>
+    <ul>
+      <li>Your speed and location will be tracked if necessary.</li>
+      <li>A valid driver's license and passport or ID will be required when picking up the car</li>
+      <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
+      <li>No smoking is allowed in the car.</li>
+      <li>The car must be returned with a tank of fuel. above 500 kilometers of range </li>
+      <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
+    </ul>
+    <p>For more details, feel free to contact us!</p>
+    <!-- Updated Back to Home Button -->
+    <!-- <a href="date.html" class="continue-button">Continue</a> -->
+
+
+    <a href="date.html">Proceed to Date Page</a>
+
+  </div>
+
+</body>
+
+<script>
+  // Retrieve selected car details from localStorage
+  const carName = localStorage.getItem('selectedCar');
+  const carPrice = localStorage.getItem('selectedCarPrice');
+
+  console.log('Selected Car:', carName);
+  console.log('car Price', carPrice)
+
+  // Display car details
+  document.getElementById('carName').textContent = carName;
+  document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
+
+  // Store the price in localStorage for use on the date page
+  localStorage.setItem('carPrice', carPrice);
+</script>
+
+</html>

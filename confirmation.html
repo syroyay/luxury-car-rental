@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Summary</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .summary-item {
+            margin-bottom: 20px;
+        }
+
+        .summary-item strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .terms {
+            background-color: #e9f1f7;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .terms ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        .terms li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #f4a261;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #e76f51;
+        }
+
+        .tick {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: green;
+            z-index: 9999;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve data from localStorage
+            const rentalStartDate = localStorage.getItem("rentalStartDate");
+            const rentalEndDate = localStorage.getItem("rentalEndDate");
+            const totalDays = localStorage.getItem("totalDays");
+            const chosenInsurance = localStorage.getItem("insuranceType");
+            const insuranceCost = localStorage.getItem("insuranceCost");
+            const deliveryAddress = localStorage.getItem("deliveryAddress");
+            const pickupLocation = localStorage.getItem("pickupLocation");
+            const totalCost = localStorage.getItem("totalCost");
+            const carName = localStorage.getItem('selectedCar');
+            const carPrice = localStorage.getItem('carPrice');
+            document.getElementById("selected-car").textContent = `${(carName)}`;
+            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice).toFixed(2)}`;
+            // Populate summary details
+            document.getElementById("rental-dates").textContent = `${rentalStartDate} to ${rentalEndDate} (${totalDays} days)`;
+            document.getElementById("insurance-choice").textContent = chosenInsurance
+                ? chosenInsurance.charAt(0).toUpperCase() + chosenInsurance.slice(1)
+                : "Not Selected";
+            document.getElementById("insurance-cost").textContent = '€' + insuranceCost + '/day';
+
+            if (deliveryAddress) {
+                document.getElementById("address-info").textContent = `Delivery Address: ${deliveryAddress}`;
+            } else if (pickupLocation) {
+                document.getElementById("address-info").textContent = `Pickup Location: ${pickupLocation}`;
+            }
+
+            document.getElementById("total-cost").textContent = `Total Cost: €${parseFloat(totalCost).toFixed(2)}`;
+        });
+
+        function proceedToFinalConfirmation() {
+            // Show tick symbol
+            const tickSymbol = document.getElementById("tick-symbol");
+            tickSymbol.style.display = "block";
+
+            // Hide tick symbol and redirect after 2 seconds
+            setTimeout(() => {
+                tickSymbol.style.display = "none";
+                window.location.href = "index.html"; // Replace with the actual path of your homepage
+            }, 2000);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Confirmation Summary</h1>
+
+        <span>
+            <strong>Car :</strong>
+            <p id='selected-car'></p>
+
+        </span>
+
+        <div class="summary-item">
+            <strong>Price per day:</strong>
+            <p id='selected-price'>
+        </div>
+
+        <div class="summary-item">
+            <strong>Rental Dates:</strong>
+            <p id="rental-dates"></p>
+        </div>
+
+        <div class="summary-item">
+            <strong>Insurance Option:</strong>
+            <span id="insurance-choice"></span>
+            <span id="insurance-cost"></span>
+        </div>
+
+        <div class="summary-item">
+            <strong>Delivery or Pickup Address:</strong>
+            <p id="address-info"></p>
+        </div>
+        <div class="summary-item">
+            <strong>Total Cost:</strong>
+            <p id="total-cost"></p>
+        </div>
+        <div class="terms">
+            <strong>Terms and Conditions:</strong>
+            <ul>
+                <li>Your speed and location will be tracked if necessary.</li>
+                <li>A valid driver's license and passport or ID will be required when picking up the car</li>
+                <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
+                <li>No smoking is allowed in the car.</li>
+                <li>The car must be returned with a tank of fuel above 500 kilometers of range </li>
+                <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
+            </ul>
+        </div>
+
+        <button onclick="proceedToFinalConfirmation()">Confirm and Finalize Booking</button>
+
+        <div class="tick" id="tick-symbol">✔</div>
+    </div>
+
+
+
+</body>
+
+</html>

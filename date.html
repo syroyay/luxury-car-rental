@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent a Car - Select Dates</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input[type="date"],
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .price-container {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9f1f7;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .price-container p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        /* Styling the Confirm Reservation button */
+        a.confirm-btn {
+            display: block;
+            text-align: center;
+            width: 100%;
+            background-color: #f4a261;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        a.confirm-btn:hover {
+            background-color: #e76f51;
+            transform: scale(1.02);
+        }
+
+        a.confirm-btn:active {
+            background-color: #d3543e;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Select Rental Dates</h1>
+    </header>
+
+    <div class="container">
+        <p id="carName"></p>
+        <p id="carPrice"></p>
+        <form id="rental-form">
+            <label for="start-date">Select Start Date</label>
+            <input type="date" id="start-date" name="start-date" required>
+
+            <label for="end-date">Select End Date</label>
+            <input type="date" id="end-date" name="end-date" required>
+
+            <label for="pickup-time">Select Pickup Time</label>
+            <input type="time" id="pickup-time" name="pickup-time" required>
+
+            <div class="price-container">
+                <p>Total Days: <span id="total-days">0</span></p>
+                <p>Total Price: <span id="total-price">0</span> €</p>
+            </div>
+
+            <a href="insurance.html" class="confirm-btn">Confirm Reservation</a>
+        </form>
+    </div>
+
+    <script>
+        // Retrieve car details from localStorage
+        const carName = localStorage.getItem('selectedCar');
+        const carPrice = localStorage.getItem('carPrice');
+
+        console.log('Selected Car:', carName);
+        console.log('carPrice', carPrice)
+
+        // Display car details
+        document.getElementById('carName').textContent = 'Car: ' + carName;
+        document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
+
+        // Calculate and display total price
+        const pricePerDay = parseFloat(carPrice);
+
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const totalDaysElement = document.getElementById('total-days');
+        const totalPriceElement = document.getElementById('total-price');
+
+        function calculateTotalDays(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const timeDifference = end - start;
+            return timeDifference / (1000 * 3600 * 24);
+        }
+
+        function updatePrice() {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+
+            if (startDate && endDate) {
+                const totalDays = calculateTotalDays(startDate, endDate)
+                localStorage.setItem('rentalStartDate', startDate)
+                localStorage.setItem('rentalEndDate', endDate);
+                localStorage.setItem('totalDays', totalDays);
+                localStorage.setItem('pricePerDay', pricePerDay)
+                totalDaysElement.textContent = totalDays;
+                const totalPrice = totalDays * pricePerDay;
+                localStorage.setItem('totalRentOnlyPrice', totalPrice);
+                totalPriceElement.textContent = totalPrice > 0 ? totalPrice : 0;
+            }
+        }
+
+        startDateInput.addEventListener('change', updatePrice);
+        endDateInput.addEventListener('change', updatePrice);
+    </script>
+</body>
+
+</html>

@@ -66,17 +66,44 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
     <script>
         // Function to calculate the total cost based on rental days and selected insurance
         function calculateTotal() {
             const rentalDays = localStorage.getItem('totalDays');
-            const rentOnlyPrice = localStorage.getItem('totalRentOnlyPrice');
             const pricePerDay = parseFloat(localStorage.getItem('pricePerDay'))
             const selectedInsurance = document.querySelector('input[name="insurance"]:checked');
+            let valid = true;
+
+            // Reset error messages
+            document.getElementById('insuranceError').style.display = 'none';
+
+            // Check if insurance option is selected
             if (!selectedInsurance) {
-                alert('Please select an insurance option!');
-                return;
+                valid = false;
+                document.getElementById('insuranceError').style.display = 'block';
+            }
+
+            // Check if rental days or price are missing
+            if (!rentalDays || !pricePerDay) {
+                valid = false;
+                if (!rentalDays) {
+                    document.getElementById('rentalDaysError').style.display = 'block';
+                }
+                if (!pricePerDay) {
+                    document.getElementById('pricePerDayError').style.display = 'block';
+                }
+            }
+
+            if (!valid) {
+                return false;
             }
 
             const insuranceType = selectedInsurance.value;
@@ -101,9 +128,8 @@
             // Calculate the total price for the rental including insurance
             const totalCost = rentalDays * (insuranceCost + parseFloat(pricePerDay));
             localStorage.setItem('totalCost', totalCost);
-            localStorage.setItem('insuranceType', insuranceType)
-            localStorage.setItem('insuranceCost', insuranceCost)
-            // Save the total cost in localStorage
+            localStorage.setItem('insuranceType', insuranceType);
+            localStorage.setItem('insuranceCost', insuranceCost);
 
             // Display the final cost
             if (totalCost && !isNaN(totalCost)) {
@@ -111,12 +137,16 @@
             } else {
                 document.getElementById('finalPrice').textContent = 'Total cost is not available.';
             }
+
+            return true;
         }
 
         // Function to navigate to the new page for delivery or pickup options
         function goToDeliveryOrPickup() {
-            calculateTotal(); // Ensure the total price is calculated and saved
-            window.location.href = "delivery_or_pickup.html";
+            const isValid = calculateTotal(); // Ensure the total price is calculated and saved
+            if (isValid) {
+                window.location.href = "delivery_or_pickup.html";
+            }
         }
     </script>
 </head>
@@ -125,6 +155,7 @@
     <div class="container">
         <h1>Select Your Insurance Option</h1>
 
+        <!-- Insurance Option 1 -->
         <div class="insurance-option">
             <div>
                 <h2>Basic Insurance (€50/day)</h2>
@@ -138,6 +169,7 @@
             </label>
         </div>
 
+        <!-- Insurance Option 2 -->
         <div class="insurance-option">
             <div>
                 <h2>Premium Insurance (€100/day)</h2>
@@ -150,6 +182,7 @@
             </label>
         </div>
 
+        <!-- Insurance Option 3 -->
         <div class="insurance-option">
             <div>
                 <h2>Full Coverage (€150/day)</h2>
@@ -163,7 +196,14 @@
             </label>
         </div>
 
+        <!-- Error Messages -->
+        <div class="error-message" id="insuranceError">Please select an insurance option!</div>
+        <div class="error-message" id="rentalDaysError">Please specify the rental days!</div>
+        <div class="error-message" id="pricePerDayError">Please specify the price per day!</div>
+
+        <!-- Confirm Reservation Button -->
         <button onclick="goToDeliveryOrPickup()">Pick up or receive the car</button>
+
         <p id="finalPrice"></p>
     </div>
 </body>

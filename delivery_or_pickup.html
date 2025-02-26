@@ -29,11 +29,17 @@
         .option {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .option input {
             margin-right: 10px;
+        }
+
+        .black-text {
+            color: black;
+            font-weight: bold;
+            margin-left: 10px;
         }
 
         .address-box,
@@ -83,6 +89,9 @@
         }
     </style>
     <script>
+        // Define delivery cost constant
+        const DELIVERY_COST = 100;
+
         function handleOptionChange() {
             const deliveryOption = document.getElementById('delivery');
             const pickupOption = document.getElementById('pickup');
@@ -115,9 +124,15 @@
                     errorMessage.textContent = "Please fill in your address for delivery.";
                     return;
                 }
+                // Store both the delivery address and cost
                 localStorage.setItem('deliveryAddress', address);
+                localStorage.setItem('deliveryCost', DELIVERY_COST);
+                localStorage.setItem('deliveryMethod', 'delivery');
             } else if (pickupOption) {
                 localStorage.setItem('pickupLocation', 'Straat 1');
+                // Set delivery cost to 0 for pickup
+                localStorage.setItem('deliveryCost', 0);
+                localStorage.setItem('deliveryMethod', 'pickup');
             } else {
                 errorMessage.textContent = "Please select an option.";
                 return;
@@ -134,11 +149,18 @@
         <h1>Delivery or Pickup</h1>
         <div class="option">
             <input type="radio" id="delivery" name="option" value="delivery" onclick="handleOptionChange()">
-            <label for="delivery">Get Car Delivered</label>
+            <label for="delivery">
+                Get Car Delivered
+                <span class="black-text">(Getting the car delivered will cost €100 extra)</span>
+            </label>
         </div>
+
         <div class="option">
             <input type="radio" id="pickup" name="option" value="pickup" onclick="handleOptionChange()">
-            <label for="pickup">Pick Up from Location</label>
+            <label for="pickup">
+                Pick Up from Location
+                <span class="black-text">(No extra payment)</span>
+            </label>
         </div>
 
         <div class="address-box">

@@ -43,6 +43,17 @@
             color: #333;
         }
 
+        .warning {
+            background-color: #ffcccc;
+            color: red;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px;
+            border: 2px solid red;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
         .terms {
             background-color: #e9f1f7;
             padding: 15px;
@@ -76,15 +87,57 @@
             background-color: #e76f51;
         }
 
-        .tick {
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
             display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 100px;
-            color: green;
-            z-index: 9999;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .error-message {
+            display: none;
+            color: red;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ffeeee;
+            border: 1px solid #ffcccc;
+            border-radius: 4px;
+        }
+
+        .email-form {
+            margin: 30px auto 20px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .email-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .email-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .email-form .validation-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            height: 20px;
+            margin-bottom: 5px;
+            text-align: left;
         }
     </style>
     <script>
@@ -97,37 +150,142 @@
             const insuranceCost = localStorage.getItem("insuranceCost");
             const deliveryAddress = localStorage.getItem("deliveryAddress");
             const pickupLocation = localStorage.getItem("pickupLocation");
-            const totalCost = localStorage.getItem("totalCost");
+            const deliveryMethod = localStorage.getItem("deliveryMethod");
+            let totalCost = parseFloat(localStorage.getItem("totalCost") || 0);
             const carName = localStorage.getItem('selectedCar');
             const carPrice = localStorage.getItem('carPrice');
-            document.getElementById("selected-car").textContent = `${(carName)}`;
-            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice).toFixed(2)}`;
+            const deliveryCost = parseFloat(localStorage.getItem('deliveryCost') || 0);
+
+            document.getElementById("selected-car").textContent = carName || "Not selected";
+            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice || 0).toFixed(2)}`;
+
             // Populate summary details
-            document.getElementById("rental-dates").textContent = `${rentalStartDate} to ${rentalEndDate} (${totalDays} days)`;
+            document.getElementById("rental-dates").textContent = `${rentalStartDate || "Not selected"} to ${rentalEndDate || "Not selected"} (${totalDays || 0} days)`;
             document.getElementById("insurance-choice").textContent = chosenInsurance
                 ? chosenInsurance.charAt(0).toUpperCase() + chosenInsurance.slice(1)
                 : "Not Selected";
-            document.getElementById("insurance-cost").textContent = '€' + insuranceCost + '/day';
+            document.getElementById("insurance-cost").textContent = insuranceCost ? '€' + insuranceCost + '/day' : "€0.00/day";
 
-            if (deliveryAddress) {
+            // Handle delivery or pickup information
+            if (deliveryMethod === "delivery" && deliveryAddress) {
                 document.getElementById("address-info").textContent = `Delivery Address: ${deliveryAddress}`;
-            } else if (pickupLocation) {
+                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">Delivery Fee: €${deliveryCost.toFixed(2)}</span>`;
+            } else if (deliveryMethod === "pickup" && pickupLocation) {
                 document.getElementById("address-info").textContent = `Pickup Location: ${pickupLocation}`;
+                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">No extra payment for pickup</span>`;
+            } else {
+                document.getElementById("address-info").textContent = "Not specified";
+                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">N/A</span>`;
             }
 
-            document.getElementById("total-cost").textContent = `Total Cost: €${parseFloat(totalCost).toFixed(2)}`;
+            // Calculate the final total cost
+            const finalTotalCost = totalCost + deliveryCost;
+
+            // Display the updated total cost
+            document.getElementById("total-cost").textContent = `Total Cost: €${finalTotalCost.toFixed(2)}`;
+
+            // Email validation
+            const emailInput = document.getElementById('customer-email');
+            const payButton = document.getElementById('pay-button');
+            const validationMessage = document.getElementById('email-validation-message');
+
+            // Email validation function
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            // Check email on input
+            emailInput.addEventListener('input', function() {
+                const email = this.value.trim();
+
+                if (!email) {
+                    validationMessage.textContent = 'Email is required';
+                    payButton.disabled = true;
+                } else if (!validateEmail(email)) {
+                    validationMessage.textContent = 'Please enter a valid email address';
+                    payButton.disabled = true;
+                } else {
+                    validationMessage.textContent = '';
+                    payButton.disabled = false;
+                }
+            });
         });
 
-        function proceedToFinalConfirmation() {
-            // Show tick symbol
-            const tickSymbol = document.getElementById("tick-symbol");
-            tickSymbol.style.display = "block";
+        async function proceedToStripeCheckout() {
+            // Get the email
+            const customerEmail = document.getElementById('customer-email').value.trim();
 
-            // Hide tick symbol and redirect after 2 seconds
-            setTimeout(() => {
-                tickSymbol.style.display = "none";
-                window.location.href = "index.html"; // Replace with the actual path of your homepage
-            }, 2000);
+            // Validate email again as a safeguard
+            if (!customerEmail || !validateEmail(customerEmail)) {
+                return;
+            }
+
+            // Disable the button to prevent multiple clicks
+            const button = document.getElementById('pay-button');
+            button.disabled = true;
+            button.textContent = 'Processing...';
+
+            // Show loading message
+            const loadingElement = document.getElementById('loading-message');
+            loadingElement.style.display = 'block';
+
+            // Hide any previous error messages
+            const errorElement = document.getElementById('error-message');
+            errorElement.style.display = 'none';
+
+            try {
+                // Get the data needed for checkout
+                const carName = localStorage.getItem('selectedCar') || 'Car Rental';
+                const rentalStartDate = localStorage.getItem("rentalStartDate") || '';
+                const rentalEndDate = localStorage.getItem("rentalEndDate") || '';
+                const rentalDates = `${rentalStartDate} to ${rentalEndDate}`;
+                const totalCost = parseFloat(localStorage.getItem("totalCost") || 0);
+                const deliveryCost = parseFloat(localStorage.getItem('deliveryCost') || 0);
+                const finalTotal = totalCost + deliveryCost;
+
+                // Create the request to your server
+                const response = await fetch('https://stripe-test-server-xu4h.onrender.com/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: finalTotal,
+                        carName: carName,
+                        rentalDates: rentalDates,
+                        customerEmail: customerEmail
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Server response was not ok');
+                }
+
+                const data = await response.json();
+
+                // Redirect to the Stripe checkout URL
+                window.location.href = data.url;
+
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Show error message
+                errorElement.textContent = 'There was an error processing your payment. Please try again.';
+                errorElement.style.display = 'block';
+
+                // Reset button
+                button.disabled = false;
+                button.textContent = 'Finalize Booking and Pay';
+
+                // Hide loading message
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
         }
     </script>
 </head>
@@ -136,15 +294,20 @@
     <div class="container">
         <h1>Confirmation Summary</h1>
 
+        <!-- Important Warning to Take a Screenshot -->
+        <div class="warning">
+            ⚠️ IMPORTANT: Please take a screenshot of this confirmation.
+            You must show this at pickup!
+        </div>
+
         <span>
             <strong>Car :</strong>
             <p id='selected-car'></p>
-
         </span>
 
         <div class="summary-item">
             <strong>Price per day:</strong>
-            <p id='selected-price'>
+            <p id='selected-price'></p>
         </div>
 
         <div class="summary-item">
@@ -162,29 +325,44 @@
             <strong>Delivery or Pickup Address:</strong>
             <p id="address-info"></p>
         </div>
+
+        <div class="summary-item">
+            <strong>Delivery/Pickup Fee:</strong>
+            <p id="delivery-fee"></p>
+        </div>
+
         <div class="summary-item">
             <strong>Total Cost:</strong>
             <p id="total-cost"></p>
         </div>
+
         <div class="terms">
             <strong>Terms and Conditions:</strong>
             <ul>
                 <li>Your speed and location will be tracked if necessary.</li>
-                <li>A valid driver's license and passport or ID will be required when picking up the car</li>
+                <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
                 <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
                 <li>No smoking is allowed in the car.</li>
-                <li>The car must be returned with a tank of fuel above 500 kilometers of range </li>
+                <li>The car must be returned with a tank of fuel above 500 kilometers of range.</li>
                 <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
             </ul>
         </div>
 
-        <button onclick="proceedToFinalConfirmation()">Confirm and Finalize Booking</button>
+        <!-- Email Form -->
+        <div class="email-form">
+            <label for="customer-email">Enter your email address to receive order confirmation:</label>
+            <input type="email" id="customer-email" placeholder="your.email@example.com" required>
+            <div id="email-validation-message" class="validation-message"></div>
+        </div>
 
-        <div class="tick" id="tick-symbol">✔</div>
+        <button id="pay-button" onclick="proceedToStripeCheckout()" disabled>Finalize Booking and Pay</button>
+
+        <div id="loading-message" class="loading">
+            Connecting to payment processor... Please wait.
+        </div>
+
+        <div id="error-message" class="error-message"></div>
     </div>
-
-
-
 </body>
 
 </html>

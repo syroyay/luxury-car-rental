@@ -5,116 +5,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rent a Car - Select Dates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: 'Lucida Sans', sans-serif;
+            font-family: 'Segoe UI', 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f8f9fa;
+            background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
         }
 
         header {
-            background-color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: white;
-            padding: 15px 0;
+            padding: 25px 0;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+            font-size: 2rem;
         }
 
         .container {
             max-width: 800px;
             margin: 40px auto;
-            padding: 20px;
+            padding: 35px;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.07);
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #16213e;
+            margin-bottom: 30px;
         }
 
         label {
             display: block;
-            margin: 10px 0 5px;
-            color: #555;
+            margin: 15px 0 8px;
+            color: #16213e;
+            font-weight: 500;
+            font-size: 1rem;
         }
 
         input[type="date"],
         input[type="time"] {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 12px 15px;
+            margin: 8px 0 12px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="date"]:focus,
+        input[type="time"]:focus {
+            border-color: #f4a261;
+            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+            outline: none;
         }
 
         input[type="date"].error,
         input[type="time"].error {
-            border: 1px solid red;
+            border: 1px solid #e74c3c;
+            background-color: #fdf3f2;
         }
 
         .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: -10px;
-            margin-bottom: 10px;
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: -8px;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
 
         .price-container {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9f1f7;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8fafc;
+            border-left: 5px solid #f4a261;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .price-container p {
             margin: 10px 0;
-            font-size: 16px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* Styling the Confirm Reservation button */
+        #carName,
+        #carPrice {
+            font-size: 1.1rem;
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0 0 20px 0;
+            border-left: 5px solid #16213e;
+        }
+
+        #carName {
+            font-weight: 600;
+            color: #16213e;
+        }
+
+        #carPrice {
+            color: #f4a261;
+            font-weight: 500;
+            margin-top: -10px;
+        }
+
         a.confirm-btn {
             display: block;
             text-align: center;
-            width: auto;
-            /* Adjust width to auto so the button fits the content */
-            padding: 12px 30px;
-            /* Smaller padding for a more compact button */
-            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 30px;
+            margin: 30px auto 0;
             text-decoration: none;
-            font-size: 14px;
-            /* Slightly smaller font size */
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
             color: white;
             background: linear-gradient(145deg, #f4a261, #e76f51);
-            /* Subtle gradient for luxury feel */
-            border-radius: 25px;
-            /* Rounded corners */
+            border-radius: 30px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            /* Soft shadow for a luxurious look */
+            box-shadow: 0 6px 15px rgba(231, 111, 81, 0.25);
             border: none;
-            /* Remove border */
+            letter-spacing: 0.5px;
         }
 
         a.confirm-btn:hover {
             background: linear-gradient(145deg, #e76f51, #f4a261);
-            /* Slightly reverse gradient on hover */
-            transform: translateY(-2px);
-            /* Lift the button up slightly on hover */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            /* Stronger shadow on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.4);
         }
 
         a.confirm-btn:active {
-            background: linear-gradient(145deg, #e76f51, #f4a261);
-            /* Keep the gradient on active */
-            transform: translateY(2px);
-            /* Button goes down slightly on click */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Light shadow on active state */
+            transform: translateY(1px);
+            box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>

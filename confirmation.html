@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Confirmed</title>
+    <title>Confirmation Summary</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,10 +12,11 @@
             --secondary-color: #0f3460;
             --accent-color: #e76f51;
             --accent-light: #f4a261;
-            --success-color: #2ecc71;
             --text-color: #333;
             --text-light: #666;
             --light-bg: #f8f9fa;
+            --success-color: #2ecc71;
+            --warning-color: #e74c3c;
             --border-radius: 10px;
             --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
@@ -46,35 +47,47 @@
         }
 
         .header {
-            background: linear-gradient(135deg, var(--success-color) 0%, #27ae60 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 30px;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             letter-spacing: 0.5px;
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
-        }
-
-        .success-icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            color: white;
         }
 
         .content {
             padding: 40px;
         }
 
-        .detail-section {
+        .warning {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--warning-color);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 20px;
+            border-left: 5px solid var(--warning-color);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .warning i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .summary-section {
             margin-bottom: 40px;
         }
 
@@ -87,7 +100,7 @@
             font-weight: 600;
         }
 
-        .detail-item {
+        .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -95,7 +108,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .detail-item:last-child {
+        .summary-item:last-child {
             border-bottom: none;
         }
 
@@ -110,83 +123,178 @@
             text-align: right;
         }
 
-        .next-steps {
-            background-color: rgba(46, 204, 113, 0.1);
+        .cost-item .item-value {
+            color: var(--accent-color);
+        }
+
+        .total-row {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(22, 33, 62, 0.1);
+        }
+
+        .total-row .item-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .total-row .item-value {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .terms {
+            background-color: rgba(248, 249, 250, 0.7);
             padding: 25px;
             border-radius: var(--border-radius);
             margin-bottom: 30px;
-            border-left: 5px solid var(--success-color);
         }
 
-        .next-steps-title {
+        .terms-title {
             font-weight: 600;
-            color: var(--success-color);
+            color: var(--primary-color);
             margin-bottom: 15px;
-            font-size: 1.1rem;
         }
 
-        .next-steps ul {
+        .terms ul {
             list-style-type: none;
             padding-left: 5px;
         }
 
-        .next-steps li {
+        .terms li {
             margin-bottom: 12px;
             position: relative;
             padding-left: 25px;
         }
 
-        .next-steps li:before {
-            content: "✓";
-            color: var(--success-color);
+        .terms li:before {
+            content: "•";
+            color: var(--accent-light);
             position: absolute;
             left: 0;
-            font-weight: bold;
+            font-size: 1.5rem;
+            line-height: 1;
         }
 
-        .confirmation-number {
-            font-family: monospace;
-            font-size: 1.1rem;
-            background-color: #f8f9fa;
-            padding: 10px 15px;
-            border-radius: 5px;
-            letter-spacing: 1px;
-            border: 1px dashed #ddd;
-            display: inline-block;
+        .email-form {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .return-button {
-            display: inline-block;
-            background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
+        .email-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .email-form input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .email-form input:focus {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+            outline: none;
+        }
+
+        .validation-message {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+            min-height: 20px;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+
+        .pay-button {
+            width: 100%;
+            background: linear-gradient(145deg, var(--accent-light), var(--accent-color));
             color: white;
-            padding: 14px 30px;
+            padding: 16px;
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(22, 33, 62, 0.25);
-            text-decoration: none;
-            text-align: center;
-            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(231, 111, 81, 0.25);
+            letter-spacing: 0.5px;
+            margin-top: 10px;
         }
 
-        .return-button:hover {
+        .pay-button:hover {
+            background: linear-gradient(145deg, var(--accent-color), var(--accent-light));
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(22, 33, 62, 0.3);
+            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.3);
         }
 
+        .pay-button:active {
+            transform: translateY(1px);
+        }
+
+        .pay-button:disabled {
+            background: linear-gradient(145deg, #cccccc, #dddddd);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .loading i {
+            animation: spin 1s infinite linear;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .error-message {
+            display: none;
+            color: var(--warning-color);
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--warning-color);
+            border-radius: 0 8px 8px 0;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .content {
                 padding: 25px;
             }
 
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
 
-            .detail-item {
+            .summary-item {
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 12px 0;
@@ -196,183 +304,257 @@
                 margin-top: 5px;
                 text-align: left;
             }
+
+            .total-row {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .total-row .item-value {
+                margin-top: 0;
+            }
         }
     </style>
-    <!-- Import Supabase client from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <i class="fas fa-check-circle success-icon"></i>
-            <h1>Booking Confirmed!</h1>
-            <p>Your luxury vehicle reservation is confirmed and ready</p>
+            <h1>Reservation Confirmation</h1>
+            <p>Review your luxury vehicle booking details</p>
         </div>
 
         <div class="content">
-            <div class="next-steps">
-                <div class="next-steps-title">Next Steps</div>
+            <div class="warning">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>IMPORTANT: Please show your confirmation email at vehicle pickup. This email will be sent to you
+                    after completing payment.</span>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Vehicle Details</h2>
+                <div class="summary-item">
+                    <span class="item-label">Selected Vehicle</span>
+                    <span class="item-value" id="selected-car"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Rate</span>
+                    <span class="item-value" id="selected-price"></span>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Rental Information</h2>
+                <div class="summary-item">
+                    <span class="item-label">Rental Period</span>
+                    <span class="item-value" id="rental-dates"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="item-label">Insurance Coverage</span>
+                    <span class="item-value" id="insurance-choice"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Insurance Rate</span>
+                    <span class="item-value" id="insurance-cost"></span>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Pickup & Delivery</h2>
+                <div class="summary-item">
+                    <span class="item-label">Location Details</span>
+                    <span class="item-value" id="address-info"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Service Fee</span>
+                    <span class="item-value" id="delivery-fee"></span>
+                </div>
+
+                <div class="summary-item total-row">
+                    <span class="item-label">Total Amount</span>
+                    <span class="item-value" id="total-cost"></span>
+                </div>
+            </div>
+
+            <div class="terms">
+                <div class="terms-title">Terms and Conditions</div>
                 <ul>
-                    <li>A confirmation email has been sent to the address you provided</li>
-                    <li>Please save your confirmation number: <span class="confirmation-number" id="confirmation-number">Processing...</span></li>
-                    <li>Present your confirmation email or number when you pick up your vehicle</li>
-                    <li>Don't forget to bring your valid driver's license and ID/passport</li>
+                    <li>Your speed and location will be tracked if necessary.</li>
+                    <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
+                    <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.
+                    </li>
+                    <li>No smoking is allowed in the car.</li>
+                    <li>The car must be returned with a tank of fuel above 500 kilometers of range.</li>
+                    <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
                 </ul>
             </div>
 
-            <div class="detail-section">
-                <h2 class="section-title">Vehicle Details</h2>
-                <div class="detail-item">
-                    <span class="item-label">Selected Vehicle</span>
-                    <span class="item-value" id="selected-car">Loading...</span>
-                </div>
-                <div class="detail-item">
-                    <span class="item-label">Reservation ID</span>
-                    <span class="item-value" id="reservation-id">Loading...</span>
-                </div>
+            <div class="email-form">
+                <label for="customer-email">Email Address for Confirmation</label>
+                <input type="email" id="customer-email" placeholder="your.email@example.com" required>
+                <div id="email-validation-message" class="validation-message"></div>
             </div>
 
-            <div class="detail-section">
-                <h2 class="section-title">Rental Information</h2>
-                <div class="detail-item">
-                    <span class="item-label">Rental Period</span>
-                    <span class="item-value" id="rental-dates">Loading...</span>
-                </div>
-                <div class="detail-item">
-                    <span class="item-label">Insurance Coverage</span>
-                    <span class="item-value" id="insurance-choice">Loading...</span>
-                </div>
+            <button id="pay-button" class="pay-button" onclick="proceedToStripeCheckout()" disabled>
+                Complete Reservation and Pay
+            </button>
+
+            <div id="loading-message" class="loading">
+                <i class="fas fa-spinner"></i> Processing your payment request...
             </div>
 
-            <div class="detail-section">
-                <h2 class="section-title">Pickup & Delivery</h2>
-                <div class="detail-item">
-                    <span class="item-label">Location Details</span>
-                    <span class="item-value" id="address-info">Loading...</span>
-                </div>
-                <div class="detail-item">
-                    <span class="item-label">Total Paid</span>
-                    <span class="item-value" id="total-cost">Loading...</span>
-                </div>
-            </div>
-
-            <a href="index.html" class="return-button">Return to Homepage</a>
+            <div id="error-message" class="error-message"></div>
         </div>
     </div>
 
     <script>
-        // Initialize Supabase client
-        const supabaseUrl = 'https://yckfuqxbpnzcnieahdcs.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlja2Z1cXhicG56Y25pZWFoZGNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU3NDQ1NDYsImV4cCI6MjA1MTMyMDU0Nn0.Da3a6jr_dPAktvUrcgYL_fwVz0r72oTdaNesNVdRe50';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve data from localStorage
+            const rentalStartDate = localStorage.getItem("rentalStartDate");
+            const rentalEndDate = localStorage.getItem("rentalEndDate");
+            const totalDays = localStorage.getItem("totalDays");
+            const chosenInsurance = localStorage.getItem("insuranceType");
+            const insuranceCost = localStorage.getItem("insuranceCost");
+            const deliveryAddress = localStorage.getItem("deliveryAddress");
+            const pickupLocation = localStorage.getItem("pickupLocation");
+            const deliveryMethod = localStorage.getItem("deliveryMethod");
+            let totalCost = parseFloat(localStorage.getItem("totalCost") || 0);
+            const carName = localStorage.getItem('selectedCar');
+            const carPrice = localStorage.getItem('carPrice');
+            const deliveryCost = parseFloat(localStorage.getItem('deliveryCost') || 0);
 
-        // Helper function to convert numeric date to string
-        function convertFromNumericDate(numericDate) {
-            const excelEpoch = new Date(1899, 11, 30);
-            const date = new Date(excelEpoch.getTime() + (numericDate * 24 * 60 * 60 * 1000));
+            document.getElementById("selected-car").textContent = carName || "Not selected";
+            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice || 0).toFixed(2)}/day`;
 
-            return date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-        }
+            // Populate summary details
+            document.getElementById("rental-dates").textContent = `${rentalStartDate || "Not selected"} to ${rentalEndDate || "Not selected"} (${totalDays || 0} days)`;
+            document.getElementById("insurance-choice").textContent = chosenInsurance
+                ? chosenInsurance.charAt(0).toUpperCase() + chosenInsurance.slice(1)
+                : "Not Selected";
+            document.getElementById("insurance-cost").textContent = insuranceCost ? '€' + insuranceCost + '/day' : "€0.00/day";
 
-        // Generate a random confirmation number
-        function generateConfirmationNumber() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 8; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            // Handle delivery or pickup information
+            if (deliveryMethod === "delivery" && deliveryAddress) {
+                document.getElementById("address-info").textContent = `Delivery to: ${deliveryAddress}`;
+                document.getElementById("delivery-fee").textContent = `€${deliveryCost.toFixed(2)}`;
+            } else if (deliveryMethod === "pickup" && pickupLocation) {
+                document.getElementById("address-info").textContent = `Pickup from: ${pickupLocation}`;
+                document.getElementById("delivery-fee").textContent = `€0.00 (Included)`;
+            } else {
+                document.getElementById("address-info").textContent = "Not specified";
+                document.getElementById("delivery-fee").textContent = `€0.00`;
             }
-            return result;
-        }
 
-        document.addEventListener("DOMContentLoaded", async function() {
-            try {
-                // Get the booking ID from localStorage
-                const bookingId = localStorage.getItem('pendingBookingId');
+            // Calculate the final total cost
+            const finalTotalCost = totalCost + deliveryCost;
 
-                if (!bookingId) {
-                    // No booking ID found, might be accessing page directly
-                    document.getElementById('confirmation-number').textContent = 'Not available';
-                    return;
-                }
+            // Display the updated total cost
+            document.getElementById("total-cost").textContent = `€${finalTotalCost.toFixed(2)}`;
 
-                // Fetch the booking details from Supabase
-                const { data: bookingData, error: bookingError } = await supabase
-                    .from('bookings')
-                    .select(`
-                        *,
-                        cars:car_id (
-                            car_name
-                        )
-                    `)
-                    .eq('id', bookingId)
-                    .single();
+            // Email validation
+            const emailInput = document.getElementById('customer-email');
+            const payButton = document.getElementById('pay-button');
+            const validationMessage = document.getElementById('email-validation-message');
 
-                if (bookingError || !bookingData) {
-                    console.error('Error fetching booking details:', bookingError);
-                    document.getElementById('confirmation-number').textContent = 'Error loading booking';
-                    return;
-                }
+            // Email validation function
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
 
-                // Generate a confirmation number if not already set
-                const confirmationNumber = bookingData.confirmation_number || generateConfirmationNumber();
+            // Check email on input
+            emailInput.addEventListener('input', function () {
+                const email = this.value.trim();
 
-                // Update the booking with the confirmation number if needed
-                if (!bookingData.confirmation_number) {
-                    await supabase
-                        .from('bookings')
-                        .update({ confirmation_number: confirmationNumber })
-                        .eq('id', bookingId);
-                }
-
-                // Display the confirmation number
-                document.getElementById('confirmation-number').textContent = confirmationNumber;
-
-                // Display the booking details
-                document.getElementById('selected-car').textContent = bookingData.cars.car_name;
-                document.getElementById('reservation-id').textContent = bookingId;
-
-                // Convert numeric dates to readable format
-                const startDate = convertFromNumericDate(bookingData.booked_start);
-                const endDate = convertFromNumericDate(bookingData.booked_end);
-                const days = Math.round(bookingData.booked_end - bookingData.booked_start);
-
-                document.getElementById('rental-dates').textContent = `${startDate} to ${endDate} (${days} days)`;
-
-                // Retrieve additional data from localStorage
-                const chosenInsurance = localStorage.getItem("insuranceType");
-                const deliveryAddress = localStorage.getItem("deliveryAddress");
-                const pickupLocation = localStorage.getItem("pickupLocation");
-                const deliveryMethod = localStorage.getItem("deliveryMethod");
-
-                document.getElementById("insurance-choice").textContent = chosenInsurance
-                    ? chosenInsurance.charAt(0).toUpperCase() + chosenInsurance.slice(1)
-                    : "Standard";
-
-                // Handle delivery or pickup information
-                if (deliveryMethod === "delivery" && deliveryAddress) {
-                    document.getElementById("address-info").textContent = `Delivery to: ${deliveryAddress}`;
-                } else if (deliveryMethod === "pickup" && pickupLocation) {
-                    document.getElementById("address-info").textContent = `Pickup from: ${pickupLocation}`;
+                if (!email) {
+                    validationMessage.textContent = 'Email is required';
+                    payButton.disabled = true;
+                } else if (!validateEmail(email)) {
+                    validationMessage.textContent = 'Please enter a valid email address';
+                    payButton.disabled = true;
                 } else {
-                    document.getElementById("address-info").textContent = "Not specified";
+                    validationMessage.textContent = '';
+                    payButton.disabled = false;
+                }
+            });
+        });
+
+        async function proceedToStripeCheckout() {
+            // Get the email
+            const customerEmail = document.getElementById('customer-email').value.trim();
+
+            // Validate email again as a safeguard
+            if (!customerEmail || !validateEmail(customerEmail)) {
+                return;
+            }
+
+            // Disable the button to prevent multiple clicks
+            const button = document.getElementById('pay-button');
+            button.disabled = true;
+            button.textContent = 'Processing...';
+
+            // Show loading message
+            const loadingElement = document.getElementById('loading-message');
+            loadingElement.style.display = 'block';
+
+            // Hide any previous error messages
+            const errorElement = document.getElementById('error-message');
+            errorElement.style.display = 'none';
+
+            try {
+                // Get the data needed for checkout
+                const carName = localStorage.getItem('selectedCar') || 'Car Rental';
+                const rentalStartDate = localStorage.getItem("rentalStartDate") || '';
+                const rentalEndDate = localStorage.getItem("rentalEndDate") || '';
+                const rentalDates = `${rentalStartDate} to ${rentalEndDate}`;
+                const totalCost = parseFloat(localStorage.getItem("totalCost") || 0);
+                const deliveryCost = parseFloat(localStorage.getItem('deliveryCost') || 0);
+                const finalTotal = totalCost + deliveryCost;
+
+                // Create the request to your server
+                const response = await fetch('https://stripe-test-server-xu4h.onrender.com/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: finalTotal,
+                        carName: carName,
+                        rentalDates: rentalDates,
+                        customerEmail: customerEmail
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Server response was not ok');
                 }
 
-                // Display the total cost
-                document.getElementById('total-cost').textContent = `€${parseFloat(bookingData.total_cost).toFixed(2)}`;
+                const data = await response.json();
 
-                // Clear the pending booking ID from localStorage
-                localStorage.removeItem('pendingBookingId');
+                // Redirect to the Stripe checkout URL
+                window.location.href = data.url;
 
             } catch (error) {
-                console.error('Error loading booking confirmation:', error);
-                document.getElementById('confirmation-number').textContent = 'Error';
+                console.error('Error:', error);
+
+                // Show error message
+                errorElement.textContent = 'There was an error processing your payment. Please try again.';
+                errorElement.style.display = 'block';
+
+                // Reset button
+                button.disabled = false;
+                button.textContent = 'Complete Reservation and Pay';
+
+                // Hide loading message
+                loadingElement.style.display = 'none';
             }
-        });
+        }
+
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
     </script>
 </body>
 

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful | Supercar Rentals</title>
+    <!-- Import Supabase client from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* Modern, clean styling for luxury brand feel */
         :root {
@@ -29,7 +31,7 @@
             background-color: var(--gray-light);
             color: var(--dark-color);
             line-height: 1.6;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -37,10 +39,11 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            padding: 40px 0;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
@@ -49,6 +52,7 @@
             position: relative;
             overflow: hidden;
             margin: 20px;
+            width: 100%;
         }
 
         .success-icon {
@@ -160,6 +164,70 @@
             left: -70px;
         }
 
+        /* Booking details styles */
+        .booking-details {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-details h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .booking-label {
+            font-weight: 600;
+            color: var(--gray-dark);
+        }
+
+        .booking-value {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .confirmation-number {
+            font-family: monospace;
+            font-size: 1.1rem;
+            background-color: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 5px;
+            letter-spacing: 1px;
+            border: 1px dashed rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
@@ -179,12 +247,21 @@
                 width: 35px;
                 height: 35px;
             }
+
+            .booking-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .booking-value {
+                margin-top: 5px;
+            }
         }
     </style>
-    <!-- Optional: Add Google Fonts for better typography -->
+    <!-- Google Fonts for better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -206,6 +283,47 @@
         <p>Thank you for choosing our premium supercar rental service. Your booking has been confirmed and is now ready.
         </p>
 
+        <!-- Booking details section -->
+        <div class="booking-details">
+            <h3>Your Booking Details</h3>
+            <div class="booking-row">
+                <span class="booking-label">Confirmation #</span>
+                <span class="booking-value" id="confirmation-number">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+            <div class="booking-row">
+                <span class="booking-label">Selected Vehicle</span>
+                <span class="booking-value" id="selected-car">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+            <div class="booking-row">
+                <span class="booking-label">Rental Period</span>
+                <span class="booking-value" id="rental-dates">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+            <div class="booking-row">
+                <span class="booking-label">Insurance Coverage</span>
+                <span class="booking-value" id="insurance-choice">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+            <div class="booking-row">
+                <span class="booking-label">Pickup / Delivery</span>
+                <span class="booking-value" id="address-info">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+            <div class="booking-row">
+                <span class="booking-label">Total Amount Paid</span>
+                <span class="booking-value" id="total-cost">
+                    <div class="loading-spinner"></div> Loading...
+                </span>
+            </div>
+        </div>
+
         <div class="order-info">
             <h3>What happens next?</h3>
             <p>• You will receive a detailed confirmation email shortly</p>
@@ -220,6 +338,148 @@
         <p class="footer-text">If you have any questions, please contact our customer service at
             support@supercarrentals.com</p>
     </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://yckfuqxbpnzcnieahdcs.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlja2Z1cXhicG56Y25pZWFoZGNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU3NDQ1NDYsImV4cCI6MjA1MTMyMDU0Nn0.Da3a6jr_dPAktvUrcgYL_fwVz0r72oTdaNesNVdRe50';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Helper function to convert numeric date to string
+        function convertFromNumericDate(numericDate) {
+            const excelEpoch = new Date(1899, 11, 30);
+            const date = new Date(excelEpoch.getTime() + (numericDate * 24 * 60 * 60 * 1000));
+
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Generate a random confirmation number if needed
+        function generateConfirmationNumber() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        // Main function to load booking details
+        async function loadBookingDetails() {
+            try {
+                // Get the booking ID from localStorage
+                const bookingId = localStorage.getItem('pendingBookingId');
+
+                if (!bookingId) {
+                    // No booking ID found, this might happen if user refreshes page or accesses directly
+                    document.getElementById('confirmation-number').innerHTML = '<span class="confirmation-number">Not available</span>';
+                    document.getElementById('selected-car').textContent = 'Information not available';
+                    document.getElementById('rental-dates').textContent = 'Information not available';
+                    document.getElementById('insurance-choice').textContent = 'Information not available';
+                    document.getElementById('address-info').textContent = 'Information not available';
+                    document.getElementById('total-cost').textContent = 'Information not available';
+                    return;
+                }
+
+                // Fetch the booking details from Supabase
+                const { data: bookingData, error: bookingError } = await supabase
+                    .from('bookings')
+                    .select(`
+                        *,
+                        cars:car_id (
+                            car_name
+                        )
+                    `)
+                    .eq('id', bookingId)
+                    .single();
+
+                if (bookingError || !bookingData) {
+                    console.error('Error fetching booking details:', bookingError);
+                    document.getElementById('confirmation-number').innerHTML = '<span class="confirmation-number">ERROR</span>';
+                    return;
+                }
+
+                // Generate a confirmation number if not already set
+                const confirmationNumber = bookingData.confirmation_number || generateConfirmationNumber();
+
+                // Update the booking with the confirmation number if needed
+                if (!bookingData.confirmation_number) {
+                    await supabase
+                        .from('bookings')
+                        .update({ 
+                            confirmation_number: confirmationNumber,
+                            status: 'confirmed' // Ensure the booking is marked as confirmed
+                        })
+                        .eq('id', bookingId);
+                }
+
+                // Display the confirmation number
+                document.getElementById('confirmation-number').innerHTML = 
+                    `<span class="confirmation-number">${confirmationNumber}</span>`;
+
+                // Display the car name
+                document.getElementById('selected-car').textContent = bookingData.cars.car_name;
+
+                // Convert numeric dates to readable format
+                const startDate = convertFromNumericDate(bookingData.booked_start);
+                const endDate = convertFromNumericDate(bookingData.booked_end);
+                const days = Math.round(bookingData.booked_end - bookingData.booked_start);
+
+                document.getElementById('rental-dates').textContent = `${startDate} to ${endDate} (${days} days)`;
+
+                // Retrieve additional data from localStorage
+                const chosenInsurance = localStorage.getItem("insuranceType");
+                const deliveryAddress = localStorage.getItem("deliveryAddress");
+                const pickupLocation = localStorage.getItem("pickupLocation");
+                const deliveryMethod = localStorage.getItem("deliveryMethod");
+
+                document.getElementById("insurance-choice").textContent = chosenInsurance
+                    ? chosenInsurance.charAt(0).toUpperCase() + chosenInsurance.slice(1)
+                    : "Standard";
+
+                // Handle delivery or pickup information
+                if (deliveryMethod === "delivery" && deliveryAddress) {
+                    document.getElementById("address-info").textContent = `Delivery to: ${deliveryAddress}`;
+                } else if (deliveryMethod === "pickup" && pickupLocation) {
+                    document.getElementById("address-info").textContent = `Pickup from: ${pickupLocation}`;
+                } else {
+                    document.getElementById("address-info").textContent = "Standard pickup";
+                }
+
+                // Display the total cost
+                document.getElementById('total-cost').textContent = `€${parseFloat(bookingData.total_cost).toFixed(2)}`;
+
+                // Clear the pending booking ID from localStorage
+                localStorage.removeItem('pendingBookingId');
+
+            } catch (error) {
+                console.error('Error loading booking confirmation:', error);
+                document.getElementById('confirmation-number').innerHTML = '<span class="confirmation-number">ERROR</span>';
+
+                // Set error messages for all fields
+                document.querySelectorAll('.booking-value').forEach(el => {
+                    if (el.id !== 'confirmation-number') {
+                        el.textContent = 'Could not load information';
+                    }
+                });
+            }
+        }
+
+        // When the page loads, check if we're returning from payment
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment_status');
+
+            if (paymentStatus === 'success') {
+                // Load the booking details
+                loadBookingDetails();
+            }
+        });
+    </script>
 </body>
 
 </html>

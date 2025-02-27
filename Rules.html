@@ -5,136 +5,182 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Car Rental Rules</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
-      font-family: 'Lucida Sans', sans-serif;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
     }
 
     header {
-      background-color: #333;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       color: white;
-      padding: 15px 0;
+      padding: 20px 0;
       text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 1px;
     }
 
     .container {
       max-width: 800px;
       margin: 40px auto;
       background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     }
 
     h1 {
       text-align: center;
-      color: #333;
+      color: #16213e;
+      margin-top: 0;
+      margin-bottom: 30px;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    h1:after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      background-color: #f4a261;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #carInfo {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border-left: 5px solid #f4a261;
+    }
+
+    #carName {
+      color: #16213e;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    #carPrice {
+      color: #f4a261;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
     }
 
     p {
-      line-height: 1.6;
+      line-height: 1.7;
       color: #555;
+      margin-bottom: 20px;
     }
 
     ul {
-      margin: 20px 0;
+      margin: 25px 0;
       padding: 0;
       list-style-type: none;
     }
 
     ul li {
-      background: #f4f4f4;
-      margin: 10px 0;
-      padding: 10px;
-      border-left: 5px solid #333;
+      background: #f8f9fa;
+      margin: 15px 0;
+      padding: 15px 20px;
+      border-left: 5px solid #16213e;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    ul li:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Removed checkmark icons */
 
     a {
       display: block;
       text-align: center;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #f4a261;
+      margin-top: 30px;
+      padding: 15px 25px;
+      background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
       color: white;
       text-decoration: none;
-      font-weight: bold;
-      border-radius: 5px;
-      max-width: 200px;
+      font-weight: 600;
+      border-radius: 8px;
+      max-width: 250px;
       margin-left: auto;
       margin-right: auto;
+      box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      display: block;
     }
 
     a:hover {
-      background-color: #e76f51;
+      background: linear-gradient(135deg, #e76f51 0%, #e76f51 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(231, 111, 81, 0.4);
     }
 
-    /* Consistent button styles for the continue button */
-    .continue-button {
-      background-color: #f4a261;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
+    /* Removed calendar icon */
 
-    .continue-button:hover {
-      background-color: #e76f51;
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
     }
   </style>
-
 </head>
 
 <body>
-
   <header>
     <h1>Car Rental Rules</h1>
   </header>
-
   <div class="container">
-
     <h1>Terms & Conditions</h1>
     <div id="carInfo">
       <h2 id="carName"></h2>
       <p id="carPrice"></p>
     </div>
-    <p>Welcome to our luxury and sports car rental service! Before you rent a car, please read the following rules:
-    </p>
+    <p>Welcome to our luxury and sports car rental service! Before you rent a car, please read the following rules:</p>
     <ul>
       <li>Your speed and location will be tracked if necessary.</li>
-      <li>A valid driver's license and passport or ID will be required when picking up the car</li>
+      <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
       <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
       <li>No smoking is allowed in the car.</li>
-      <li>The car must be returned with a tank of fuel with 500 kilometers or more. </li>
+      <li>The car must be returned with a tank of fuel with 500 kilometers or more.</li>
       <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
     </ul>
     <p>For more details, feel free to contact us!</p>
-    <!-- Updated Back to Home Button -->
-    <!-- <a href="date.html" class="continue-button">Continue</a> -->
-
-
     <a href="dates.html">Proceed to Date Page</a>
-
   </div>
-
 </body>
-
 <script>
   // Retrieve selected car details from localStorage
   const carName = localStorage.getItem('selectedCar');
   const carPrice = localStorage.getItem('selectedCarPrice');
-
   console.log('Selected Car:', carName);
   console.log('car Price', carPrice)
-
   // Display car details
   document.getElementById('carName').textContent = carName;
   document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
-
   // Store the price in localStorage for use on the date page
   localStorage.setItem('carPrice', carPrice);
 </script>

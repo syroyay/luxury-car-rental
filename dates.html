@@ -92,18 +92,42 @@
 
         .price-container {
             margin-top: 30px;
-            padding: 20px;
+            padding: 25px;
             background-color: #f8fafc;
             border-left: 5px solid #f4a261;
             border-radius: 0 8px 8px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .price-container p {
-            margin: 10px 0;
+            margin: 0;
             font-size: 1.1rem;
-            display: flex;
-            justify-content: space-between;
+        }
+
+        .price-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #16213e;
+        }
+
+        .price-value {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #16213e;
+            background-color: rgba(244, 162, 97, 0.1);
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-align: center;
+            display: block;
+        }
+
+        #total-price {
+            color: #e76f51;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
         #carName,
@@ -193,8 +217,14 @@
             <div class="error-message" id="pickup-time-error"></div>
 
             <div class="price-container">
-                <p>Total Days: <span id="total-days">0</span></p>
-                <p>Total Price: <span id="total-price">0</span> €</p>
+                <div>
+                    <p class="price-label">Total Days:</p>
+                    <p class="price-value" id="total-days">0</p>
+                </div>
+                <div>
+                    <p class="price-label">Total Price:</p>
+                    <p class="price-value" id="total-price">0€</p>
+                </div>
             </div>
 
             <a href="insurance.html" class="confirm-btn" id="confirm-btn">Confirm Reservation</a>
@@ -242,7 +272,7 @@
                 totalDaysElement.textContent = totalDays;
                 const totalPrice = totalDays * pricePerDay;
                 localStorage.setItem('totalRentOnlyPrice', totalPrice);
-                totalPriceElement.textContent = totalPrice > 0 ? totalPrice : 0;
+                totalPriceElement.textContent = totalPrice > 0 ? totalPrice + '€' : '0€';
             }
         }
 

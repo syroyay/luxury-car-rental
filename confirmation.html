@@ -5,141 +5,409 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmation Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #16213e;
+            --secondary-color: #0f3460;
+            --accent-color: #e76f51;
+            --accent-light: #f4a261;
+            --text-color: #333;
+            --text-light: #666;
+            --light-bg: #f8f9fa;
+            --success-color: #2ecc71;
+            --warning-color: #e74c3c;
+            --border-radius: 10px;
+            --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Lucida Sans', sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            position: relative;
+            font-family: 'Segoe UI', 'Montserrat', sans-serif;
+            background-color: var(--light-bg);
+            background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 30px 20px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
         }
 
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        p {
-            line-height: 1.5;
-            color: #555;
-        }
-
-        .summary-item {
-            margin-bottom: 20px;
-        }
-
-        .summary-item strong {
-            display: block;
-            font-size: 1rem;
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
             margin-bottom: 5px;
-            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
         }
 
         .warning {
-            background-color: #ffcccc;
-            color: red;
-            font-size: 1.2rem;
-            font-weight: bold;
-            padding: 15px;
-            border: 2px solid red;
-            border-radius: 8px;
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--warning-color);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 20px;
+            border-left: 5px solid var(--warning-color);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .warning i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .summary-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(22, 33, 62, 0.1);
+            font-weight: 600;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .item-value {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .cost-item .item-value {
+            color: var(--accent-color);
+        }
+
+        .total-row {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(22, 33, 62, 0.1);
+        }
+
+        .total-row .item-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .total-row .item-value {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 700;
         }
 
         .terms {
-            background-color: #e9f1f7;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            text-align: left;
+            background-color: rgba(248, 249, 250, 0.7);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+
+        .terms-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
         }
 
         .terms ul {
-            list-style-position: inside;
-            padding-left: 20px;
+            list-style-type: none;
+            padding-left: 5px;
         }
 
         .terms li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .terms li:before {
+            content: "•";
+            color: var(--accent-light);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .email-form {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .email-form label {
+            display: block;
             margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
-        button {
+        .email-form input {
             width: 100%;
-            background-color: #f4a261;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        button:hover {
-            background-color: #e76f51;
+        .email-form input:focus {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+            outline: none;
         }
 
-        button:disabled {
-            background-color: #cccccc;
+        .validation-message {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+            min-height: 20px;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+
+        .pay-button {
+            width: 100%;
+            background: linear-gradient(145deg, var(--accent-light), var(--accent-color));
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(231, 111, 81, 0.25);
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .pay-button:hover {
+            background: linear-gradient(145deg, var(--accent-color), var(--accent-light));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.3);
+        }
+
+        .pay-button:active {
+            transform: translateY(1px);
+        }
+
+        .pay-button:disabled {
+            background: linear-gradient(145deg, #cccccc, #dddddd);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .loading {
             display: none;
             text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #333;
+            margin: 20px 0;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .loading i {
+            animation: spin 1s infinite linear;
+            margin-right: 10px;
+            color: var(--accent-color);
         }
 
         .error-message {
             display: none;
-            color: red;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #ffeeee;
-            border: 1px solid #ffcccc;
-            border-radius: 4px;
+            color: var(--warning-color);
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--warning-color);
+            border-radius: 0 8px 8px 0;
+            font-weight: 500;
         }
 
-        .email-form {
-            margin: 30px auto 20px;
-            max-width: 400px;
-            text-align: center;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        .email-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
 
-        .email-form input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-bottom: 8px;
-        }
+            .header h1 {
+                font-size: 1.5rem;
+            }
 
-        .email-form .validation-message {
-            color: #dc3545;
-            font-size: 0.9rem;
-            height: 20px;
-            margin-bottom: 5px;
-            text-align: left;
+            .summary-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px 0;
+            }
+
+            .item-value {
+                margin-top: 5px;
+                text-align: left;
+            }
+
+            .total-row {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .total-row .item-value {
+                margin-top: 0;
+            }
         }
     </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Reservation Confirmation</h1>
+            <p>Review your luxury vehicle booking details</p>
+        </div>
+
+        <div class="content">
+            <div class="warning">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>IMPORTANT: Please show your confirmation email at vehicle pickup. This email will be sent to you
+                    after completing payment.</span>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Vehicle Details</h2>
+                <div class="summary-item">
+                    <span class="item-label">Selected Vehicle</span>
+                    <span class="item-value" id="selected-car"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Rate</span>
+                    <span class="item-value" id="selected-price"></span>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Rental Information</h2>
+                <div class="summary-item">
+                    <span class="item-label">Rental Period</span>
+                    <span class="item-value" id="rental-dates"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="item-label">Insurance Coverage</span>
+                    <span class="item-value" id="insurance-choice"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Insurance Rate</span>
+                    <span class="item-value" id="insurance-cost"></span>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h2 class="section-title">Pickup & Delivery</h2>
+                <div class="summary-item">
+                    <span class="item-label">Location Details</span>
+                    <span class="item-value" id="address-info"></span>
+                </div>
+                <div class="summary-item cost-item">
+                    <span class="item-label">Service Fee</span>
+                    <span class="item-value" id="delivery-fee"></span>
+                </div>
+
+                <div class="summary-item total-row">
+                    <span class="item-label">Total Amount</span>
+                    <span class="item-value" id="total-cost"></span>
+                </div>
+            </div>
+
+            <div class="terms">
+                <div class="terms-title">Terms and Conditions</div>
+                <ul>
+                    <li>Your speed and location will be tracked if necessary.</li>
+                    <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
+                    <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.
+                    </li>
+                    <li>No smoking is allowed in the car.</li>
+                    <li>The car must be returned with a tank of fuel above 500 kilometers of range.</li>
+                    <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
+                </ul>
+            </div>
+
+            <div class="email-form">
+                <label for="customer-email">Email Address for Confirmation</label>
+                <input type="email" id="customer-email" placeholder="your.email@example.com" required>
+                <div id="email-validation-message" class="validation-message"></div>
+            </div>
+
+            <button id="pay-button" class="pay-button" onclick="proceedToStripeCheckout()" disabled>
+                Complete Reservation and Pay
+            </button>
+
+            <div id="loading-message" class="loading">
+                <i class="fas fa-spinner"></i> Processing your payment request...
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Retrieve data from localStorage
@@ -157,7 +425,7 @@
             const deliveryCost = parseFloat(localStorage.getItem('deliveryCost') || 0);
 
             document.getElementById("selected-car").textContent = carName || "Not selected";
-            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice || 0).toFixed(2)}`;
+            document.getElementById("selected-price").textContent = `€${parseFloat(carPrice || 0).toFixed(2)}/day`;
 
             // Populate summary details
             document.getElementById("rental-dates").textContent = `${rentalStartDate || "Not selected"} to ${rentalEndDate || "Not selected"} (${totalDays || 0} days)`;
@@ -168,21 +436,21 @@
 
             // Handle delivery or pickup information
             if (deliveryMethod === "delivery" && deliveryAddress) {
-                document.getElementById("address-info").textContent = `Delivery Address: ${deliveryAddress}`;
-                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">Delivery Fee: €${deliveryCost.toFixed(2)}</span>`;
+                document.getElementById("address-info").textContent = `Delivery to: ${deliveryAddress}`;
+                document.getElementById("delivery-fee").textContent = `€${deliveryCost.toFixed(2)}`;
             } else if (deliveryMethod === "pickup" && pickupLocation) {
-                document.getElementById("address-info").textContent = `Pickup Location: ${pickupLocation}`;
-                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">No extra payment for pickup</span>`;
+                document.getElementById("address-info").textContent = `Pickup from: ${pickupLocation}`;
+                document.getElementById("delivery-fee").textContent = `€0.00 (Included)`;
             } else {
                 document.getElementById("address-info").textContent = "Not specified";
-                document.getElementById("delivery-fee").innerHTML = `<span class="extra-fee">N/A</span>`;
+                document.getElementById("delivery-fee").textContent = `€0.00`;
             }
 
             // Calculate the final total cost
             const finalTotalCost = totalCost + deliveryCost;
 
             // Display the updated total cost
-            document.getElementById("total-cost").textContent = `Total Cost: €${finalTotalCost.toFixed(2)}`;
+            document.getElementById("total-cost").textContent = `€${finalTotalCost.toFixed(2)}`;
 
             // Email validation
             const emailInput = document.getElementById('customer-email');
@@ -276,7 +544,7 @@
 
                 // Reset button
                 button.disabled = false;
-                button.textContent = 'Finalize Booking and Pay';
+                button.textContent = 'Complete Reservation and Pay';
 
                 // Hide loading message
                 loadingElement.style.display = 'none';
@@ -288,81 +556,6 @@
             return re.test(String(email).toLowerCase());
         }
     </script>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Confirmation Summary</h1>
-
-        <!-- Important Warning to Take a Screenshot -->
-        <div class="warning">
-            ⚠️ IMPORTANT: Please show your E-Mail that you will receive after paying.
-            You must show this at pickup!
-        </div>
-
-        <span>
-            <strong>Car :</strong>
-            <p id='selected-car'></p>
-        </span>
-
-        <div class="summary-item">
-            <strong>Price per day:</strong>
-            <p id='selected-price'></p>
-        </div>
-
-        <div class="summary-item">
-            <strong>Rental Dates:</strong>
-            <p id="rental-dates"></p>
-        </div>
-
-        <div class="summary-item">
-            <strong>Insurance Option:</strong>
-            <span id="insurance-choice"></span>
-            <span id="insurance-cost"></span>
-        </div>
-
-        <div class="summary-item">
-            <strong>Delivery or Pickup Address:</strong>
-            <p id="address-info"></p>
-        </div>
-
-        <div class="summary-item">
-            <strong>Delivery/Pickup Fee:</strong>
-            <p id="delivery-fee"></p>
-        </div>
-
-        <div class="summary-item">
-            <strong>Total Cost:</strong>
-            <p id="total-cost"></p>
-        </div>
-
-        <div class="terms">
-            <strong>Terms and Conditions:</strong>
-            <ul>
-                <li>Your speed and location will be tracked if necessary.</li>
-                <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
-                <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
-                <li>No smoking is allowed in the car.</li>
-                <li>The car must be returned with a tank of fuel above 500 kilometers of range.</li>
-                <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
-            </ul>
-        </div>
-
-        <!-- Email Form -->
-        <div class="email-form">
-            <label for="customer-email">Enter your email address to receive order confirmation:</label>
-            <input type="email" id="customer-email" placeholder="your.email@example.com" required>
-            <div id="email-validation-message" class="validation-message"></div>
-        </div>
-
-        <button id="pay-button" onclick="proceedToStripeCheckout()" disabled>Finalize Booking and Pay</button>
-
-        <div id="loading-message" class="loading">
-            Connecting to payment processor... Please wait.
-        </div>
-
-        <div id="error-message" class="error-message"></div>
-    </div>
 </body>
 
 </html>

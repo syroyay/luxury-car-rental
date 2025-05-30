@@ -4,73 +4,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent a Car - Select Dates</title>
+    <title>Reserve Your Experience | Elite Luxury Car Rentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', 'Montserrat', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
+            box-sizing: border-box;
         }
 
-        /* Header styles removed */
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a1a;
+            --light-gray: #f8f8f8;
+            --text-light: #e0e0e0;
+            --accent-red: #dc2626;
+            --border-gold: rgba(212, 175, 55, 0.3);
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--text-light);
+            line-height: 1.6;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary-gold), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 5px;
+            font-weight: 400;
+        }
+
+        header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--primary-gold);
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        nav a {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 20px 30px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-gold);
+        }
+
+        nav a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Container */
         .container {
             max-width: 800px;
-            margin: 40px auto;
-            padding: 35px;
-            background-color: white;
+            margin: 60px auto;
+            padding: 50px;
+            background-color: var(--dark-secondary);
             border-radius: 12px;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), #b8941f);
         }
 
         h1 {
+            font-family: 'Space Grotesk', sans-serif;
             text-align: center;
-            color: #16213e;
-            margin-bottom: 30px;
+            color: var(--primary-gold);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         label {
             display: block;
-            margin: 15px 0 8px;
-            color: #16213e;
-            font-weight: 500;
-            font-size: 1rem;
+            margin: 20px 0 10px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input[type="date"],
         input[type="time"] {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px 20px;
             margin: 8px 0 12px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-gold);
             border-radius: 8px;
             font-size: 1rem;
-            background-color: #f8f9fa;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
             transition: all 0.3s ease;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
         input[type="date"]:focus,
         input[type="time"]:focus {
-            border-color: #f4a261;
-            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
             outline: none;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Style calendar icon */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
         }
 
         input[type="date"].error,
         input[type="time"].error {
-            border: 1px solid #e74c3c;
-            background-color: #fdf3f2;
+            border: 1px solid var(--accent-red);
+            background-color: rgba(220, 38, 38, 0.1);
         }
 
         .error-message {
-            color: #e74c3c;
+            color: var(--accent-red);
             font-size: 0.85rem;
             margin-top: -8px;
             margin-bottom: 15px;
@@ -78,15 +228,15 @@
         }
 
         .price-container {
-            margin-top: 30px;
-            padding: 25px;
-            background-color: #f8fafc;
-            border-left: 5px solid #f4a261;
-            border-radius: 0 8px 8px 0;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .price-container p {
@@ -95,108 +245,236 @@
         }
 
         .price-label {
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #16213e;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         .price-value {
-            font-weight: 600;
-            font-size: 1.25rem;
-            color: #16213e;
-            background-color: rgba(244, 162, 97, 0.1);
-            padding: 12px 15px;
-            border-radius: 6px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 400;
+            font-size: 2rem;
+            color: var(--primary-gold);
+            background-color: rgba(26, 26, 26, 0.8);
+            padding: 15px 20px;
+            border-radius: 8px;
             text-align: center;
             display: block;
+            letter-spacing: 2px;
+            border: 1px solid var(--border-gold);
         }
 
         #total-days {
-            color: #e76f51;
-            font-size: 1.4rem;
-            font-weight: 700;
+            color: var(--primary-gold);
         }
 
         #total-price {
-            color: #e76f51;
-            font-size: 1.4rem;
-            font-weight: 700;
+            color: var(--primary-gold);
         }
 
         #carName,
         #carPrice {
-            font-size: 1.1rem;
-            background-color: #f8fafc;
-            padding: 15px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            padding: 20px;
             border-radius: 8px;
-            margin: 0 0 20px 0;
-            border-left: 5px solid #16213e;
+            margin: 0 0 25px 0;
+            border: 1px solid var(--border-gold);
         }
 
         #carName {
-            font-weight: 600;
-            color: #16213e;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
         }
 
         #carPrice {
-            color: #f4a261;
+            color: var(--text-light);
             font-weight: 500;
-            margin-top: -10px;
+            margin-top: -15px;
         }
 
         a.confirm-btn {
             display: block;
             text-align: center;
             width: 100%;
-            max-width: 300px;
-            padding: 14px 30px;
-            margin: 30px auto 0;
+            max-width: 400px;
+            padding: 18px 40px;
+            margin: 40px auto 0;
             text-decoration: none;
             font-size: 1rem;
             font-weight: 600;
-            color: white;
-            background: linear-gradient(145deg, #f4a261, #e76f51);
-            border-radius: 30px;
+            color: var(--dark-bg);
+            background: linear-gradient(135deg, var(--primary-gold), #b8941f);
+            border-radius: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 15px rgba(231, 111, 81, 0.25);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
             border: none;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        a.confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
         }
 
         a.confirm-btn:hover {
-            background: linear-gradient(145deg, #e76f51, #f4a261);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        a.confirm-btn:hover::before {
+            left: 100%;
         }
 
         a.confirm-btn:active {
             transform: translateY(1px);
-            box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .page-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 300;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
-                margin: 20px;
-                padding: 25px;
+                margin: 30px 20px;
+                padding: 35px 25px;
             }
+
+            header h1 {
+                font-size: 3rem;
+            }
+
+            .page-title h2 {
+                font-size: 2rem;
+            }
+
+            nav a {
+                padding: 15px 20px;
+                font-size: 0.8rem;
+            }
+
+            .price-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            nav .nav-container {
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                padding: 10px 15px;
+                margin: 5px;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gold);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b8941f;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header removed -->
+    <header>
+        <div class="header-container">
+            <h1>Elite Luxury Car Rentals</h1>
+            <p>Premium Automotive Excellence in Germany</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="index.html#featured-cars">Available Cars</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+    </nav>
 
     <div class="container">
+        <div class="page-title">
+            <h2>Complete Your Reservation</h2>
+            <p>Select your preferred dates and pickup time</p>
+        </div>
+
         <p id="carName"></p>
         <p id="carPrice"></p>
+
         <form id="rental-form">
+            <label for="start-date">Start Date</label>
             <input type="date" id="start-date" name="start-date" required>
             <div class="error-message" id="start-date-error"></div>
 
+            <label for="end-date">End Date</label>
             <input type="date" id="end-date" name="end-date" required>
             <div class="error-message" id="end-date-error"></div>
 
+            <label for="pickup-time">Pickup Time</label>
             <input type="time" id="pickup-time" name="pickup-time" required>
             <div class="error-message" id="pickup-time-error"></div>
 
@@ -218,17 +496,17 @@
     <script>
         // Retrieve car details from localStorage
         const carName = localStorage.getItem('selectedCar');
-        const carPrice = localStorage.getItem('carPrice');
+        const carPrice = localStorage.getItem('selectedCarPrice');
 
         console.log('Selected Car:', carName);
         console.log('carPrice', carPrice)
 
         // Display car details
-        document.getElementById('carName').textContent = 'Car: ' + carName;
-        document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
+        document.getElementById('carName').textContent = carName || 'No car selected';
+        document.getElementById('carPrice').textContent = 'Price: €' + (carPrice || '0') + ' per day';
 
         // Calculate and display total price
-        const pricePerDay = parseFloat(carPrice);
+        const pricePerDay = parseFloat(carPrice) || 0;
 
         const startDateInput = document.getElementById('start-date');
         const endDateInput = document.getElementById('end-date');
@@ -236,11 +514,25 @@
         const totalDaysElement = document.getElementById('total-days');
         const totalPriceElement = document.getElementById('total-price');
 
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.min = today;
+        endDateInput.min = today;
+
+        // Update end date minimum when start date changes
+        startDateInput.addEventListener('change', function() {
+            endDateInput.min = this.value;
+            if (endDateInput.value && endDateInput.value < this.value) {
+                endDateInput.value = this.value;
+            }
+            updatePrice();
+        });
+
         function calculateTotalDays(startDate, endDate) {
             const start = new Date(startDate);
             const end = new Date(endDate);
             const timeDifference = end - start;
-            return timeDifference / (1000 * 3600 * 24);
+            return Math.ceil(timeDifference / (1000 * 3600 * 24));
         }
 
         function updatePrice() {
@@ -248,20 +540,24 @@
             const endDate = endDateInput.value;
 
             if (startDate && endDate) {
-                const totalDays = calculateTotalDays(startDate, endDate)
-                localStorage.setItem('rentalStartDate', startDate)
+                const totalDays = calculateTotalDays(startDate, endDate);
+                localStorage.setItem('rentalStartDate', startDate);
                 localStorage.setItem('rentalEndDate', endDate);
                 localStorage.setItem('totalDays', totalDays);
-                localStorage.setItem('pricePerDay', pricePerDay)
+                localStorage.setItem('pricePerDay', pricePerDay);
                 totalDaysElement.textContent = totalDays;
                 const totalPrice = totalDays * pricePerDay;
                 localStorage.setItem('totalRentOnlyPrice', totalPrice);
-                totalPriceElement.textContent = totalPrice > 0 ? totalPrice + '€' : '0€';
+                totalPriceElement.textContent = totalPrice > 0 ? totalPrice.toFixed(2) + '€' : '0€';
             }
         }
 
-        startDateInput.addEventListener('change', updatePrice);
         endDateInput.addEventListener('change', updatePrice);
+
+        // Save pickup time to localStorage
+        pickupTimeInput.addEventListener('change', function() {
+            localStorage.setItem('pickupTime', this.value);
+        });
 
         // Confirm Reservation Button Validation
         const confirmBtn = document.getElementById('confirm-btn');

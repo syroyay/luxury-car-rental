@@ -2,375 +2,352 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery or Pickup</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #16213e;
-            --accent-color: #e76f51;
-            --accent-light: #f4a261;
-            --text-color: #333;
-            --light-bg: #f8f9fa;
-            --border-radius: 10px;
-            --box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Montserrat', sans-serif;
-            background-color: var(--light-bg);
-            background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 650px;
-            background-color: white;
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary-color);
-            font-weight: 600;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        h1:after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent-light);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .option-container {
-            margin: 30px 0;
-        }
-
-        .option {
-            position: relative;
-            background-color: rgba(248, 249, 250, 0.8);
-            border: 1px solid #e9ecef;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-color: #ddd;
-        }
-
-        .option.selected {
-            border-left: 5px solid var(--accent-color);
-            background-color: rgba(244, 162, 97, 0.05);
-        }
-
-        .option input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid #ddd;
-            border-radius: 50%;
-            outline: none;
-            margin-right: 15px;
-            position: relative;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .option input[type="radio"]:checked {
-            border-color: var(--accent-color);
-        }
-
-        .option input[type="radio"]:checked::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-        }
-
-        .option-content {
-            flex: 1;
-        }
-
-        .option-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        .option-description {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .price-tag {
-            background-color: rgba(244, 162, 97, 0.15);
-            color: var(--accent-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-left: 10px;
-            font-size: 0.9rem;
-            display: inline-block;
-        }
-
-        .address-box,
-        .pickup-location {
-            display: none;
-            margin-top: 25px;
-            padding: 20px;
-            background-color: rgba(248, 249, 250, 0.6);
-            border-radius: var(--border-radius);
-            border-left: 5px solid var(--accent-light);
-        }
-
-        .address-box label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .address-box input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: white;
-            transition: all 0.3s ease;
-        }
-
-        .address-box input:focus {
-            border-color: var(--accent-light);
-            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
-            outline: none;
-        }
-
-        .pickup-location p {
-            color: var(--primary-color);
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .pickup-location .location-details {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .pickup-location .location-icon {
-            color: var(--accent-color);
-            font-size: 1.5rem;
-            margin-right: 15px;
-        }
-
-        .pickup-location .address {
-            font-weight: 600;
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            font-weight: 500;
-            text-align: center;
-            min-height: 20px;
-        }
-
-        .confirm-button {
-            width: 100%;
-            background: linear-gradient(145deg, var(--accent-light), var(--accent-color));
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(231, 111, 81, 0.25);
-            letter-spacing: 0.5px;
-        }
-
-        .confirm-button:hover {
-            background: linear-gradient(145deg, var(--accent-color), var(--accent-light));
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.3);
-        }
-
-        .confirm-button:active {
-            transform: translateY(1px);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delivery or Pickup</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f4a261;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: #121212;
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      padding: 40px 40px 30px;
+      box-shadow: 0 0 20px #f4a261cc;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.6rem;
+      color: #f4a261;
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 8px #f4a261aa;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      background-color: #f4a261;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .option-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 18px 25px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background: #1e1e1e;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background-color 0.3s ease,
+        box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .option:hover {
+      background-color: #2e2e2e;
+      border-color: #f4a261;
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px #f4a261cc;
+    }
+    .option.selected {
+      background-color: #3a2e00;
+      border-color: #f4a261;
+      box-shadow: 0 0 12px #f4a261cc;
+    }
+    .option input[type='radio'] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border: 2.5px solid #aa8c47;
+      border-radius: 50%;
+      margin-right: 20px;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+      flex-shrink: 0;
+      background-color: #121212;
+    }
+    .option input[type='radio']:checked {
+      border-color: #f4a261;
+      background-color: #f4a261;
+    }
+    .option input[type='radio']:checked::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 10px;
+      height: 10px;
+      background: #121212;
+      border-radius: 50%;
+    }
+    .option-content {
+      flex: 1;
+    }
+    .option-title {
+      font-weight: 700;
+      color: #f4a261;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    .option-description {
+      font-size: 1rem;
+      color: #d9c67a;
+      line-height: 1.4;
+    }
+    .price-tag {
+      font-weight: 700;
+      color: #f4a261;
+      font-size: 1rem;
+      margin-left: 15px;
+      white-space: nowrap;
+      background-color: rgba(244, 162, 97, 0.15);
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    .address-box,
+    .pickup-location {
+      margin-top: 30px;
+      background-color: #221f0f;
+      padding: 20px 25px;
+      border-radius: 10px;
+      border-left: 5px solid #f4a261;
+      color: #f4a261;
+      font-weight: 600;
+      font-size: 1rem;
+      display: none;
+    }
+    .address-box label {
+      display: block;
+      margin-bottom: 12px;
+      color: #f4a261;
+    }
+    .address-box input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1.5px solid #aa8c47;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #121212;
+      color: #f4a261;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .address-box input::placeholder {
+      color: #aa8c47;
+    }
+    .address-box input:focus {
+      border-color: #f4a261;
+      box-shadow: 0 0 8px #f4a261bb;
+    }
+    .pickup-location p {
+      margin: 0 0 8px 0;
+    }
+    .pickup-location .location-details {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pickup-location .location-icon {
+      color: #f4a261;
+      font-size: 1.5rem;
+    }
+    .pickup-location .address {
+      font-weight: 700;
+    }
+    .error-message {
+      color: #ff4c4c;
+      font-size: 0.9rem;
+      margin-top: 15px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 20px;
+    }
+    .confirm-button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background: linear-gradient(145deg, #f4a261, #aa8c47);
+      color: #121212;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px #f4a261bb;
+      transition: background 0.3s ease, transform 0.2s ease;
+      letter-spacing: 0.6px;
+    }
+    .confirm-button:hover {
+      background: linear-gradient(145deg, #aa8c47, #f4a261);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px #f4a261dd;
+    }
+    .confirm-button:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px 25px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Delivery or Pickup</h1>
+  <div class="container">
+    <h1>Delivery or Pickup</h1>
 
-        <div class="option-container">
-            <div class="option" id="delivery-option" onclick="selectOption('delivery')">
-                <input type="radio" id="delivery" name="option" value="delivery">
-                <div class="option-content">
-                    <div class="option-title">
-                        Exclusive Delivery Service
-                        <span class="price-tag">+€100</span>
-                    </div>
-                    <div class="option-description">
-                        We'll deliver your luxury vehicle directly to your specified location
-                    </div>
-                </div>
-            </div>
-
-            <div class="option" id="pickup-option" onclick="selectOption('pickup')">
-                <input type="radio" id="pickup" name="option" value="pickup">
-                <div class="option-content">
-                    <div class="option-title">
-                        Premium Pickup
-                        <span class="price-tag">Included</span>
-                    </div>
-                    <div class="option-description">
-                        Visit our exclusive showroom to collect your selected vehicle
-                    </div>
-                </div>
-            </div>
+    <div class="option-container">
+      <div class="option" id="delivery-option" onclick="selectOption('delivery')">
+        <input type="radio" id="delivery" name="option" value="delivery" />
+        <div class="option-content">
+          <div class="option-title">
+            Exclusive Delivery Service
+            <span class="price-tag">+€100</span>
+          </div>
+          <div class="option-description">
+            We'll deliver your luxury vehicle directly to your specified location
+          </div>
         </div>
+      </div>
 
-        <div class="address-box" id="address-box">
-            <label for="address">Delivery Address:</label>
-            <input type="text" id="address" placeholder="Enter your delivery address" autocomplete="street-address">
+      <div class="option" id="pickup-option" onclick="selectOption('pickup')">
+        <input type="radio" id="pickup" name="option" value="pickup" />
+        <div class="option-content">
+          <div class="option-title">
+            Premium Pickup
+            <span class="price-tag">Included</span>
+          </div>
+          <div class="option-description">
+            Visit our exclusive showroom to collect your selected vehicle
+          </div>
         </div>
-
-        <div class="pickup-location" id="pickup-location">
-            <p>Our Prestigious Location:</p>
-            <div class="location-details">
-                <i class="fas fa-map-marker-alt location-icon"></i>
-                <span class="address">Straat 1, Amsterdam</span>
-            </div>
-        </div>
-
-        <p class="error-message" id="error-message"></p>
-
-        <button class="confirm-button" onclick="confirmChoice()">Confirm Selection</button>
+      </div>
     </div>
 
-    <script>
-        // Define delivery cost constant
-        const DELIVERY_COST = 100;
+    <div class="address-box" id="address-box">
+      <label for="address">Delivery Address:</label>
+      <input
+        type="text"
+        id="address"
+        placeholder="Enter your delivery address"
+        autocomplete="street-address"
+      />
+    </div>
 
-        function selectOption(option) {
-            // Update the visual selection
-            const deliveryOptionEl = document.getElementById('delivery-option');
-            const pickupOptionEl = document.getElementById('pickup-option');
-            const addressBox = document.getElementById('address-box');
-            const pickupLocation = document.getElementById('pickup-location');
-            const deliveryRadio = document.getElementById('delivery');
-            const pickupRadio = document.getElementById('pickup');
-            const errorMessage = document.getElementById('error-message');
+    <div class="pickup-location" id="pickup-location">
+      <p>Our Prestigious Location:</p>
+      <div class="location-details">
+        <i class="fas fa-map-marker-alt location-icon"></i>
+        <span class="address">Straat 1, Amsterdam</span>
+      </div>
+    </div>
 
-            errorMessage.textContent = ""; // Clear previous error messages
+    <p class="error-message" id="error-message"></p>
 
-            if (option === 'delivery') {
-                deliveryOptionEl.classList.add('selected');
-                pickupOptionEl.classList.remove('selected');
-                deliveryRadio.checked = true;
-                addressBox.style.display = 'block';
-                pickupLocation.style.display = 'none';
-            } else {
-                pickupOptionEl.classList.add('selected');
-                deliveryOptionEl.classList.remove('selected');
-                pickupRadio.checked = true;
-                addressBox.style.display = 'none';
-                pickupLocation.style.display = 'block';
-            }
+    <button class="confirm-button" onclick="confirmChoice()">Confirm Selection</button>
+  </div>
+
+  <script>
+    // Define delivery cost constant
+    const DELIVERY_COST = 100;
+
+    function selectOption(option) {
+      // Update the visual selection
+      const deliveryOptionEl = document.getElementById('delivery-option');
+      const pickupOptionEl = document.getElementById('pickup-option');
+      const addressBox = document.getElementById('address-box');
+      const pickupLocation = document.getElementById('pickup-location');
+      const deliveryRadio = document.getElementById('delivery');
+      const pickupRadio = document.getElementById('pickup');
+      const errorMessage = document.getElementById('error-message');
+
+      errorMessage.textContent = ''; // Clear previous error messages
+
+      if (option === 'delivery') {
+        deliveryOptionEl.classList.add('selected');
+        pickupOptionEl.classList.remove('selected');
+        deliveryRadio.checked = true;
+        addressBox.style.display = 'block';
+        pickupLocation.style.display = 'none';
+      } else {
+        pickupOptionEl.classList.add('selected');
+        deliveryOptionEl.classList.remove('selected');
+        pickupRadio.checked = true;
+        addressBox.style.display = 'none';
+        pickupLocation.style.display = 'block';
+      }
+    }
+
+    function confirmChoice() {
+      const deliveryOption = document.getElementById('delivery').checked;
+      const pickupOption = document.getElementById('pickup').checked;
+      const addressInput = document.getElementById('address');
+      const errorMessage = document.getElementById('error-message');
+
+      errorMessage.textContent = ''; // Clear previous error messages
+
+      if (deliveryOption) {
+        const address = addressInput.value.trim();
+        if (!address) {
+          errorMessage.textContent = 'Please provide your delivery address.';
+          return;
         }
+        localStorage.setItem('deliveryAddress', address);
+        localStorage.setItem('deliveryCost', DELIVERY_COST);
+        localStorage.setItem('deliveryMethod', 'delivery');
+      } else if (pickupOption) {
+        localStorage.setItem('pickupLocation', 'Straat 1');
+        localStorage.setItem('deliveryCost', 0);
+        localStorage.setItem('deliveryMethod', 'pickup');
+      } else {
+        errorMessage.textContent = 'Please select a delivery method.';
+        return;
+      }
 
-        function confirmChoice() {
-            const deliveryOption = document.getElementById('delivery').checked;
-            const pickupOption = document.getElementById('pickup').checked;
-            const addressInput = document.getElementById('address');
-            const errorMessage = document.getElementById('error-message');
+      window.location.href = 'confirmation.html';
+    }
 
-            errorMessage.textContent = ""; // Clear previous error messages
-
-            if (deliveryOption) {
-                const address = addressInput.value.trim();
-                if (!address) {
-                    errorMessage.textContent = "Please provide your delivery address.";
-                    return;
-                }
-                // Store both the delivery address and cost
-                localStorage.setItem('deliveryAddress', address);
-                localStorage.setItem('deliveryCost', DELIVERY_COST);
-                localStorage.setItem('deliveryMethod', 'delivery');
-            } else if (pickupOption) {
-                localStorage.setItem('pickupLocation', 'Straat 1');
-                // Set delivery cost to 0 for pickup
-                localStorage.setItem('deliveryCost', 0);
-                localStorage.setItem('deliveryMethod', 'pickup');
-            } else {
-                errorMessage.textContent = "Please select a delivery method.";
-                return;
-            }
-
-            // Redirect to confirmation or summary page
-            window.location.href = "confirmation.html";
-        }
-
-        // Event listeners for radio buttons
-        document.getElementById('delivery').addEventListener('change', function () {
-            if (this.checked) selectOption('delivery');
-        });
-
-        document.getElementById('pickup').addEventListener('change', function () {
-            if (this.checked) selectOption('pickup');
-        });
-    </script>
+    // Event listeners for radio buttons
+    document.getElementById('delivery').addEventListener('change', function () {
+      if (this.checked) selectOption('delivery');
+    });
+    document.getElementById('pickup').addEventListener('change', function () {
+      if (this.checked) selectOption('pickup');
+    });
+  </script>
 </body>
 
 </html>

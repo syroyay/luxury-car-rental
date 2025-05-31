@@ -1,142 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Rental Rules</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rules</title>
   <style>
     body {
-      font-family: 'Montserrat', 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-      color: #333;
-      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      padding: 40px 20px;
+      color: #fff;
+      line-height: 1.8;
     }
-
-    /* Header removed */
 
     .container {
       max-width: 800px;
-      margin: 40px auto;
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      margin: 0 auto;
+      background: linear-gradient(to bottom right, #111 0%, #1a1a1a 100%);
+      border-radius: 16px;
+      padding: 40px 50px;
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.2);
     }
 
     h1 {
       text-align: center;
-      color: #16213e;
-      margin-top: 0;
       margin-bottom: 30px;
       font-weight: 700;
-      position: relative;
-      padding-bottom: 15px;
-    }
-
-    h1:after {
-      content: '';
-      position: absolute;
-      width: 60px;
-      height: 3px;
-      background-color: #f4a261;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      color: #D4AF37;
+      letter-spacing: 1.2px;
+      font-size: 2rem;
     }
 
     #carInfo {
-      background-color: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 25px;
-      border-left: 5px solid #f4a261;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 24px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
     }
 
-    #carName {
-      color: #16213e;
-      margin-top: 0;
-      margin-bottom: 10px;
+    #carInfo h2 {
+      margin: 0 0 8px 0;
+      color: #D4AF37;
       font-weight: 600;
-    }
-
-    #carPrice {
-      color: #f4a261;
       font-size: 1.2rem;
-      font-weight: 600;
+    }
+
+    #carInfo p {
       margin: 0;
+      color: #fff;
+      font-weight: 500;
     }
 
     p {
-      line-height: 1.7;
-      color: #555;
       margin-bottom: 20px;
+      font-size: 1.05rem;
+      color: #ddd;
     }
 
-    ul {
-      margin: 25px 0;
-      padding: 0;
-      list-style-type: none;
+    .rules {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 30px;
     }
 
-    ul li {
-      background: #f8f9fa;
-      margin: 15px 0;
-      padding: 15px 20px;
-      border-left: 5px solid #16213e;
-      border-radius: 0 8px 8px 0;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
-      transition: transform 0.2s, box-shadow 0.2s;
+    .rule-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: #ccc;
+      font-size: 1.05rem;
     }
 
-    ul li:hover {
-      transform: translateX(5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Removed checkmark icons */
-
-    a {
-      display: block;
-      text-align: center;
-      margin-top: 30px;
-      padding: 15px 25px;
-      background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 8px;
-      max-width: 250px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
-      transition: all 0.3s ease;
+    button {
+      background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+      color: #000;
       border: none;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 1rem;
-      display: block;
+      width: 100%;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      box-shadow: 0 10px 24px rgba(212, 175, 55, 0.3);
     }
 
-    a:hover {
-      background: linear-gradient(135deg, #e76f51 0%, #e76f51 100%);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(231, 111, 81, 0.4);
-    }
-
-    /* Removed calendar icon */
-
-    @media (max-width: 768px) {
-      .container {
-        margin: 20px;
-        padding: 20px;
-      }
+    button:hover {
+      background: #fff;
+      color: #111;
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.4);
     }
   </style>
-</head>
+  <script>
+    function proceedToInsurance() {
+      const selectedCar = localStorage.getItem('selectedCar');
+      const totalDays = localStorage.getItem('totalDays');
+      const selectedCarPrice = localStorage.getItem('selectedCarPrice');
+      const rentalStartDate = localStorage.getItem('rentalStartDate');
+      const rentalEndDate = localStorage.getItem('rentalEndDate');
 
+      if (!selectedCar || !totalDays || !selectedCarPrice || !rentalStartDate || !rentalEndDate) {
+        alert('Please complete your car selection and rental dates before proceeding.');
+        window.location.href = "index.html";
+        return;
+      }
+
+      window.location.href = 'insurance.html';
+    }
+  </script>
+</head>
 <body>
   <div class="container">
     <h1>Terms & Conditions</h1>
@@ -145,29 +122,19 @@
       <p id="carPrice"></p>
     </div>
     <p>Welcome to our luxury and sports car rental service! Before you rent a car, please read the following rules:</p>
-    <ul>
-      <li>Your speed and location will be tracked if necessary.</li>
-      <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
-      <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
-      <li>No smoking is allowed in the car.</li>
-      <li>The car must be returned with a tank of fuel with 500 kilometers or more.</li>
-      <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
-    </ul>
+
+    <div class="rules">
+      <div class="rule-card">Your speed and location will be tracked if necessary.</div>
+      <div class="rule-card">A valid driver's license and passport or ID will be required when picking up the car.</div>
+      <div class="rule-card">A security deposit is mandatory and will be refunded upon the car's return in good condition.</div>
+      <div class="rule-card">No smoking is allowed in the car.</div>
+      <div class="rule-card">The car must be returned with a full tank of fuel.</div>
+      <div class="rule-card">Additional charges may apply for late returns or damages beyond insurance coverage.</div>
+    </div>
+
     <p>For more details, feel free to contact us!</p>
-    <a href="dates.html">Proceed to Date Page</a>
+    <button onclick="proceedToInsurance()">Proceed to Insurance Selection</button>
   </div>
 </body>
-<script>
-  // Retrieve selected car details from localStorage
-  const carName = localStorage.getItem('selectedCar');
-  const carPrice = localStorage.getItem('selectedCarPrice');
-  console.log('Selected Car:', carName);
-  console.log('car Price', carPrice)
-  // Display car details
-  document.getElementById('carName').textContent = carName;
-  document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
-  // Store the price in localStorage for use on the date page
-  localStorage.setItem('carPrice', carPrice);
-</script>
-
 </html>
+

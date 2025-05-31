@@ -2,210 +2,252 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insurance Selection</title>
-    <style>
-        body {
-            font-family: 'Lucida Sans', sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Insurance Selection</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      padding: 40px 20px;
+      color: #fff;
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+      background: linear-gradient(to bottom right, #111 0%, #1a1a1a 100%);
+      border-radius: 16px;
+      padding: 40px 50px;
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #D4AF37;
+      letter-spacing: 1.2px;
+      font-size: 2rem;
+    }
+
+    p.summary {
+      text-align: center;
+      color: #ccc;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .insurance-option {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      transition: background 0.3s ease;
+    }
+
+    .insurance-option:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .insurance-option h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: #f5c542;
+    }
+
+    .insurance-option p {
+      color: #ccc;
+      font-size: 1rem;
+      margin: 8px 0;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      accent-color: #D4AF37;
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    button {
+      background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+      color: #000;
+      border: none;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      box-shadow: 0 10px 24px rgba(212, 175, 55, 0.3);
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #fff;
+      color: #111;
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.4);
+    }
+
+    #finalPrice {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #f5c542;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      const totalDays = localStorage.getItem('totalDays');
+      const pricePerDay = localStorage.getItem('selectedCarPrice');
+      const selectedCar = localStorage.getItem('selectedCar');
+      const startDate = localStorage.getItem('startDate');
+      const endDate = localStorage.getItem('endDate');
+
+      if (!totalDays || !pricePerDay || !selectedCar || !startDate || !endDate) {
+        alert("Missing rental details or car selection. Please start from the beginning.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      document.getElementById('carNameSummary').textContent = selectedCar;
+      document.getElementById('rentalSummary').textContent = `${startDate} to ${endDate}`;
+    };
+
+    function calculateTotal() {
+      const rentalDays = localStorage.getItem('totalDays');
+      const pricePerDay = parseFloat(localStorage.getItem('selectedCarPrice'));
+      const selectedInsurance = document.querySelector('input[name="insurance"]:checked');
+      let valid = true;
+
+      document.getElementById('insuranceError').style.display = 'none';
+      document.getElementById('rentalDaysError').style.display = 'none';
+      document.getElementById('pricePerDayError').style.display = 'none';
+
+      if (!selectedInsurance) {
+        valid = false;
+        document.getElementById('insuranceError').style.display = 'block';
+      }
+
+      if (!rentalDays || !pricePerDay) {
+        valid = false;
+        if (!rentalDays) {
+          document.getElementById('rentalDaysError').style.display = 'block';
         }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
+        if (!pricePerDay) {
+          document.getElementById('pricePerDayError').style.display = 'block';
         }
+      }
 
-        .insurance-option {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      if (!valid) return false;
 
-        .insurance-option h2 {
-            font-size: 1.5rem;
-            margin: 0;
-        }
+      const insuranceType = selectedInsurance.value;
+      let insuranceCost = 0;
 
-        .insurance-option p {
-            color: #555;
-            font-size: 1rem;
-        }
+      switch (insuranceType) {
+        case 'basic': insuranceCost = 50; break;
+        case 'premium': insuranceCost = 100; break;
+        case 'full': insuranceCost = 150; break;
+        default:
+          alert('Invalid insurance type');
+          return;
+      }
 
-        .insurance-option input {
-            margin-right: 10px;
-        }
+      const totalCost = rentalDays * (insuranceCost + parseFloat(pricePerDay));
+      localStorage.setItem('totalCost', totalCost);
+      localStorage.setItem('insuranceType', insuranceType);
+      localStorage.setItem('insuranceCost', insuranceCost);
 
-        button {
-            background-color: #f4a261;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            margin-top: 20px;
-        }
+      if (totalCost && !isNaN(totalCost)) {
+        document.getElementById('finalPrice').textContent = `The final price is: €${parseFloat(totalCost).toFixed(2)}`;
+      } else {
+        document.getElementById('finalPrice').textContent = 'Total cost is not available.';
+      }
 
-        button:hover {
-            background-color: #e76f51;
-        }
+      return true;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .error-message {
-            color: red;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
-    <script>
-        // Function to calculate the total cost based on rental days and selected insurance
-        function calculateTotal() {
-            const rentalDays = localStorage.getItem('totalDays');
-            const pricePerDay = parseFloat(localStorage.getItem('pricePerDay'))
-            const selectedInsurance = document.querySelector('input[name="insurance"]:checked');
-            let valid = true;
-
-            // Reset error messages
-            document.getElementById('insuranceError').style.display = 'none';
-
-            // Check if insurance option is selected
-            if (!selectedInsurance) {
-                valid = false;
-                document.getElementById('insuranceError').style.display = 'block';
-            }
-
-            // Check if rental days or price are missing
-            if (!rentalDays || !pricePerDay) {
-                valid = false;
-                if (!rentalDays) {
-                    document.getElementById('rentalDaysError').style.display = 'block';
-                }
-                if (!pricePerDay) {
-                    document.getElementById('pricePerDayError').style.display = 'block';
-                }
-            }
-
-            if (!valid) {
-                return false;
-            }
-
-            const insuranceType = selectedInsurance.value;
-            let insuranceCost = 0;
-
-            // Calculate the insurance cost based on the selected option
-            switch (insuranceType) {
-                case 'basic':
-                    insuranceCost = 50;
-                    break;
-                case 'premium':
-                    insuranceCost = 100;
-                    break;
-                case 'full':
-                    insuranceCost = 150;
-                    break;
-                default:
-                    alert('Invalid insurance type');
-                    return;
-            }
-
-            // Calculate the total price for the rental including insurance
-            const totalCost = rentalDays * (insuranceCost + parseFloat(pricePerDay));
-            localStorage.setItem('totalCost', totalCost);
-            localStorage.setItem('insuranceType', insuranceType);
-            localStorage.setItem('insuranceCost', insuranceCost);
-
-            // Display the final cost
-            if (totalCost && !isNaN(totalCost)) {
-                document.getElementById('finalPrice').textContent = `The final price is: €${parseFloat(totalCost).toFixed(2)}`;
-            } else {
-                document.getElementById('finalPrice').textContent = 'Total cost is not available.';
-            }
-
-            return true;
-        }
-
-        // Function to navigate to the new page for delivery or pickup options
-        function goToDeliveryOrPickup() {
-            const isValid = calculateTotal(); // Ensure the total price is calculated and saved
-            if (isValid) {
-                window.location.href = "delivery_or_pickup.html";
-            }
-        }
-    </script>
+    function goToDeliveryOrPickup() {
+      const isValid = calculateTotal();
+      if (isValid) {
+        window.location.href = "delivery_or_pickup.html";
+      }
+    }
+  </script>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Select Your Insurance Option</h1>
+  <div class="container">
+    <h1>Select Your Insurance Option</h1>
+    <p class="summary"><strong>Car:</strong> <span id="carNameSummary"></span></p>
+    <p class="summary"><strong>Rental Period:</strong> <span id="rentalSummary"></span></p>
 
-        <!-- Insurance Option 1 -->
-        <div class="insurance-option">
-            <div>
-                <h2>Basic Insurance (€50/day)</h2>
-                <p>This covers basic protection in case of accidents or damage to the vehicle. It includes liability
-                    coverage but may have higher deductibles.</p>
-                <p><strong>Deductible: €2000</strong> — You will need to pay this amount if there is any damage to the
-                    car.</p>
-            </div>
-            <label for="basic">
-                <input type="radio" id="basic" name="insurance" value="basic" required> Select
-            </label>
-        </div>
-
-        <!-- Insurance Option 2 -->
-        <div class="insurance-option">
-            <div>
-                <h2>Premium Insurance (€100/day)</h2>
-                <p>This covers additional protection, including damage to the car's interior and some personal
-                    belongings. It has a lower deductible compared to the Basic plan.</p>
-                <p><strong>Deductible: €1000</strong> — This is the amount you will need to pay in case of damage.</p>
-            </div>
-            <label for="premium">
-                <input type="radio" id="premium" name="insurance" value="premium" required> Select
-            </label>
-        </div>
-
-        <!-- Insurance Option 3 -->
-        <div class="insurance-option">
-            <div>
-                <h2>Full Coverage (€150/day)</h2>
-                <p>This is the most comprehensive insurance. It covers all damages, including theft, vandalism, and
-                    accidental damages, with the lowest deductible. It also includes roadside assistance.</p>
-                <p><strong>Deductible: €0</strong> — There is no deductible with this option, meaning you won't pay
-                    anything out-of-pocket for damages.</p>
-            </div>
-            <label for="full">
-                <input type="radio" id="full" name="insurance" value="full" required> Select
-            </label>
-        </div>
-
-        <!-- Error Messages -->
-        <div class="error-message" id="insuranceError">Please select an insurance option!</div>
-        <div class="error-message" id="rentalDaysError">Please specify the rental days!</div>
-        <div class="error-message" id="pricePerDayError">Please specify the price per day!</div>
-
-        <!-- Confirm Reservation Button -->
-        <button onclick="goToDeliveryOrPickup()">Pick up or receive the car</button>
-
-        <p id="finalPrice"></p>
+    <div class="insurance-option">
+      <div>
+        <h2>Basic Insurance (€50/day)</h2>
+        <p>This covers basic protection in case of accidents or damage to the vehicle. It includes liability coverage but may have higher deductibles.</p>
+        <p><strong>Deductible: €2000</strong> — You will need to pay this amount if there is any damage to the car.</p>
+      </div>
+      <label for="basic">
+        <input type="radio" id="basic" name="insurance" value="basic" required> Select
+      </label>
     </div>
+
+    <div class="insurance-option">
+      <div>
+        <h2>Premium Insurance (€100/day)</h2>
+        <p>This covers additional protection, including damage to the car's interior and some personal belongings. It has a lower deductible compared to the Basic plan.</p>
+        <p><strong>Deductible: €1000</strong> — This is the amount you will need to pay in case of damage.</p>
+      </div>
+      <label for="premium">
+        <input type="radio" id="premium" name="insurance" value="premium" required> Select
+      </label>
+    </div>
+
+    <div class="insurance-option">
+      <div>
+        <h2>Full Coverage (€150/day)</h2>
+        <p>This is the most comprehensive insurance. It covers all damages, including theft, vandalism, and accidental damages, with the lowest deductible. It also includes roadside assistance.</p>
+        <p><strong>Deductible: €0</strong> — There is no deductible with this option, meaning you won't pay anything out-of-pocket for damages.</p>
+      </div>
+      <label for="full">
+        <input type="radio" id="full" name="insurance" value="full" required> Select
+      </label>
+    </div>
+
+    <div class="error-message" id="insuranceError">Please select an insurance option!</div>
+    <div class="error-message" id="rentalDaysError">Please specify the rental days!</div>
+    <div class="error-message" id="pricePerDayError">Please specify the price per day!</div>
+
+    <button onclick="goToDeliveryOrPickup()">Pick up or receive the car</button>
+    <p id="finalPrice"></p>
+  </div>
 </body>
 
 </html>
+

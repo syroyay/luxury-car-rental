@@ -700,137 +700,158 @@
     </style>
 
     <script>
-        // Car availability data
-        const carAvailability = {
-            "Porsche 911 Turbo S": [
-                {start: "2025-05-20", end: "2025-05-25"},
-                {start: "2025-06-10", end: "2025-06-15"}
-            ],
-            "Mercedes-Benz S-Class": [
-                {start: "2025-05-15", end: "2025-05-22"}
-            ],
-            "Mercedes G63 AMG": [
-                {start: "2025-06-05", end: "2025-06-12"}
-            ],
-            "Ferrari Roma": [
-                {start: "2025-05-28", end: "2025-06-02"}
-            ],
-            "McLaren 570S Spider": [
-                {start: "2025-05-24", end: "2025-05-30"}
-            ],
-            "Audi RS6 Avant": [
-                {start: "2025-06-08", end: "2025-06-20"}
-            ]
-        };
+    // Your existing car availability data and functions here...
 
-        // Set min attribute of date inputs to today
-        document.addEventListener('DOMContentLoaded', function () {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date').min = today;
-            document.getElementById('end-date').min = today;
+    // Car availability data
+    const carAvailability = {
+        "Porsche 911 Turbo S": [
+            {start: "2025-05-20", end: "2025-05-25"},
+            {start: "2025-06-10", end: "2025-06-15"}
+        ],
+        "Mercedes-Benz S-Class": [
+            {start: "2025-05-15", end: "2025-05-22"}
+        ],
+        "Mercedes G63 AMG": [
+            {start: "2025-06-05", end: "2025-06-12"}
+        ],
+        "Ferrari Roma": [
+            {start: "2025-05-28", end: "2025-06-02"}
+        ],
+        "McLaren 570S Spider": [
+            {start: "2025-05-24", end: "2025-05-30"}
+        ],
+        "Audi RS6 Avant": [
+            {start: "2025-06-08", end: "2025-06-20"}
+        ]
+    };
 
-            // Event listeners for date inputs
-            document.getElementById('start-date').addEventListener('change', function () {
-                document.getElementById('end-date').min = this.value;
-                if (document.getElementById('end-date').value &&
-                    document.getElementById('end-date').value < this.value) {
-                    document.getElementById('end-date').value = this.value;
-                }
-            });
+    // Set min attribute of date inputs to today
+    document.addEventListener('DOMContentLoaded', function () {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('start-date').min = today;
+        document.getElementById('end-date').min = today;
 
-            // Check availability button
-            document.getElementById('check-availability').addEventListener('click', checkAvailability);
+        // Event listeners for date inputs
+        document.getElementById('start-date').addEventListener('change', function () {
+            document.getElementById('end-date').min = this.value;
+            if (document.getElementById('end-date').value &&
+                document.getElementById('end-date').value < this.value) {
+                document.getElementById('end-date').value = this.value;
+            }
         });
 
-        function checkAvailability() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            const message = document.getElementById('availability-message');
+        // Check availability button
+        document.getElementById('check-availability').addEventListener('click', checkAvailability);
+    });
 
-            if (!startDate || !endDate) {
-                message.textContent = "Please select both start and end dates.";
-                message.style.color = "#dc2626";
-                return;
+    function checkAvailability() {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const message = document.getElementById('availability-message');
+
+        if (!startDate || !endDate) {
+            message.textContent = "Please select both start and end dates.";
+            message.style.color = "#dc2626";
+            return;
+        }
+
+        // Store dates in localStorage
+        localStorage.setItem('rentalStartDate', startDate);
+        localStorage.setItem('rentalEndDate', endDate);
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const timeDiff = end - start;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        localStorage.setItem('totalDays', daysDiff);
+
+        message.textContent = `Showing available cars for ${daysDiff} day${daysDiff !== 1 ? 's' : ''} rental.`;
+        message.style.color = "#10b981";
+
+        // Check each car's availability
+        checkCarsAvailability(start, end);
+
+        // Scroll to cars section
+        document.getElementById('featured-cars').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function checkCarsAvailability(startDate, endDate) {
+        const cars = document.querySelectorAll('.car');
+
+        cars.forEach(car => {
+            const carName = car.querySelector('h3').textContent;
+            const isAvailable = isCarAvailable(carName, startDate, endDate);
+
+            if (isAvailable) {
+                car.classList.remove('unavailable');
+            } else {
+                car.classList.add('unavailable');
             }
+        });
+    }
 
-            // Store dates in localStorage
-            localStorage.setItem('rentalStartDate', startDate);
-            localStorage.setItem('rentalEndDate', endDate);
+    function isCarAvailable(carName, startDate, endDate) {
+        // If no availability data for this car, assume it's available
+        if (!carAvailability[carName]) return true;
 
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const timeDiff = end - start;
-            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        // Check if the requested dates overlap with any booked dates
+        for (const booking of carAvailability[carName]) {
+            const bookingStart = new Date(booking.start);
+            const bookingEnd = new Date(booking.end);
 
-            localStorage.setItem('totalDays', daysDiff);
-
-            message.textContent = `Showing available cars for ${daysDiff} day${daysDiff !== 1 ? 's' : ''} rental.`;
-            message.style.color = "#10b981";
-
-            // Check each car's availability
-            checkCarsAvailability(start, end);
-
-            // Scroll to cars section
-            document.getElementById('featured-cars').scrollIntoView({behavior: 'smooth'});
-        }
-
-        function checkCarsAvailability(startDate, endDate) {
-            const cars = document.querySelectorAll('.car');
-
-            cars.forEach(car => {
-                const carName = car.querySelector('h3').textContent;
-                const isAvailable = isCarAvailable(carName, startDate, endDate);
-
-                if (isAvailable) {
-                    car.classList.remove('unavailable');
-                } else {
-                    car.classList.add('unavailable');
-                }
-            });
-        }
-
-        function isCarAvailable(carName, startDate, endDate) {
-            // If no availability data for this car, assume it's available
-            if (!carAvailability[carName]) return true;
-
-            // Check if the requested dates overlap with any booked dates
-            for (const booking of carAvailability[carName]) {
-                const bookingStart = new Date(booking.start);
-                const bookingEnd = new Date(booking.end);
-
-                // Check for overlap
-                if (!(endDate < bookingStart || startDate > bookingEnd)) {
-                    return false; // Car is not available
-                }
+            // Check for overlap
+            if (!(endDate < bookingStart || startDate > bookingEnd)) {
+                return false; // Car is not available
             }
-
-            return true; // Car is available
         }
 
-        function selectCar(carName, price) {
-            // Check if dates are selected
-            const startDate = localStorage.getItem('rentalStartDate');
-            const endDate = localStorage.getItem('rentalEndDate');
+        return true; // Car is available
+    }
 
-            if (!startDate || !endDate) {
-                alert("Please select your rental dates first!");
-                document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'});
-                return;
-            }
+    function selectCar(carName, price) {
+        // Check if dates are selected
+        const startDate = localStorage.getItem('rentalStartDate');
+        const endDate = localStorage.getItem('rentalEndDate');
 
-            // Calculate total cost based on days
-            const days = parseInt(localStorage.getItem('totalDays') || 1);
-            const totalCost = price * days;
-
-            // Store car details in localStorage
-            localStorage.setItem('selectedCar', carName);
-            localStorage.setItem('selectedCarPrice', price);
-            localStorage.setItem('totalCost', totalCost);
-
-            // Redirect to Rules page
-            window.location.href = 'Rules.html';
+        if (!startDate || !endDate) {
+            alert("Please select your rental dates first!");
+            document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'});
+            return;
         }
-    </script>
+
+        // Calculate total cost based on days
+        const days = parseInt(localStorage.getItem('totalDays') || 1);
+        const totalCost = price * days;
+
+        // Store car details in localStorage
+        localStorage.setItem('selectedCar', carName);
+        localStorage.setItem('selectedCarPrice', price);
+        localStorage.setItem('totalCost', totalCost);
+
+        // Redirect to Rules page
+        window.location.href = 'Rules.html';
+    }
+
+    // NEW FUNCTION: Proceed from Rules.html to insurance.html
+    function proceedToInsurance() {
+        const selectedCar = localStorage.getItem('selectedCar');
+        const totalDays = localStorage.getItem('totalDays');
+        const selectedCarPrice = localStorage.getItem('selectedCarPrice');
+        const rentalStartDate = localStorage.getItem('rentalStartDate');
+        const rentalEndDate = localStorage.getItem('rentalEndDate');
+
+        if (!selectedCar || !totalDays || !selectedCarPrice || !rentalStartDate || !rentalEndDate) {
+            alert('Please complete your car selection and rental dates before proceeding.');
+            window.location.href = 'index.html'; // Or your starting page
+            return;
+        }
+
+        // Proceed to insurance.html
+        window.location.href = 'insurance.html';
+    }
+</script>
+
 </head>
 
 <body>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserve Your Experience | Elite Luxury Car Rentals</title>
+    <title>Terms & Conditions | Elite Luxury Car Rentals</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -173,117 +173,14 @@
             font-weight: 700;
         }
 
-        label {
-            display: block;
-            margin: 20px 0 10px;
-            color: var(--primary-gold);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        input[type="date"],
-        input[type="time"] {
-            width: 100%;
-            padding: 15px 20px;
-            margin: 8px 0 12px;
-            border: 1px solid var(--border-gold);
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-light);
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        input[type="date"]:focus,
-        input[type="time"]:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.08);
-        }
-
-        /* Style calendar icon */
-        input[type="date"]::-webkit-calendar-picker-indicator,
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-        }
-
-        input[type="date"].error,
-        input[type="time"].error {
-            border: 1px solid var(--accent-red);
-            background-color: rgba(220, 38, 38, 0.1);
-        }
-
-        .error-message {
-            color: var(--accent-red);
-            font-size: 0.85rem;
-            margin-top: -8px;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .price-container {
-            margin-top: 40px;
+        /* Car Info Section */
+        #carInfo {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
             padding: 30px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-            border: 1px solid var(--border-gold);
             border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-gold);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .price-container p {
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        .price-label {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .price-value {
-            font-family: 'Bebas Neue', sans-serif;
-            font-weight: 400;
-            font-size: 2rem;
-            color: var(--primary-gold);
-            background-color: rgba(26, 26, 26, 0.8);
-            padding: 15px 20px;
-            border-radius: 8px;
-            text-align: center;
-            display: block;
-            letter-spacing: 2px;
-            border: 1px solid var(--border-gold);
-        }
-
-        #total-days {
-            color: var(--primary-gold);
-        }
-
-        #total-price {
-            color: var(--primary-gold);
-        }
-
-        #carName,
-        #carPrice {
-            font-size: 1.2rem;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-            padding: 20px;
-            border-radius: 8px;
-            margin: 0 0 25px 0;
-            border: 1px solid var(--border-gold);
         }
 
         #carName {
@@ -292,15 +189,63 @@
             color: var(--primary-gold);
             font-size: 1.5rem;
             letter-spacing: 1px;
+            margin: 0 0 15px 0;
         }
 
         #carPrice {
             color: var(--text-light);
             font-weight: 500;
-            margin-top: -15px;
+            font-size: 1.2rem;
+            margin: 0;
         }
 
-        a.confirm-btn {
+        /* Main Content */
+        p {
+            line-height: 1.7;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        ul {
+            margin: 40px 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        ul li {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            margin: 20px 0;
+            padding: 25px 30px;
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 400;
+            position: relative;
+            overflow: hidden;
+        }
+
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-gold);
+        }
+
+        ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08));
+        }
+
+        /* Button */
+        a.button {
             display: block;
             text-align: center;
             width: 100%;
@@ -323,7 +268,7 @@
             font-family: 'Inter', sans-serif;
         }
 
-        a.confirm-btn::before {
+        a.button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -334,39 +279,29 @@
             transition: left 0.3s ease;
         }
 
-        a.confirm-btn:hover {
+        a.button:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         }
 
-        a.confirm-btn:hover::before {
+        a.button:hover::before {
             left: 100%;
         }
 
-        a.confirm-btn:active {
+        a.button:active {
             transform: translateY(1px);
             box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
         }
 
-        /* Page Title */
-        .page-title {
+        /* Footer */
+        footer {
+            background-color: var(--dark-secondary);
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .page-title h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            color: var(--primary-gold);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .page-title p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            font-weight: 300;
+            padding: 30px;
+            font-size: 0.9rem;
+            color: #888;
+            border-top: 2px solid var(--primary-gold);
+            margin-top: 80px;
         }
 
         /* Responsive adjustments */
@@ -380,7 +315,7 @@
                 font-size: 3rem;
             }
 
-            .page-title h2 {
+            h1 {
                 font-size: 2rem;
             }
 
@@ -389,8 +324,8 @@
                 font-size: 0.8rem;
             }
 
-            .price-value {
-                font-size: 1.5rem;
+            ul li {
+                padding: 20px 25px;
             }
         }
 
@@ -411,6 +346,10 @@
 
             .container {
                 padding: 30px 20px;
+            }
+
+            #carInfo {
+                padding: 25px 20px;
             }
         }
 
@@ -457,145 +396,55 @@
     </nav>
 
     <div class="container">
-        <div class="page-title">
-            <h2>Complete Your Reservation</h2>
-            <p>Select your preferred dates and pickup time</p>
+        <h1>Terms & Conditions</h1>
+        <div id="carInfo">
+            <h2 id="carName"></h2>
+            <p id="carPrice"></p>
         </div>
-
-        <p id="carName"></p>
-        <p id="carPrice"></p>
-
-        <form id="rental-form">
-            <label for="start-date">Start Date</label>
-            <input type="date" id="start-date" name="start-date" required>
-            <div class="error-message" id="start-date-error"></div>
-
-            <label for="end-date">End Date</label>
-            <input type="date" id="end-date" name="end-date" required>
-            <div class="error-message" id="end-date-error"></div>
-
-            <label for="pickup-time">Pickup Time</label>
-            <input type="time" id="pickup-time" name="pickup-time" required>
-            <div class="error-message" id="pickup-time-error"></div>
-
-            <div class="price-container">
-                <div>
-                    <p class="price-label">Total Days:</p>
-                    <p class="price-value" id="total-days">0</p>
-                </div>
-                <div>
-                    <p class="price-label">Total Price:</p>
-                    <p class="price-value" id="total-price">0€</p>
-                </div>
-            </div>
-
-            <a href="insurance.html" class="confirm-btn" id="confirm-btn">Confirm Reservation</a>
-        </form>
+        <p>Welcome to our luxury and sports car rental service! Before you rent a car, please read the following rules:</p>
+        <ul>
+            <li>Your speed and location will be tracked if necessary.</li>
+            <li>A valid driver's license and passport or ID will be required when picking up the car.</li>
+            <li>A security deposit is mandatory and will be refunded upon the car's return in good condition.</li>
+            <li>No smoking is allowed in the car.</li>
+            <li>The car must be returned with a full tank of fuel.</li>
+            <li>Additional charges may apply for late returns or damages beyond insurance coverage.</li>
+        </ul>
+        <p>For more details, feel free to contact us!</p>
+        <a href="dates.html" class="button">Proceed to Date Page</a>
     </div>
 
+    <footer>
+        &copy; 2025 Elite Luxury Car Rentals. All rights reserved.
+    </footer>
+
     <script>
-        // Retrieve car details from localStorage
-        const carName = localStorage.getItem('selectedCar');
-        const carPrice = localStorage.getItem('selectedCarPrice');
+        // Store selected car details in memory (instead of localStorage)
+        let carName = '';
+        let carPrice = '';
 
-        console.log('Selected Car:', carName);
-        console.log('carPrice', carPrice)
-
-        // Display car details
-        document.getElementById('carName').textContent = carName || 'No car selected';
-        document.getElementById('carPrice').textContent = 'Price: €' + (carPrice || '0') + ' per day';
-
-        // Calculate and display total price
-        const pricePerDay = parseFloat(carPrice) || 0;
-
-        const startDateInput = document.getElementById('start-date');
-        const endDateInput = document.getElementById('end-date');
-        const pickupTimeInput = document.getElementById('pickup-time');
-        const totalDaysElement = document.getElementById('total-days');
-        const totalPriceElement = document.getElementById('total-price');
-
-        // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        startDateInput.min = today;
-        endDateInput.min = today;
-
-        // Update end date minimum when start date changes
-        startDateInput.addEventListener('change', function() {
-            endDateInput.min = this.value;
-            if (endDateInput.value && endDateInput.value < this.value) {
-                endDateInput.value = this.value;
-            }
-            updatePrice();
-        });
-
-        function calculateTotalDays(startDate, endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const timeDifference = end - start;
-            return Math.ceil(timeDifference / (1000 * 3600 * 24));
+        // Check if we can retrieve from localStorage (for compatibility)
+        try {
+            carName = localStorage.getItem('selectedCar') || '';
+            carPrice = localStorage.getItem('selectedCarPrice') || '';
+        } catch (e) {
+            // If localStorage is not available, use default values
+            carName = 'Premium Vehicle';
+            carPrice = '150';
         }
 
-        function updatePrice() {
-            const startDate = startDateInput.value;
-            const endDate = endDateInput.value;
-
-            if (startDate && endDate) {
-                const totalDays = calculateTotalDays(startDate, endDate);
-                localStorage.setItem('rentalStartDate', startDate);
-                localStorage.setItem('rentalEndDate', endDate);
-                localStorage.setItem('totalDays', totalDays);
-                localStorage.setItem('pricePerDay', pricePerDay);
-                totalDaysElement.textContent = totalDays;
-                const totalPrice = totalDays * pricePerDay;
-                localStorage.setItem('totalRentOnlyPrice', totalPrice);
-                totalPriceElement.textContent = totalPrice > 0 ? totalPrice.toFixed(2) + '€' : '0€';
+        if (!carName || !carPrice) {
+            document.getElementById('carInfo').innerHTML = "<p><strong>No car selected.</strong> Please go back and select a car.</p>";
+        } else {
+            document.getElementById('carName').textContent = carName;
+            document.getElementById('carPrice').textContent = 'Price: €' + carPrice + '/day';
+            try {
+                localStorage.setItem('carPrice', carPrice);
+            } catch (e) {
+                // Handle case where localStorage is not available
+                console.log('localStorage not available');
             }
         }
-
-        endDateInput.addEventListener('change', updatePrice);
-
-        // Save pickup time to localStorage
-        pickupTimeInput.addEventListener('change', function() {
-            localStorage.setItem('pickupTime', this.value);
-        });
-
-        // Confirm Reservation Button Validation
-        const confirmBtn = document.getElementById('confirm-btn');
-        confirmBtn.addEventListener('click', function (event) {
-            let valid = true;
-
-            // Clear any previous error messages and styling
-            document.querySelectorAll('.error-message').forEach(function (el) {
-                el.textContent = '';
-            });
-            document.querySelectorAll('input').forEach(function (el) {
-                el.classList.remove('error');
-            });
-
-            // Check for empty fields and highlight them
-            if (!startDateInput.value) {
-                valid = false;
-                document.getElementById('start-date-error').textContent = 'Please select a start date.';
-                startDateInput.classList.add('error');
-            }
-
-            if (!endDateInput.value) {
-                valid = false;
-                document.getElementById('end-date-error').textContent = 'Please select an end date.';
-                endDateInput.classList.add('error');
-            }
-
-            if (!pickupTimeInput.value) {
-                valid = false;
-                document.getElementById('pickup-time-error').textContent = 'Please select a pickup time.';
-                pickupTimeInput.classList.add('error');
-            }
-
-            // If validation fails, prevent the default link action
-            if (!valid) {
-                event.preventDefault();
-            }
-        });
     </script>
 </body>
 

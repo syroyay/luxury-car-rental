@@ -1019,7 +1019,7 @@
             const totalDays = localStorage.getItem('totalDays');
 
             if (!startDate || !endDate || !totalDays) {
-                alert("Please select your rental dates first!");
+                // alert("Please select your rental dates first!");
                 document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'});
                 return;
             }
@@ -1029,7 +1029,7 @@
             const end = new Date(endDate);
 
             if (!isCarAvailable(carName, start, end)) {
-                alert("This car is not available for your selected dates. Please choose different dates or another car.");
+                // alert("This car is not available for your selected dates. Please choose different dates or another car.");
                 return;
             }
 
@@ -1043,11 +1043,11 @@
             localStorage.setItem('totalCost', totalCost);
 
             // Show confirmation and redirect
-            const confirmMessage = `You selected: ${carName}\nRental period: ${days} day${days !== 1 ? 's' : ''}\nTotal cost: €${totalCost.toLocaleString()}\n\nProceed to terms and conditions?`;
+            // const confirmMessage = `You selected: ${carName}\nRental period: ${days} day${days !== 1 ? 's' : ''}\nTotal cost: €${totalCost.toLocaleString()}\n\nProceed to terms and conditions?`;
 
-            if (confirm(confirmMessage)) {
-                window.location.href = 'rules.html';
-            }
+            // if (confirm(confirmMessage)) {
+            window.location.href = 'rules.html';
+            // }
         }
     </script>
 </body>

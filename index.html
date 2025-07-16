@@ -97,11 +97,13 @@
             
             <!-- Car Category Filter -->
             <div class="car-filter">
-                <button class="filter-btn active" data-category="all">All Cars</button>
-                <button class="filter-btn" data-category="sports">Sports Cars</button>
-                <button class="filter-btn" data-category="suv">SUVs</button>
-                <button class="filter-btn" data-category="luxury">Luxury</button>
-                <button class="filter-btn" data-category="everyday-sports">Everyday Sports</button>
+                <select class="category-filter" id="categoryFilter">
+                    <option value="all">All Cars</option>
+                    <option value="sports">Sports Cars</option>
+                    <option value="suv">SUVs</option>
+                    <option value="luxury">Luxury</option>
+                    <option value="everyday-sports">Everyday Sports</option>
+                </select>
                 
                 <select class="brand-filter" id="brandFilter">
                     <option value="">All Brands</option>
@@ -535,7 +537,7 @@
 
         // Car filter and sort functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            const categoryFilter = document.getElementById('categoryFilter');
             const carCards = document.querySelectorAll('.car-card');
             const priceSort = document.getElementById('priceSort');
             const brandFilter = document.getElementById('brandFilter');
@@ -544,17 +546,10 @@
             let currentCategory = 'all';
             let currentBrand = '';
 
-            // Filter functionality
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-
-                    currentCategory = this.getAttribute('data-category');
-                    filterAndSort();
-                });
+            // Category filter functionality
+            categoryFilter.addEventListener('change', function() {
+                currentCategory = this.value;
+                filterAndSort();
             });
 
             // Brand filter functionality

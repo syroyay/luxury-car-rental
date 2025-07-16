@@ -563,12 +563,13 @@
         }
         
         // Add smooth scrolling for contact buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all contact buttons
-            const contactButtons = document.querySelectorAll('.contact-btn');
-            
-            contactButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
+        function setupContactButtonScrolling() {
+            // Use event delegation to handle all contact buttons, including dynamically added ones
+            document.addEventListener('click', function(e) {
+                // Check if clicked element or its parent is a contact button
+                const contactBtn = e.target.closest('.contact-btn');
+                
+                if (contactBtn) {
                     e.preventDefault();
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
@@ -582,9 +583,16 @@
                             behavior: 'smooth'
                         });
                     }
-                });
+                }
             });
-        });
+        }
+        
+        // Initialize on DOMContentLoaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupContactButtonScrolling);
+        } else {
+            setupContactButtonScrolling();
+        }
 
         // Close popup when clicking outside
         document.getElementById('welcomePopup').addEventListener('click', function (e) {
@@ -610,6 +618,12 @@
             
             let currentCategory = 'all';
             let currentBrand = '';
+            
+            // Ensure contact buttons work after filtering
+            function ensureContactButtonsWork() {
+                // This is handled by event delegation in setupContactButtonScrolling
+                // No need to re-attach listeners
+            }
 
             // Category filter functionality
             categoryFilter.addEventListener('change', function() {

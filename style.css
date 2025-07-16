@@ -1115,6 +1115,12 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Ensure contact buttons are clickable */
+.contact-btn {
+    cursor: pointer !important;
+    user-select: none;
+}
+
 /* Modern Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;

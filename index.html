@@ -561,6 +561,30 @@
         function closePopup() {
             document.getElementById('welcomePopup').classList.remove('show');
         }
+        
+        // Add smooth scrolling for contact buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all contact buttons
+            const contactButtons = document.querySelectorAll('.contact-btn');
+            
+            contactButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        // Calculate position with offset for sticky nav
+                        const navHeight = document.querySelector('nav').offsetHeight;
+                        const elementPosition = contactSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
 
         // Close popup when clicking outside
         document.getElementById('welcomePopup').addEventListener('click', function (e) {

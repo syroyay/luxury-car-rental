@@ -102,6 +102,12 @@
                 <button class="filter-btn" data-category="suv">SUVs</button>
                 <button class="filter-btn" data-category="luxury">Luxury</button>
                 <button class="filter-btn" data-category="everyday-sports">Everyday Sports</button>
+                
+                <select class="price-sort" id="priceSort">
+                    <option value="">Sort by Price</option>
+                    <option value="low-to-high">Price: Low to High</option>
+                    <option value="high-to-low">Price: High to Low</option>
+                </select>
             </div>
             
             <div class="car-grid">
@@ -499,11 +505,16 @@
             }
         });
 
-        // Car filter functionality
+        // Car filter and sort functionality
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const carCards = document.querySelectorAll('.car-card');
+            const priceSort = document.getElementById('priceSort');
+            const carGrid = document.querySelector('.car-grid');
+            
+            let currentCategory = 'all';
 
+            // Filter functionality
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     // Remove active class from all buttons
@@ -511,22 +522,53 @@
                     // Add active class to clicked button
                     this.classList.add('active');
 
-                    const category = this.getAttribute('data-category');
-
-                    carCards.forEach(card => {
-                        if (category === 'all') {
-                            card.style.display = 'flex';
-                        } else {
-                            const cardCategories = card.getAttribute('data-category');
-                            if (cardCategories && cardCategories.includes(category)) {
-                                card.style.display = 'flex';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
+                    currentCategory = this.getAttribute('data-category');
+                    filterAndSort();
                 });
             });
+
+            // Sort functionality
+            priceSort.addEventListener('change', function() {
+                filterAndSort();
+            });
+
+            function filterAndSort() {
+                // First, show/hide cards based on category
+                carCards.forEach(card => {
+                    if (currentCategory === 'all') {
+                        card.style.display = 'flex';
+                    } else {
+                        const cardCategories = card.getAttribute('data-category');
+                        if (cardCategories && cardCategories.includes(currentCategory)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+
+                // Then sort visible cards by price
+                const sortValue = priceSort.value;
+                if (sortValue) {
+                    const visibleCards = Array.from(carCards).filter(card => card.style.display !== 'none');
+                    
+                    visibleCards.sort((a, b) => {
+                        const priceA = parseInt(a.querySelector('.car-price').textContent.match(/€(\d+)/)[1]);
+                        const priceB = parseInt(b.querySelector('.car-price').textContent.match(/€(\d+)/)[1]);
+                        
+                        if (sortValue === 'low-to-high') {
+                            return priceA - priceB;
+                        } else {
+                            return priceB - priceA;
+                        }
+                    });
+
+                    // Re-append cards in sorted order
+                    visibleCards.forEach(card => {
+                        carGrid.appendChild(card);
+                    });
+                }
+            }
         });
     </script>
 </body>

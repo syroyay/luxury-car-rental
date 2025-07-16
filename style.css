@@ -314,6 +314,9 @@ nav a:hover::after {
     animation: fadeInUp 1s ease-out 0.2s;
     animation-fill-mode: both;
     letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @keyframes fadeInUp {
@@ -1023,6 +1026,12 @@ nav a:hover::after {
 
     .hero h1 {
         font-size: 4rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        white-space: normal;
+        padding: 0 20px;
     }
 
     .about-intro h2,

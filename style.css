@@ -844,9 +844,9 @@ nav a:hover::after {
 
 
 .car-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 25px 60px rgba(212, 175, 55, 0.3), 0 15px 35px rgba(0, 0, 0, 0.5);
-    border-color: transparent;
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
 }
 
 .car-image {

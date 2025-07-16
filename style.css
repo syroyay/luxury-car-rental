@@ -370,6 +370,8 @@ nav a:hover::after {
     background: radial-gradient(circle at top right, rgba(255, 107, 107, 0.1), transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .car-card:hover {
@@ -398,6 +400,8 @@ nav a:hover::after {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
 }
 
 .car-name {
@@ -444,7 +448,7 @@ nav a:hover::after {
     gap: 6px;
     padding: 12px 16px;
     border-radius: 12px;
-    cursor: pointer;
+    cursor: pointer !important;
     transition: all 0.3s ease;
     text-decoration: none;
     font-weight: 500;
@@ -452,6 +456,8 @@ nav a:hover::after {
     border: 1px solid transparent;
     min-width: 0;
     overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .whatsapp-btn {
@@ -459,9 +465,14 @@ nav a:hover::after {
     color: white;
 }
 
+.whatsapp-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
 .whatsapp-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
+    filter: brightness(1.1);
 }
 
 .phone-btn {
@@ -469,9 +480,14 @@ nav a:hover::after {
     color: white;
 }
 
+.phone-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
 .phone-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+    filter: brightness(1.1);
 }
 
 .instagram-btn {
@@ -479,9 +495,14 @@ nav a:hover::after {
     color: white;
 }
 
+.instagram-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
 .instagram-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(228, 64, 95, 0.3);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(228, 64, 95, 0.4);
+    filter: brightness(1.1);
 }
 
 .contact-icon {
@@ -1119,6 +1140,11 @@ html {
 .contact-btn {
     cursor: pointer !important;
     user-select: none;
+    pointer-events: auto !important;
+}
+
+.contact-btn * {
+    pointer-events: none;
 }
 
 /* Modern Scrollbar */

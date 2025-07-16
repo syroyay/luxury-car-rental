@@ -450,8 +450,9 @@ nav a:hover::after {
     box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
 }
 
-/* Price Sort Dropdown */
-.price-sort {
+/* Price Sort Dropdown and Brand Filter */
+.price-sort,
+.brand-filter {
     background: rgba(26, 26, 26, 0.8);
     border: 2px solid rgba(212, 175, 55, 0.3);
     color: var(--text-light);
@@ -463,22 +464,32 @@ nav a:hover::after {
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 30px;
-    margin-left: auto;
     outline: none;
 }
 
-.price-sort:hover {
+.price-sort {
+    margin-left: auto;
+}
+
+.brand-filter {
+    margin-left: 20px;
+}
+
+.price-sort:hover,
+.brand-filter:hover {
     border-color: var(--primary-gold);
     color: var(--primary-gold);
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
 }
 
-.price-sort:focus {
+.price-sort:focus,
+.brand-filter:focus {
     border-color: var(--primary-gold);
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
 }
 
-.price-sort option {
+.price-sort option,
+.brand-filter option {
     background: var(--dark-bg);
     color: var(--text-light);
     padding: 10px;
@@ -1083,7 +1094,8 @@ nav a:hover::after {
         font-size: 0.8rem;
     }
     
-    .price-sort {
+    .price-sort,
+    .brand-filter {
         padding: 10px 15px;
         font-size: 0.8rem;
         width: 100%;
@@ -1161,7 +1173,8 @@ nav a:hover::after {
         font-size: 0.75rem;
     }
     
-    .price-sort {
+    .price-sort,
+    .brand-filter {
         padding: 8px 12px;
         font-size: 0.75rem;
         letter-spacing: 0.5px;

@@ -500,7 +500,7 @@ nav a:hover::after {
 /* Modern Feature Cards */
 .about-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-top: 60px;
 }
@@ -996,7 +996,7 @@ nav a:hover::after {
     }
 
     .about-features {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .stats-grid {
@@ -1010,6 +1010,10 @@ nav a:hover::after {
 }
 
 @media (max-width: 480px) {
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+    
     header h1 {
         font-size: 2rem;
     }

@@ -804,6 +804,7 @@ nav a:hover::after {
     color: var(--text-primary);
     opacity: 0;
     animation: slideInLeft 0.5s ease forwards;
+    white-space: nowrap;
 }
 
 .popup-step:nth-child(1) { animation-delay: 0.1s; }
@@ -1036,6 +1037,18 @@ nav a:hover::after {
 
     .popup-content {
         padding: 30px;
+    }
+    
+    .popup-step {
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+        font-size: 0.9rem;
     }
 
     .stats-grid {

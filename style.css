@@ -682,55 +682,113 @@ nav a:hover::after {
     text-align: center;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 3.5rem;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     color: var(--primary-gold);
     letter-spacing: 2px;
     font-weight: 700;
 }
 
-.contact-form {
+.contact-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 60px;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+.contact-option {
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 10px;
+    padding: 40px 30px;
+    text-align: center;
+    text-decoration: none;
     color: var(--text-light);
-    padding: 15px 20px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    font-size: 1rem;
     transition: all 0.3s ease;
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    position: relative;
+    overflow: hidden;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: var(--primary-gold);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-}
-
-.contact-form button {
-    background: linear-gradient(135deg, var(--primary-gold), #b8941f);
-    color: var(--dark-bg);
-    border: none;
-    padding: 16px 40px;
+.contact-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 4px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.5s ease;
 }
 
-.contact-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+.contact-option:hover::before {
+    left: 100%;
+}
+
+.contact-option-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.contact-option h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--primary-gold);
+}
+
+.contact-option p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.contact-info {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.whatsapp-option:hover {
+    border-color: var(--whatsapp-green);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-option:hover .contact-option-icon {
+    filter: none;
+}
+
+.phone-option:hover {
+    border-color: #4267B2;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(66, 103, 178, 0.3);
+}
+
+.instagram-option:hover {
+    border-color: #E4405F;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(228, 64, 95, 0.3);
+}
+
+.instagram-option:hover .contact-option-icon {
+    filter: none;
 }
 
 .copyright {
@@ -998,6 +1056,15 @@ nav a:hover::after {
     .contact-section h2 {
         font-size: 2.5rem;
     }
+    
+    .contact-options {
+        gap: 20px;
+    }
+    
+    .contact-option {
+        min-width: 250px;
+        padding: 30px 20px;
+    }
 
     .car-filter {
         gap: 10px;
@@ -1052,6 +1119,24 @@ nav a:hover::after {
     .fleet-section h2,
     .contact-section h2 {
         font-size: 2rem;
+    }
+    
+    .contact-option {
+        min-width: 220px;
+        padding: 25px 15px;
+    }
+    
+    .contact-option-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .contact-option h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-info {
+        font-size: 1rem;
     }
 
     .container {

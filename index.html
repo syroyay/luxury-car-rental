@@ -553,8 +553,8 @@
                     const visibleCards = Array.from(carCards).filter(card => card.style.display !== 'none');
                     
                     visibleCards.sort((a, b) => {
-                        const priceA = parseInt(a.querySelector('.car-price').textContent.match(/€(\d+)/)[1]);
-                        const priceB = parseInt(b.querySelector('.car-price').textContent.match(/€(\d+)/)[1]);
+                        const priceA = parseInt(a.querySelector('.car-price').textContent.match(/€([\d,]+)/)[1].replace(/,/g, ''));
+                        const priceB = parseInt(b.querySelector('.car-price').textContent.match(/€([\d,]+)/)[1].replace(/,/g, ''));
                         
                         if (sortValue === 'low-to-high') {
                             return priceA - priceB;

@@ -290,7 +290,7 @@ nav a:hover::after {
 }
 
 .hero-content {
-    max-width: 1000px;
+    max-width: 1400px;
     padding: 0 40px;
     z-index: 2;
 }
@@ -308,15 +308,14 @@ nav a:hover::after {
 }
 
 .hero p {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin-bottom: 30px;
     font-weight: 300;
     animation: fadeInUp 1s ease-out 0.2s;
     animation-fill-mode: both;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 0 20px;
 }
 
 @keyframes fadeInUp {

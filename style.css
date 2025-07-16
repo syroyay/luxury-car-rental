@@ -192,15 +192,13 @@ nav a:hover::after {
 
 .hero h1 {
     font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 900;
+    font-weight: 300;
     margin-bottom: 30px;
-    background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
     animation: slideInUp 1s ease-out;
     line-height: 1.1;
     letter-spacing: -0.03em;
+    text-transform: uppercase;
 }
 
 .hero p {
@@ -265,12 +263,11 @@ nav a:hover::after {
 .fleet-section h2 {
     text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
+    font-weight: 300;
     margin-bottom: 60px;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 /* Modern Filter Section */
@@ -507,12 +504,11 @@ nav a:hover::after {
 
 .about-hero h1 {
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    background: var(--gradient-2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 300;
+    color: var(--text-primary);
     margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .about-content {
@@ -634,12 +630,11 @@ nav a:hover::after {
 .contact-section h2 {
     text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
+    font-weight: 300;
     margin-bottom: 20px;
-    background: var(--gradient-2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .contact-intro {
@@ -813,14 +808,13 @@ nav a:hover::after {
 
 .popup-title {
     font-size: 2.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #FFFFFF 0%, #FF6B6B 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 300;
+    color: var(--text-primary);
     margin-bottom: 20px;
     position: relative;
     z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .popup-message {
@@ -1218,12 +1212,11 @@ html {
 .latest-addition h2 {
     text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
+    font-weight: 300;
     margin-bottom: 50px;
-    background: var(--gradient-2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .car-spotlight {
@@ -1255,12 +1248,11 @@ html {
 .values-section h2 {
     text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
+    font-weight: 300;
     margin-bottom: 60px;
-    background: var(--gradient-3);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .values-grid {

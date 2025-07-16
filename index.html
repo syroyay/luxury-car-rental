@@ -97,30 +97,43 @@
             
             <!-- Car Category Filter -->
             <div class="car-filter">
-                <select class="price-sort" id="priceSort">
-                    <option value="">Sort by Price</option>
-                    <option value="low-to-high">Price: Low to High</option>
-                    <option value="high-to-low">Price: High to Low</option>
-                </select>
+                <div class="filter-group">
+                    <label class="filter-label">Sort</label>
+                    <select class="price-sort" id="priceSort">
+                        <option value="">Default</option>
+                        <option value="low-to-high">Price: Low to High</option>
+                        <option value="high-to-low">Price: High to Low</option>
+                    </select>
+                </div>
                 
-                <select class="category-filter" id="categoryFilter">
-                    <option value="all">All Cars</option>
-                    <option value="sports">Sports Cars</option>
-                    <option value="suv">SUVs</option>
-                    <option value="luxury">Luxury</option>
-                    <option value="everyday-sports">Everyday Sports</option>
-                </select>
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="category-filter" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="sports">Sports Cars</option>
+                        <option value="suv">SUVs</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="everyday-sports">Everyday Sports</option>
+                    </select>
+                </div>
                 
-                <select class="brand-filter" id="brandFilter">
-                    <option value="">All Brands</option>
-                    <option value="porsche">Porsche</option>
-                    <option value="mclaren">McLaren</option>
-                    <option value="audi">Audi</option>
-                    <option value="mercedes-benz">Mercedes-Benz</option>
-                    <option value="bmw">BMW</option>
-                    <option value="rolls-royce">Rolls-Royce</option>
-                    <option value="aston-martin">Aston Martin</option>
-                </select>
+                <div class="filter-group">
+                    <label class="filter-label">Brand</label>
+                    <select class="brand-filter" id="brandFilter">
+                        <option value="">All Brands</option>
+                        <option value="porsche">Porsche</option>
+                        <option value="mclaren">McLaren</option>
+                        <option value="audi">Audi</option>
+                        <option value="mercedes-benz">Mercedes-Benz</option>
+                        <option value="bmw">BMW</option>
+                        <option value="rolls-royce">Rolls-Royce</option>
+                        <option value="aston-martin">Aston Martin</option>
+                    </select>
+                </div>
+                
+                <div class="filter-results">
+                    <span class="results-count">Showing <strong id="carCount">9</strong> vehicles</span>
+                </div>
             </div>
             
             <div class="car-grid">
@@ -564,6 +577,8 @@
             });
 
             function filterAndSort() {
+                let visibleCount = 0;
+                
                 // First, show/hide cards based on category and brand
                 carCards.forEach(card => {
                     let showCard = true;
@@ -585,7 +600,11 @@
                     }
                     
                     card.style.display = showCard ? 'flex' : 'none';
+                    if (showCard) visibleCount++;
                 });
+                
+                // Update the car count
+                document.getElementById('carCount').textContent = visibleCount;
 
                 // Then sort visible cards by price
                 const sortValue = priceSort.value;

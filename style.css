@@ -393,7 +393,7 @@ nav a:hover::after {
 /* Car Filter Buttons */
 .car-filter {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 15px;
     margin-bottom: 50px;
     flex-wrap: wrap;

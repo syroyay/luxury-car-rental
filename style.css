@@ -316,15 +316,6 @@ nav a:hover::after {
     letter-spacing: 1px;
 }
 
-.hero-subtext {
-    font-size: 1.1rem !important;
-    color: var(--primary-gold);
-    font-weight: 400 !important;
-    margin-top: -15px;
-    animation: fadeInUp 1s ease-out 0.4s !important;
-    animation-fill-mode: both !important;
-}
-
 @keyframes fadeInUp {
     from {
         opacity: 0;

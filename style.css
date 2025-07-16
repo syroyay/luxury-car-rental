@@ -468,16 +468,16 @@ nav a:hover::after {
     outline: none;
 }
 
+.price-sort {
+    margin-right: 20px;
+}
+
 .category-filter {
     margin-right: 20px;
 }
 
 .brand-filter {
-    margin-right: 20px;
-}
-
-.price-sort {
-    margin-left: auto;
+    margin-left: 0;
 }
 
 .price-sort:hover,

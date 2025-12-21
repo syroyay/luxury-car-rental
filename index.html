@@ -11,6 +11,56 @@
 
 <body>
    <!-- hi there -->
+    <!-- Car Detail Modal -->
+    <div class="car-modal-overlay" id="carModal">
+        <div class="car-modal-content">
+            <button class="modal-close" onclick="closeCarModal()">&times;</button>
+            <div class="modal-image-container">
+                <img src="" alt="" id="modalCarImage" class="modal-car-image">
+            </div>
+            <div class="modal-details">
+                <h2 id="modalCarName" class="modal-car-name"></h2>
+                <p id="modalCarDescription" class="modal-car-description"></p>
+
+                <div class="modal-specs-grid">
+                    <div class="modal-spec">
+                        <span class="spec-label">Horsepower</span>
+                        <span class="spec-value" id="modalHorsepower"></span>
+                    </div>
+                    <div class="modal-spec">
+                        <span class="spec-label">0-100 km/h</span>
+                        <span class="spec-value" id="modalAcceleration"></span>
+                    </div>
+                    <div class="modal-spec">
+                        <span class="spec-label">Top Speed</span>
+                        <span class="spec-value" id="modalTopSpeed"></span>
+                    </div>
+                    <div class="modal-spec">
+                        <span class="spec-label">Seats</span>
+                        <span class="spec-value" id="modalSeats"></span>
+                    </div>
+                </div>
+
+                <div class="modal-price" id="modalPrice"></div>
+
+                <div class="modal-contact-buttons">
+                    <a href="https://wa.me/971502136375" class="modal-contact-btn whatsapp-btn" target="_blank">
+                        <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
+                        WhatsApp
+                    </a>
+                    <a href="tel:+971502136375" class="modal-contact-btn phone-btn" target="_blank">
+                        <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
+                        Call
+                    </a>
+                    <a href="https://instagram.com/exclusivedriveuae_com" class="modal-contact-btn instagram-btn" target="_blank">
+                        <img src="images/instagram-icon.svg" alt="Instagram" class="contact-icon">
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Welcome Popup -->
     <div class="popup-overlay" id="welcomePopup">
         <div class="popup-content">
@@ -594,7 +644,137 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePopup();
+                closeCarModal();
             }
+        });
+
+        // Car Detail Modal Functionality
+        const carData = {
+            'Porsche 911 Turbo S': {
+                image: 'https://media.drive.com.au/obj/tx_q:50,rs:auto:1920:1080:1/caradvice/private/f148cc86d2acca496774ef41c3639ba0',
+                description: 'The Porsche 911 Turbo S represents the pinnacle of sports car engineering. With its twin-turbocharged flat-six engine delivering 640 horsepower, this iconic machine combines breathtaking performance with everyday usability. Experience the thrill of 0-100 km/h in just 3.4 seconds while enjoying the refined luxury that only a Porsche can offer.',
+                horsepower: '640 HP',
+                acceleration: '3.4s',
+                topSpeed: '330 km/h',
+                seats: '4',
+                price: '€700 per day'
+            },
+            'McLaren 570S Spider': {
+                image: 'https://cdn.motor1.com/images/mgl/EnzYq/s1/2018-mclaren-570s-spider-review.jpg',
+                description: 'The McLaren 570S Spider delivers pure supercar thrills with its retractable hardtop and stunning mid-engine design. Powered by a 3.8L twin-turbo V8 producing 562 horsepower, this British masterpiece offers an exhilarating open-air driving experience with Formula 1-derived technology at your fingertips.',
+                horsepower: '562 HP',
+                acceleration: '3.2s',
+                topSpeed: '328 km/h',
+                seats: '2',
+                price: '€1,500 per day'
+            },
+            'Audi RS6 Avant': {
+                image: 'https://media.ed.edmunds-media.com/audi/rs-6/2024/oem/2024_audi_rs-6_wagon_performance_fq_oem_1_1600.jpg',
+                description: 'The Audi RS6 Avant is the ultimate performance wagon, combining supercar acceleration with family-friendly practicality. Its 4.0L twin-turbo V8 delivers 591 horsepower through Quattro all-wheel drive, making it perfect for those who demand both performance and versatility.',
+                horsepower: '591 HP',
+                acceleration: '3.5s',
+                topSpeed: '305 km/h',
+                seats: '5',
+                price: '€650 per day'
+            },
+            'Porsche Cayenne': {
+                image: 'https://images-porsche.imgix.net/-/media/538068D82FAF4617876BC487714F6107_470DCEA9430C4C5F884111A21810659A_000-open-graph-CY24J5BIX0010',
+                description: 'The Porsche Cayenne redefines what an SUV can be, offering sports car dynamics in a versatile package. With 348 horsepower and Porsche DNA throughout, this performance SUV delivers an engaging driving experience whether on the highway or winding mountain roads.',
+                horsepower: '348 HP',
+                acceleration: '6.0s',
+                topSpeed: '248 km/h',
+                seats: '5',
+                price: '€800 per day'
+            },
+            'Mercedes GLE 63 S': {
+                image: 'https://images.dealersync.com/2500/Photos/876855/20220902040001563_20220901_141635.jpg?_=422abfdf3cb833567f7b6af393e816edf6202849',
+                description: 'The Mercedes-AMG GLE 63 S combines luxury SUV comfort with supercar performance. Its handcrafted 4.0L V8 biturbo engine produces a thunderous 603 horsepower, while the lavish interior cocoons you in Mercedes-Benz luxury. The perfect blend of power and prestige.',
+                horsepower: '603 HP',
+                acceleration: '3.8s',
+                topSpeed: '280 km/h',
+                seats: '5',
+                price: '€800 per day'
+            },
+            'Bmw M3': {
+                image: 'https://cdn.motor1.com/images/mgl/1ZQrxK/s1/2023-bmw-m3-cs-first-drive-review.webp',
+                description: 'The BMW M3 is the epitome of German performance engineering. With 473 horsepower from its twin-turbo inline-six engine and rear-wheel drive dynamics, this sports sedan delivers pure driving pleasure. Track-capable yet daily-drivable, the M3 is a legend for good reason.',
+                horsepower: '473 HP',
+                acceleration: '3.4s',
+                topSpeed: '302 km/h',
+                seats: '5',
+                price: '€650 per day'
+            },
+            'Rolls-Royce Cullinan': {
+                image: 'https://www.rollsroycelongisland.com/imagetag/3655/25/l/New-2025-Rolls-Royce-Cullinan-Series-II-1728464706.jpg',
+                description: 'The Rolls-Royce Cullinan represents the absolute pinnacle of luxury SUVs. Named after the largest diamond ever discovered, this masterpiece offers unparalleled opulence with its handcrafted interior, starlight headliner, and the legendary "magic carpet ride" suspension. True luxury knows no bounds.',
+                horsepower: '563 HP',
+                acceleration: '5.2s',
+                topSpeed: '250 km/h',
+                seats: '5',
+                price: '€2,000 per day'
+            },
+            'Mercedes-Benz S-Class': {
+                image: 'https://www.mercedes-benz.co.in/content/dam/hq/passengercars/cars/s-class/s-class-saloon-wv223-pi/overview/exterior/09-2022/images/mercedes-benz-s-class-wv223-exterior-hotspot-3302x1858-09-2022.jpg/1740015980299.jpg?im=Crop,rect=(0,0,3302,1857);Resize=(1850,1040)',
+                description: 'The Mercedes-Benz S-Class has defined automotive luxury for decades. This flagship sedan features cutting-edge technology, including augmented reality navigation and active body control, wrapped in an interior of unmatched refinement. Experience the benchmark of luxury motoring.',
+                horsepower: '282 HP',
+                acceleration: '4.7s',
+                topSpeed: '250 km/h',
+                seats: '5',
+                price: '€700 per day'
+            },
+            'Aston Martin Vantage': {
+                image: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/2019_Aston_Martin_Vantage_V8_Automatic_4.0_%281%29.jpg',
+                description: 'The Aston Martin Vantage embodies British elegance and raw performance. Its 656 horsepower twin-turbo V8 delivers explosive acceleration while its sculpted bodywork turns heads everywhere. This is a true driver\'s car with unmistakable presence and heritage.',
+                horsepower: '656 HP',
+                acceleration: '3.4s',
+                topSpeed: '325 km/h',
+                seats: '2',
+                price: '€800 per day'
+            }
+        };
+
+        function openCarModal(carName) {
+            const car = carData[carName];
+            if (!car) return;
+
+            document.getElementById('modalCarImage').src = car.image;
+            document.getElementById('modalCarImage').alt = carName;
+            document.getElementById('modalCarName').textContent = carName;
+            document.getElementById('modalCarDescription').textContent = car.description;
+            document.getElementById('modalHorsepower').textContent = car.horsepower;
+            document.getElementById('modalAcceleration').textContent = car.acceleration;
+            document.getElementById('modalTopSpeed').textContent = car.topSpeed;
+            document.getElementById('modalSeats').textContent = car.seats;
+            document.getElementById('modalPrice').textContent = car.price;
+
+            document.getElementById('carModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCarModal() {
+            document.getElementById('carModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('carModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCarModal();
+            }
+        });
+
+        // Add click listeners to car cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const carCards = document.querySelectorAll('.car-card');
+            carCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't open modal if clicking on contact buttons
+                    if (e.target.closest('.contact-btn')) return;
+
+                    const carName = this.querySelector('.car-name').textContent;
+                    openCarModal(carName);
+                });
+            });
         });
 
         // Car filter and sort functionality

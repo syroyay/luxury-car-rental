@@ -1448,7 +1448,8 @@ html {
     scrollbar-width: thin;
     scrollbar-color: var(--accent) var(--card-bg);
     flex: 1;
-    padding: 5px 0;
+    padding: 8px;
+    margin: -8px;
 }
 
 .modal-gallery::-webkit-scrollbar {

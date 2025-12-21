@@ -1411,7 +1411,7 @@ html {
 .modal-gallery-strip {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 60px;
     padding: 25px 40px;
     background: var(--secondary);
 }
@@ -1420,6 +1420,8 @@ html {
     flex-shrink: 0;
     min-width: 200px;
     max-width: 280px;
+    padding-right: 20px;
+    border-right: 1px solid var(--card-border);
 }
 
 .modal-car-name {

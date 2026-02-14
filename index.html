@@ -13,7 +13,6 @@
 </head>
 
 <body>
-   <!-- hi there -->
     <!-- Car Detail Modal -->
     <div class="car-modal-overlay" id="carModal">
         <div class="car-modal-content">
@@ -155,7 +154,7 @@
     </div>
 
     <!-- Header -->
-    <header>
+    <header id="home">
         <div class="header-container">
             <h1>Supercarrentals.de</h1>
             <p>Premium Automotive Excellence in Germany</p>
@@ -165,19 +164,24 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#home">Home</a>
-            <a href="#fleet">Fleet</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#fleet">Fleet</a>
+                <a href="#contact">Contact</a>
+                <a href="#faq">FAQ</a>
+                <a href="#about">About</a>
+            </div>
         </div>
     </nav>
-
 
     <!-- Fleet Section -->
     <section class="fleet-section" id="fleet">
         <div class="container">
             <h2>Our Exclusive Fleet</h2>
-            
+
             <!-- Car Category Filter -->
             <div class="car-filter">
                 <div class="filter-group">
@@ -188,7 +192,7 @@
                         <option value="high-to-low">Price: High to Low</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
                     <label class="filter-label">Category</label>
                     <select class="category-filter" id="categoryFilter">
@@ -199,7 +203,7 @@
                         <option value="everyday-sports">Everyday Sports</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
                     <label class="filter-label">Brand</label>
                     <select class="brand-filter" id="brandFilter">
@@ -213,16 +217,16 @@
                         <option value="aston-martin">Aston Martin</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-results">
                     <span class="results-count">Showing <strong id="carCount">9</strong> vehicles</span>
                 </div>
             </div>
-            
+
             <div class="car-grid">
                 <!-- Car 1: Porsche 911 Turbo S -->
-                <div class="car-card" data-category="sports" data-brand="porsche">
-                    <img class="car-image"
+                <div class="car-card reveal" data-category="sports" data-brand="porsche">
+                    <img class="car-image" loading="lazy"
                         src="https://media.drive.com.au/obj/tx_q:50,rs:auto:1920:1080:1/caradvice/private/f148cc86d2acca496774ef41c3639ba0"
                         alt="Porsche 911">
                     <div class="car-info">
@@ -234,8 +238,7 @@
                         </div>
                         <p class="car-price">€700 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -247,9 +250,9 @@
                     </div>
                 </div>
 
-                <!-- Car 5: McLaren 570S Spider -->
-                <div class="car-card" data-category="sports" data-brand="mclaren">
-                    <img class="car-image"
+                <!-- Car 2: McLaren 570S Spider -->
+                <div class="car-card reveal" data-category="sports" data-brand="mclaren">
+                    <img class="car-image" loading="lazy"
                         src="https://cdn.motor1.com/images/mgl/EnzYq/s1/2018-mclaren-570s-spider-review.jpg"
                         alt="McLaren 570S">
                     <div class="car-info">
@@ -261,8 +264,7 @@
                         </div>
                         <p class="car-price">€1,500 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -274,9 +276,9 @@
                     </div>
                 </div>
 
-                <!-- Car 6: Audi RS6 Avant -->
-                <div class="car-card" data-category="everyday-sports" data-brand="audi">
-                    <img class="car-image"
+                <!-- Car 3: Audi RS6 Avant -->
+                <div class="car-card reveal" data-category="everyday-sports" data-brand="audi">
+                    <img class="car-image" loading="lazy"
                         src="https://media.ed.edmunds-media.com/audi/rs-6/2024/oem/2024_audi_rs-6_wagon_performance_fq_oem_1_1600.jpg"
                         alt="Audi RS6">
                     <div class="car-info">
@@ -288,8 +290,7 @@
                         </div>
                         <p class="car-price">€650 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -300,8 +301,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="car-card" data-category="suv everyday-sports" data-brand="porsche">
-                    <img class="car-image"
+
+                <!-- Car 4: Porsche Cayenne -->
+                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="porsche">
+                    <img class="car-image" loading="lazy"
                         src="https://images-porsche.imgix.net/-/media/538068D82FAF4617876BC487714F6107_470DCEA9430C4C5F884111A21810659A_000-open-graph-CY24J5BIX0010"
                         alt="Porsche Cayenne">
                     <div class="car-info">
@@ -309,12 +312,11 @@
                         <div class="car-specs">
                             <p>⚡ 348 HP | 6.0s 0-100 km/h</p>
                             <p>💨 Top Speed: 248 km/h</p>
-                            <p>👥 Seats: 5 | Performance Suv </p>
+                            <p>👥 Seats: 5 | Performance Suv</p>
                         </div>
                         <p class="car-price">€800 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -325,8 +327,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="car-card" data-category="suv everyday-sports" data-brand="mercedes-benz">
-                    <img class="car-image"
+
+                <!-- Car 5: Mercedes GLE 63 S -->
+                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="mercedes-benz">
+                    <img class="car-image" loading="lazy"
                         src="https://images.dealersync.com/2500/Photos/876855/20220902040001563_20220901_141635.jpg?_=422abfdf3cb833567f7b6af393e816edf6202849"
                         alt="Mercedes-Benz AMG GLE 63 S">
                     <div class="car-info">
@@ -338,8 +342,7 @@
                         </div>
                         <p class="car-price">€800 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -350,8 +353,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="car-card" data-category="everyday-sports" data-brand="bmw">
-                    <img class="car-image"
+
+                <!-- Car 6: BMW M3 -->
+                <div class="car-card reveal" data-category="everyday-sports" data-brand="bmw">
+                    <img class="car-image" loading="lazy"
                         src="https://cdn.motor1.com/images/mgl/1ZQrxK/s1/2023-bmw-m3-cs-first-drive-review.webp"
                         alt="Bmw M3">
                     <div class="car-info">
@@ -359,12 +364,11 @@
                         <div class="car-specs">
                             <p>⚡473 HP | 3.4s 0-100 km/h</p>
                             <p>💨 Top Speed: 302 km/h</p>
-                            <p>👥 Seats: 5 | German Performance </p>
+                            <p>👥 Seats: 5 | German Performance</p>
                         </div>
                         <p class="car-price">€650 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -375,8 +379,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="car-card" data-category="suv luxury" data-brand="rolls-royce">
-                    <img class="car-image"
+
+                <!-- Car 7: Rolls-Royce Cullinan -->
+                <div class="car-card reveal" data-category="suv luxury" data-brand="rolls-royce">
+                    <img class="car-image" loading="lazy"
                         src="https://www.rollsroycelongisland.com/imagetag/3655/25/l/New-2025-Rolls-Royce-Cullinan-Series-II-1728464706.jpg"
                         alt="Rolls-Royce Cullinan">
                     <div class="car-info">
@@ -388,8 +394,7 @@
                         </div>
                         <p class="car-price">€2,000 per day</p>
                         <div class="contact-buttons">
-                            <a href="#contact"
-                                class="contact-btn whatsapp-btn">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
                                 <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
                                 WhatsApp
                             </a>
@@ -400,69 +405,60 @@
                         </div>
                     </div>
                 </div>
-                <div class="car-card" data-category="luxury" data-brand="mercedes-benz">
-                    <img class="car-image"
+
+                <!-- Car 8: Mercedes-Benz S-Class -->
+                <div class="car-card reveal" data-category="luxury" data-brand="mercedes-benz">
+                    <img class="car-image" loading="lazy"
                         src="https://www.mercedes-benz.co.in/content/dam/hq/passengercars/cars/s-class/s-class-saloon-wv223-pi/overview/exterior/09-2022/images/mercedes-benz-s-class-wv223-exterior-hotspot-3302x1858-09-2022.jpg/1740015980299.jpg?im=Crop,rect=(0,0,3302,1857);Resize=(1850,1040)"
-                        alt="Mercedes-Benz S-Class"">
-                    <div class=" car-info">
-                    <h3 class="car-name">Mercedes-Benz S-Class</h3>
-                    <div class="car-specs">
-                        <p>⚡ 282 HP | 4.7s 0-100 km/h</p>
-                        <p>💨 Top Speed: 250 km/h</p>
-                        <p>👥 Seats: 5 | Luxury Wagon</p>
+                        alt="Mercedes-Benz S-Class">
+                    <div class="car-info">
+                        <h3 class="car-name">Mercedes-Benz S-Class</h3>
+                        <div class="car-specs">
+                            <p>⚡ 282 HP | 4.7s 0-100 km/h</p>
+                            <p>💨 Top Speed: 250 km/h</p>
+                            <p>👥 Seats: 5 | Luxury Wagon</p>
+                        </div>
+                        <p class="car-price">€700 per day</p>
+                        <div class="contact-buttons">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
+                                <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
+                                WhatsApp
+                            </a>
+                            <a href="#contact" class="contact-btn phone-btn">
+                                <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
+                                Call
+                            </a>
+                        </div>
                     </div>
-                    <p class="car-price">€700 per day</p>
-                    <div class="contact-buttons">
-                        <a href="#contact"
-                            class="contact-btn whatsapp-btn">
-                            <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
-                            WhatsApp
-                        </a>
-                        <a href="#contact" class="contact-btn phone-btn">
-                            <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
-                            Call
-                        </a>
+                </div>
+
+                <!-- Car 9: Aston Martin Vantage -->
+                <div class="car-card reveal" data-category="sports" data-brand="aston-martin">
+                    <img class="car-image" loading="lazy"
+                        src="https://upload.wikimedia.org/wikipedia/commons/b/b7/2019_Aston_Martin_Vantage_V8_Automatic_4.0_%281%29.jpg"
+                        alt="Aston Martin Vantage">
+                    <div class="car-info">
+                        <h3 class="car-name">Aston Martin Vantage</h3>
+                        <div class="car-specs">
+                            <p>⚡ 656 HP | 3.4s 0-100 km/h</p>
+                            <p>💨 Top Speed: 325 km/h</p>
+                            <p>👥 Seats: 2 | Britisch Performance</p>
+                        </div>
+                        <p class="car-price">€800 per day</p>
+                        <div class="contact-buttons">
+                            <a href="#contact" class="contact-btn whatsapp-btn">
+                                <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
+                                WhatsApp
+                            </a>
+                            <a href="#contact" class="contact-btn phone-btn">
+                                <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
+                                Call
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="car-card" data-category="sports" data-brand="aston-martin">
-                <img class="car-image"
-                    src="https://upload.wikimedia.org/wikipedia/commons/b/b7/2019_Aston_Martin_Vantage_V8_Automatic_4.0_%281%29.jpg"
-                    alt="Aston Martin Vantage">
-                <div class="car-info">
-                    <h3 class="car-name">Aston Martin Vantage</h3>
-                    <div class="car-specs">
-                        <p>⚡ 656 HP | 3.4s 0-100 km/h</p>
-                        <p>💨 Top Speed: 325 km/h</p>
-                        <p>👥 Seats: 2 | Britisch Performance </p>
-                    </div>
-                    <p class="car-price">€800 per day</p>
-                    <div class="contact-buttons">
-                        <a href="#contact"
-                            class="contact-btn whatsapp-btn">
-                            <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
-                            WhatsApp
-                        </a>
-                        <a href="#contact" class="contact-btn phone-btn">
-                            <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
-                            Call
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        </div>
-        </div>
-
-
-
-
-        </div>
-        </div>
-        </div>
-
-
     </section>
 
     <!-- Contact Section -->
@@ -470,37 +466,98 @@
         <div class="container">
             <h2>Get In Touch</h2>
             <p class="contact-intro">Contact us directly through your preferred platform. We're available to help you find your perfect luxury car rental.</p>
-            
+
             <div class="contact-options">
-                <a href="https://wa.me/971502136375" class="contact-option whatsapp-option" target="_blank">
+                <a href="https://wa.me/971502136375" class="contact-option whatsapp-option reveal" target="_blank">
                     <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-option-icon">
                     <h3>WhatsApp</h3>
                     <p>Message us directly</p>
                     <span class="contact-info">+971 50 213 6375</span>
                 </a>
-                
-                <a href="tel:+971502136375" class="contact-option phone-option" target="_blank">
+
+                <a href="tel:+971502136375" class="contact-option phone-option reveal" target="_blank">
                     <img src="images/phone-icon.svg" alt="Phone" class="contact-option-icon">
                     <h3>Call Us</h3>
                     <p>Speak with our team</p>
                     <span class="contact-info">+971 50 213 6375</span>
                 </a>
-
             </div>
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>What documents do I need to rent a car?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You'll need a valid driver's license (held for at least 2 years), a valid passport or national ID, and a credit card for the security deposit. International visitors may also need an International Driving Permit depending on their country of origin.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>What is the minimum age to rent?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The minimum age requirement is 25 years old. All drivers must hold a valid license for at least 2 years. Additional restrictions may apply for certain high-performance vehicles.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Is insurance included in the rental price?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, full comprehensive insurance is included with every rental. This covers third-party liability and collision damage. A security deposit is still required at pickup and will be refunded upon return of the vehicle in good condition.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Do you offer delivery and pickup?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we offer delivery and pickup throughout Germany. We can deliver the car to your hotel, airport, or any address of your choice. Delivery fees may apply depending on the location.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>What is the cancellation policy?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We offer a full refund for cancellations made at least 48 hours before the scheduled pickup time. Cancellations within 48 hours may be subject to a cancellation fee. Please contact us for specific details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Is there a mileage limit?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Each rental includes 250 km per day. Additional kilometres can be purchased at the time of booking or upon return. The rate for extra mileage varies by vehicle. Contact us for exact pricing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
     <section class="about-section" id="about">
-
-
-
-
-
-
-        <!-- About Content -->
         <div class="about-content">
             <div class="container">
-                <div class="about-intro">
+                <div class="about-intro reveal">
                     <h2>About Our Cars</h2>
                     <p>Every car in our fleet is the highest spec available. We don't do base models. If it's got an optional
                         performance pack, carbon ceramics, or a sport exhaust — it's on the car. You're getting the full
@@ -520,11 +577,45 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Supercarrentals.de</h3>
+                    <p>Premium automotive excellence in Germany. Experience the thrill of driving the world's finest supercars.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#fleet">Fleet</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p>Phone: +971 50 213 6375</p>
+                    <p>WhatsApp: +971 50 213 6375</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Supercarrentals.de. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/971502136375" class="floating-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+        <img src="images/whatsapp-icon.svg" alt="WhatsApp">
+    </a>
 
     <script>
         // Show popup when page loads
@@ -538,23 +629,20 @@
         function closePopup() {
             document.getElementById('welcomePopup').classList.remove('show');
         }
-        
+
         // Add smooth scrolling for contact buttons
         function setupContactButtonScrolling() {
-            // Use event delegation to handle all contact buttons, including dynamically added ones
             document.addEventListener('click', function(e) {
-                // Check if clicked element or its parent is a contact button
                 const contactBtn = e.target.closest('.contact-btn');
-                
+
                 if (contactBtn) {
                     e.preventDefault();
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
-                        // Calculate position with offset for sticky nav
                         const navHeight = document.querySelector('nav').offsetHeight;
                         const elementPosition = contactSection.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
-                        
+
                         window.scrollTo({
                             top: offsetPosition,
                             behavior: 'smooth'
@@ -563,7 +651,7 @@
                 }
             });
         }
-        
+
         // Initialize on DOMContentLoaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', setupContactButtonScrolling);
@@ -726,7 +814,6 @@
             currentCarImages = car.images;
             currentImageIndex = 0;
 
-            // Set main image
             document.getElementById('modalCarImage').src = car.images[0];
             document.getElementById('modalCarImage').alt = carName;
             document.getElementById('modalCarName').textContent = carName;
@@ -738,7 +825,6 @@
             document.getElementById('modalPrice').textContent = car.price;
             document.getElementById('modalPriceCard').textContent = car.price;
 
-            // Build gallery
             const gallery = document.getElementById('modalGallery');
             gallery.innerHTML = '';
             car.images.forEach((img, index) => {
@@ -751,8 +837,6 @@
 
             document.getElementById('carModal').classList.add('show');
             document.body.style.overflow = 'hidden';
-
-            // Scroll to top of modal
             document.getElementById('carModal').scrollTop = 0;
         }
 
@@ -760,7 +844,6 @@
             currentImageIndex = index;
             document.getElementById('modalCarImage').src = currentCarImages[index];
 
-            // Update active thumbnail
             const thumbs = document.querySelectorAll('.gallery-thumb');
             thumbs.forEach((thumb, i) => {
                 thumb.classList.toggle('active', i === index);
@@ -784,9 +867,7 @@
             const carCards = document.querySelectorAll('.car-card');
             carCards.forEach(card => {
                 card.addEventListener('click', function(e) {
-                    // Don't open modal if clicking on contact buttons
                     if (e.target.closest('.contact-btn')) return;
-
                     const carName = this.querySelector('.car-name').textContent;
                     openCarModal(carName);
                 });
@@ -800,72 +881,58 @@
             const priceSort = document.getElementById('priceSort');
             const brandFilter = document.getElementById('brandFilter');
             const carGrid = document.querySelector('.car-grid');
-            
+
             let currentCategory = 'all';
             let currentBrand = '';
-            
-            // Ensure contact buttons work after filtering
-            function ensureContactButtonsWork() {
-                // This is handled by event delegation in setupContactButtonScrolling
-                // No need to re-attach listeners
-            }
 
-            // Category filter functionality
             categoryFilter.addEventListener('change', function() {
                 currentCategory = this.value;
                 filterAndSort();
             });
 
-            // Brand filter functionality
             brandFilter.addEventListener('change', function() {
                 currentBrand = this.value;
                 filterAndSort();
             });
 
-            // Sort functionality
             priceSort.addEventListener('change', function() {
                 filterAndSort();
             });
 
             function filterAndSort() {
                 let visibleCount = 0;
-                
-                // First, show/hide cards based on category and brand
+
                 carCards.forEach(card => {
                     let showCard = true;
-                    
-                    // Check category filter
+
                     if (currentCategory !== 'all') {
                         const cardCategories = card.getAttribute('data-category');
                         if (!cardCategories || !cardCategories.includes(currentCategory)) {
                             showCard = false;
                         }
                     }
-                    
-                    // Check brand filter
+
                     if (currentBrand && showCard) {
                         const cardBrand = card.getAttribute('data-brand');
                         if (cardBrand !== currentBrand) {
                             showCard = false;
                         }
                     }
-                    
+
                     card.style.display = showCard ? 'flex' : 'none';
                     if (showCard) visibleCount++;
                 });
-                
-                // Update the car count
+
                 document.getElementById('carCount').textContent = visibleCount;
 
-                // Then sort visible cards by price
                 const sortValue = priceSort.value;
                 if (sortValue) {
                     const visibleCards = Array.from(carCards).filter(card => card.style.display !== 'none');
-                    
+
                     visibleCards.sort((a, b) => {
                         const priceA = parseInt(a.querySelector('.car-price').textContent.match(/€([\d,]+)/)[1].replace(/,/g, ''));
                         const priceB = parseInt(b.querySelector('.car-price').textContent.match(/€([\d,]+)/)[1].replace(/,/g, ''));
-                        
+
                         if (sortValue === 'low-to-high') {
                             return priceA - priceB;
                         } else {
@@ -873,13 +940,85 @@
                         }
                     });
 
-                    // Re-append cards in sorted order
                     visibleCards.forEach(card => {
                         carGrid.appendChild(card);
                     });
                 }
             }
         });
+
+        // Hamburger menu toggle
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            navLinks.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        })();
+
+        // Back to top button
+        (function() {
+            var backToTop = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 400) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        // Scroll reveal animations
+        (function() {
+            var revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(function(el) {
+                revealObserver.observe(el);
+            });
+        })();
+
+        // FAQ accordion
+        (function() {
+            document.querySelectorAll('.faq-question').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var item = this.parentElement;
+                    var answer = item.querySelector('.faq-answer');
+                    var isActive = item.classList.contains('active');
+
+                    // Close all
+                    document.querySelectorAll('.faq-item').forEach(function(faq) {
+                        faq.classList.remove('active');
+                        faq.querySelector('.faq-answer').style.maxHeight = null;
+                    });
+
+                    // Open clicked if not already active
+                    if (!isActive) {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

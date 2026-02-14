@@ -609,13 +609,6 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
-
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/971502136375" class="floating-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
-        <img src="images/whatsapp-icon.svg" alt="WhatsApp">
-    </a>
 
     <script>
         // Show popup when page loads
@@ -965,22 +958,6 @@
             });
         })();
 
-        // Back to top button
-        (function() {
-            var backToTop = document.getElementById('backToTop');
-
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 400) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            });
-
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        })();
 
         // Scroll reveal animations
         (function() {

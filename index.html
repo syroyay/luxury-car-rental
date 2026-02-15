@@ -217,6 +217,27 @@
                     </select>
                 </div>
 
+                <div class="filter-group">
+                    <label class="filter-label">Seats</label>
+                    <select class="seats-filter" id="seatsFilter">
+                        <option value="">All Seats</option>
+                        <option value="2">2 Seats</option>
+                        <option value="4">4 Seats</option>
+                        <option value="5">5 Seats</option>
+                        <option value="7">7 Seats</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Boot Size</label>
+                    <select class="boot-filter" id="bootFilter">
+                        <option value="">All Sizes</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
                 <div class="filter-results">
                     <span class="results-count">Showing <strong id="carCount">9</strong> vehicles</span>
                 </div>
@@ -224,7 +245,7 @@
 
             <div class="car-grid">
                 <!-- Car 1: Porsche 911 Turbo S -->
-                <div class="car-card reveal" data-category="sports" data-brand="porsche">
+                <div class="car-card reveal" data-category="sports" data-brand="porsche" data-seats="4" data-boot="small">
                     <img class="car-image" loading="lazy"
                         src="images/porsche1.avif"
                         alt="Porsche 911">
@@ -250,7 +271,7 @@
                 </div>
 
                 <!-- Car 2: McLaren 570S Spider -->
-                <div class="car-card reveal" data-category="sports" data-brand="mclaren">
+                <div class="car-card reveal" data-category="sports" data-brand="mclaren" data-seats="2" data-boot="small">
                     <img class="car-image" loading="lazy"
                         src="images/mc1.avif"
                         alt="McLaren 570S">
@@ -276,7 +297,7 @@
                 </div>
 
                 <!-- Car 3: Audi RS6 -->
-                <div class="car-card reveal" data-category="everyday-sports" data-brand="audi">
+                <div class="car-card reveal" data-category="everyday-sports" data-brand="audi" data-seats="5" data-boot="large">
                     <img class="car-image" loading="lazy"
                         src="images/audi1.avif"
                         alt="Audi RS6">
@@ -302,7 +323,7 @@
                 </div>
 
                 <!-- Car 4: Porsche Cayenne -->
-                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="porsche">
+                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="porsche" data-seats="5" data-boot="large">
                     <img class="car-image" loading="lazy"
                         src="images/p1.avif"
                         alt="Porsche Cayenne">
@@ -328,7 +349,7 @@
                 </div>
 
                 <!-- Car 5: Mercedes GLE 63 S -->
-                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="mercedes-benz">
+                <div class="car-card reveal" data-category="suv everyday-sports" data-brand="mercedes-benz" data-seats="5" data-boot="large">
                     <img class="car-image" loading="lazy"
                         src="images/merc1.avif"
                         alt="Mercedes-Benz AMG GLE 63 S">
@@ -354,7 +375,7 @@
                 </div>
 
                 <!-- Car 6: BMW M3 -->
-                <div class="car-card reveal" data-category="everyday-sports" data-brand="bmw">
+                <div class="car-card reveal" data-category="everyday-sports" data-brand="bmw" data-seats="5" data-boot="medium">
                     <img class="car-image" loading="lazy"
                         src="images/bmw1.avif"
                         alt="Bmw M3">
@@ -380,7 +401,7 @@
                 </div>
 
                 <!-- Car 7: Lamborghini Urus -->
-                <div class="car-card reveal" data-category="suv sports" data-brand="lamborghini">
+                <div class="car-card reveal" data-category="suv sports" data-brand="lamborghini" data-seats="5" data-boot="medium">
                     <img class="car-image" loading="lazy"
                         src="images/l1.avif"
                         alt="Lamborghini Urus">
@@ -406,7 +427,7 @@
                 </div>
 
                 <!-- Car 8: Mercedes-Benz S450 -->
-                <div class="car-card reveal" data-category="luxury" data-brand="mercedes-benz">
+                <div class="car-card reveal" data-category="luxury" data-brand="mercedes-benz" data-seats="5" data-boot="medium">
                     <img class="car-image" loading="lazy"
                         src="images/benz1.avif"
                         alt="Mercedes-Benz S450">
@@ -432,7 +453,7 @@
                 </div>
 
                 <!-- Car 9: BMW X5 -->
-                <div class="car-card reveal" data-category="suv" data-brand="bmw">
+                <div class="car-card reveal" data-category="suv" data-brand="bmw" data-seats="7" data-boot="large">
                     <img class="car-image" loading="lazy"
                         src="images/b1.avif"
                         alt="BMW X5">
@@ -441,7 +462,7 @@
                         <div class="car-specs">
                             <p>⚡ 523 HP | 4.3s 0-100 km/h</p>
                             <p>💨 Top Speed: 250 km/h</p>
-                            <p>👥 Seats: 5 | Luxury SUV</p>
+                            <p>👥 Seats: 7 | Luxury SUV</p>
                         </div>
                         <p class="car-price">€600 per day</p>
                         <div class="contact-buttons">
@@ -763,7 +784,7 @@
                 horsepower: '523 HP',
                 acceleration: '4.3s',
                 topSpeed: '250 km/h',
-                seats: '5',
+                seats: '7',
                 price: '€600 per day'
             }
         };
@@ -844,10 +865,14 @@
             const carCards = document.querySelectorAll('.car-card');
             const priceSort = document.getElementById('priceSort');
             const brandFilter = document.getElementById('brandFilter');
+            const seatsFilter = document.getElementById('seatsFilter');
+            const bootFilter = document.getElementById('bootFilter');
             const carGrid = document.querySelector('.car-grid');
 
             let currentCategory = 'all';
             let currentBrand = '';
+            let currentSeats = '';
+            let currentBoot = '';
 
             categoryFilter.addEventListener('change', function() {
                 currentCategory = this.value;
@@ -856,6 +881,16 @@
 
             brandFilter.addEventListener('change', function() {
                 currentBrand = this.value;
+                filterAndSort();
+            });
+
+            seatsFilter.addEventListener('change', function() {
+                currentSeats = this.value;
+                filterAndSort();
+            });
+
+            bootFilter.addEventListener('change', function() {
+                currentBoot = this.value;
                 filterAndSort();
             });
 
@@ -879,6 +914,20 @@
                     if (currentBrand && showCard) {
                         const cardBrand = card.getAttribute('data-brand');
                         if (cardBrand !== currentBrand) {
+                            showCard = false;
+                        }
+                    }
+
+                    if (currentSeats && showCard) {
+                        const cardSeats = card.getAttribute('data-seats');
+                        if (cardSeats !== currentSeats) {
+                            showCard = false;
+                        }
+                    }
+
+                    if (currentBoot && showCard) {
+                        const cardBoot = card.getAttribute('data-boot');
+                        if (cardBoot !== currentBoot) {
                             showCard = false;
                         }
                     }

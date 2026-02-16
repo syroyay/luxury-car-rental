@@ -30,7 +30,7 @@
                 <div class="modal-car-header">
                     <h1 id="modalCarName" class="modal-car-name"></h1>
                     <div class="modal-price" id="modalPrice"></div>
-                    <div class="modal-price" id="modalHourlyPrice" style="font-size: 0.7em; opacity: 0.85;"></div>
+                    <div class="modal-price" id="modalHourlyPrice" style="display: none;"></div>
                 </div>
                 <div class="modal-gallery" id="modalGallery">
                     <!-- Thumbnails will be inserted here by JS -->
@@ -73,8 +73,12 @@
                 <div class="modal-right-column">
                     <div class="booking-card">
                         <h3 class="booking-title">Book This Car</h3>
+                        <div class="price-toggle" style="margin-top: 0;">
+                            <button class="price-toggle-btn active" onclick="showModalDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showModalHourly(this)">Hourly</button>
+                        </div>
                         <div class="booking-price" id="modalPriceCard"></div>
-                        <div class="booking-price" id="modalHourlyPriceCard" style="font-size: 0.7em; opacity: 0.85; margin-bottom: 4px;"></div>
+                        <div class="booking-price" id="modalHourlyPriceCard" style="display: none;"></div>
                         <p class="booking-note">Min. 3 hours | All prices include full insurance & 250km/day</p>
 
                         <div class="modal-contact-buttons">
@@ -220,6 +224,10 @@
                             <p>💨 Top Speed: 330 km/h</p>
                             <p>👥 Seats: 4 | German Excellence</p>
                         </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
                         <p class="car-price">€700 per day</p>
                         <p class="car-price-hourly">€150 per hour</p>
                         <p class="car-price-note">Min. 3 hours | All prices include full insurance</p>
@@ -247,6 +255,10 @@
                             <p>⚡ 585 HP | 4.5s 0-100 km/h</p>
                             <p>💨 Top Speed: 220 km/h</p>
                             <p>👥 Seats: 5 | Iconic Luxury SUV</p>
+                        </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
                         </div>
                         <p class="car-price">€1,200 per day</p>
                         <p class="car-price-hourly">€250 per hour</p>
@@ -276,6 +288,10 @@
                             <p>💨 Top Speed: 305 km/h</p>
                             <p>👥 Seats: 5 | Performance Wagon</p>
                         </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
                         <p class="car-price">€650 per day</p>
                         <p class="car-price-hourly">€130 per hour</p>
                         <p class="car-price-note">Min. 3 hours | All prices include full insurance</p>
@@ -303,6 +319,10 @@
                             <p>⚡ 348 HP | 6.0s 0-100 km/h</p>
                             <p>💨 Top Speed: 248 km/h</p>
                             <p>👥 Seats: 5 | Performance Suv</p>
+                        </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
                         </div>
                         <p class="car-price">€800 per day</p>
                         <p class="car-price-hourly">€170 per hour</p>
@@ -332,6 +352,10 @@
                             <p>💨 Top Speed: 330 km/h</p>
                             <p>👥 Seats: 2 | Hybrid Supercar</p>
                         </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
                         <p class="car-price">€1,800 per day</p>
                         <p class="car-price-hourly">€350 per hour</p>
                         <p class="car-price-note">Min. 3 hours | All prices include full insurance</p>
@@ -360,6 +384,10 @@
                             <p>💨 Top Speed: 302 km/h</p>
                             <p>👥 Seats: 5 | German Performance</p>
                         </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
                         <p class="car-price">€650 per day</p>
                         <p class="car-price-hourly">€130 per hour</p>
                         <p class="car-price-note">Min. 3 hours | All prices include full insurance</p>
@@ -387,6 +415,10 @@
                             <p>⚡ 657 HP | 3.6s 0-100 km/h</p>
                             <p>💨 Top Speed: 306 km/h</p>
                             <p>👥 Seats: 5 | Super SUV</p>
+                        </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
                         </div>
                         <p class="car-price">€1,800 per day</p>
                         <p class="car-price-hourly">€350 per hour</p>
@@ -417,6 +449,10 @@
                             <p>💨 Top Speed: 250 km/h</p>
                             <p>👥 Seats: 5 | Luxury Wagon</p>
                         </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
                         <p class="car-price">€700 per day</p>
                         <p class="car-price-hourly">€150 per hour</p>
                         <p class="car-price-note">Min. 3 hours | All prices include full insurance</p>
@@ -445,6 +481,10 @@
                             <p>⚡ 523 HP | 4.3s 0-100 km/h</p>
                             <p>💨 Top Speed: 250 km/h</p>
                             <p>👥 Seats: 7 | Luxury SUV</p>
+                        </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
                         </div>
                         <p class="car-price">€600 per day</p>
                         <p class="car-price-hourly">€120 per hour</p>
@@ -615,7 +655,45 @@
 
 
     <script>
-        // Show popup when page loads
+        // Price toggle functions
+        function showDaily(btn) {
+            const card = btn.closest('.car-info');
+            card.querySelector('.car-price').style.display = 'block';
+            card.querySelector('.car-price-hourly').style.display = 'none';
+            const btns = btn.parentElement.querySelectorAll('.price-toggle-btn');
+            btns[0].classList.add('active');
+            btns[1].classList.remove('active');
+        }
+
+        function showHourly(btn) {
+            const card = btn.closest('.car-info');
+            card.querySelector('.car-price').style.display = 'none';
+            card.querySelector('.car-price-hourly').style.display = 'block';
+            const btns = btn.parentElement.querySelectorAll('.price-toggle-btn');
+            btns[0].classList.remove('active');
+            btns[1].classList.add('active');
+        }
+
+        function showModalDaily(btn) {
+            document.getElementById('modalPrice').style.display = '';
+            document.getElementById('modalHourlyPrice').style.display = 'none';
+            document.getElementById('modalPriceCard').style.display = '';
+            document.getElementById('modalHourlyPriceCard').style.display = 'none';
+            const btns = btn.parentElement.querySelectorAll('.price-toggle-btn');
+            btns[0].classList.add('active');
+            btns[1].classList.remove('active');
+        }
+
+        function showModalHourly(btn) {
+            document.getElementById('modalPrice').style.display = 'none';
+            document.getElementById('modalHourlyPrice').style.display = '';
+            document.getElementById('modalPriceCard').style.display = 'none';
+            document.getElementById('modalHourlyPriceCard').style.display = '';
+            const btns = btn.parentElement.querySelectorAll('.price-toggle-btn');
+            btns[0].classList.remove('active');
+            btns[1].classList.add('active');
+        }
+
         // Close modal with Escape key
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {

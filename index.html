@@ -101,7 +101,7 @@
                     <h3>Terms & Conditions</h3>
                     <div class="terms-grid">
                         <ul>
-                            <li>Minimum rental period is 24 hours</li>
+                            <li>Minimum rental period is 3 hours</li>
                             <li>Valid driver's license required (minimum 2 years experience)</li>
                             <li>Minimum age requirement: 25 years old</li>
                             <li>Security deposit required at time of pickup</li>
@@ -905,7 +905,7 @@
             const carCards = document.querySelectorAll('.car-card');
             carCards.forEach(card => {
                 card.addEventListener('click', function(e) {
-                    if (e.target.closest('.contact-btn')) return;
+                    if (e.target.closest('.contact-btn') || e.target.closest('.price-toggle-btn')) return;
                     const carName = this.querySelector('.car-name').textContent;
                     openCarModal(carName);
                 });

@@ -553,6 +553,38 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Car 10: Lamborghini Huracán Tecnica -->
+                <div class="car-card reveal" data-category="sports" data-brand="lamborghini" data-seats="2" data-boot="small">
+                    <img class="car-image" loading="lazy"
+                        src="images/la1.avif"
+                        alt="Lamborghini Huracán Tecnica">
+                    <div class="car-info">
+                        <h3 class="car-name">Lamborghini Huracán Tecnica</h3>
+                        <div class="car-specs">
+                            <p>⚡ 631 HP | 2.9s 0-100 km/h</p>
+                            <p>💨 Top Speed: 325 km/h</p>
+                            <p>👥 Seats: 2 | Supercar</p>
+                        </div>
+                        <div class="price-toggle">
+                            <button class="price-toggle-btn active" onclick="showDaily(this)">Daily</button>
+                            <button class="price-toggle-btn" onclick="showHourly(this)">Hourly</button>
+                        </div>
+                        <p class="car-price">€2,000 per day</p>
+                        <p class="car-price-hourly">€400 per hour</p>
+                        <p class="car-price-note">Min. 3 hours | Full insurance included | 250 km/day or 60 km/hr included, €3 per extra km</p>
+                        <div class="contact-buttons">
+                            <a href="https://wa.me/971502136375" class="contact-btn whatsapp-btn" target="_blank">
+                                <img src="images/whatsapp-icon.svg" alt="WhatsApp" class="contact-icon">
+                                WhatsApp
+                            </a>
+                            <a href="tel:+971502136375" class="contact-btn phone-btn">
+                                <img src="images/phone-icon.svg" alt="Phone" class="contact-icon">
+                                Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -786,6 +818,21 @@
                 seats: '7',
                 price: '€600 per day',
                 hourlyPrice: '€120 per hour'
+            },
+            'Lamborghini Huracán Tecnica': {
+                images: [
+                    'images/la1.avif',
+                    'images/la2.avif',
+                    'images/la3.avif',
+                    'images/la4.avif'
+                ],
+                description: 'The Lamborghini Huracán Tecnica is a masterpiece of Italian engineering. Powered by a naturally aspirated 5.2L V10 producing 631 horsepower, it delivers an electrifying driving experience with razor-sharp handling and an unforgettable exhaust note. Pure supercar perfection.',
+                horsepower: '631 HP',
+                acceleration: '2.9s',
+                topSpeed: '325 km/h',
+                seats: '2',
+                price: '€2,000 per day',
+                hourlyPrice: '€400 per hour'
             }
         };
 

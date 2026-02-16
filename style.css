@@ -357,7 +357,22 @@ nav a:hover::after {
     font-size: 2rem;
     font-weight: 800;
     color: var(--accent);
-    margin: 20px 0;
+    margin: 20px 0 5px;
+}
+
+.car-price-hourly {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    opacity: 0.85;
+    margin: 0 0 4px;
+}
+
+.car-price-note {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin: 0 0 15px;
+    line-height: 1.4;
 }
 
 /* Modern Contact Buttons */
@@ -1067,6 +1082,10 @@ footer {
 
     .car-price {
         font-size: 1.5rem;
+    }
+
+    .car-price-hourly {
+        font-size: 0.95rem;
     }
 
     .popup-content {

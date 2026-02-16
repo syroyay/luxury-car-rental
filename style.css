@@ -44,10 +44,10 @@ body {
 
 /* Modern Header */
 header {
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.85) 100%);
-    backdrop-filter: blur(30px);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.65) 100%),
+                url('images/banner.webp') center/cover no-repeat;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 80px 0;
+    padding: 120px 0;
     position: relative;
     z-index: 10;
     overflow: hidden;

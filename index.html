@@ -654,6 +654,45 @@
     </footer>
 
 
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>We value your privacy</h3>
+                <p>We use cookies to enhance your browsing experience, analyse site traffic, and personalise content. You can choose which cookies you'd like to allow.</p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-accept" onclick="acceptAllCookies()">Accept All</button>
+                <button class="cookie-btn cookie-reject" onclick="rejectCookies()">Essential Only</button>
+                <button class="cookie-btn cookie-settings" onclick="toggleCookieSettings()">Preferences</button>
+            </div>
+            <div class="cookie-preferences" id="cookiePreferences">
+                <div class="cookie-option">
+                    <label>
+                        <input type="checkbox" checked disabled>
+                        <span class="cookie-option-name">Essential Cookies</span>
+                    </label>
+                    <p>Required for the website to function. Cannot be disabled.</p>
+                </div>
+                <div class="cookie-option">
+                    <label>
+                        <input type="checkbox" id="cookieAnalytics">
+                        <span class="cookie-option-name">Analytics Cookies</span>
+                    </label>
+                    <p>Help us understand how visitors interact with the website.</p>
+                </div>
+                <div class="cookie-option">
+                    <label>
+                        <input type="checkbox" id="cookieMarketing">
+                        <span class="cookie-option-name">Marketing Cookies</span>
+                    </label>
+                    <p>Used to deliver relevant ads and track campaign performance.</p>
+                </div>
+                <button class="cookie-btn cookie-accept" onclick="savePreferences()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Price toggle functions
         function showDaily(btn) {
@@ -1069,6 +1108,43 @@
                 });
             });
         })();
+
+        // Cookie Consent
+        function showCookieBanner() {
+            if (!localStorage.getItem('cookieConsent')) {
+                document.getElementById('cookieBanner').classList.add('show');
+            }
+        }
+
+        function acceptAllCookies() {
+            const consent = { essential: true, analytics: true, marketing: true, date: new Date().toISOString() };
+            localStorage.setItem('cookieConsent', JSON.stringify(consent));
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+
+        function rejectCookies() {
+            const consent = { essential: true, analytics: false, marketing: false, date: new Date().toISOString() };
+            localStorage.setItem('cookieConsent', JSON.stringify(consent));
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+
+        function toggleCookieSettings() {
+            document.getElementById('cookiePreferences').classList.toggle('show');
+        }
+
+        function savePreferences() {
+            const consent = {
+                essential: true,
+                analytics: document.getElementById('cookieAnalytics').checked,
+                marketing: document.getElementById('cookieMarketing').checked,
+                date: new Date().toISOString()
+            };
+            localStorage.setItem('cookieConsent', JSON.stringify(consent));
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+
+        // Show banner after short delay
+        setTimeout(showCookieBanner, 1000);
     </script>
 </body>
 

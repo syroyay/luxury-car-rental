@@ -1830,59 +1830,6 @@ html {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.cookie-btn.cookie-settings {
-    background: transparent;
-    color: var(--accent);
-    border: 1px solid rgba(212, 175, 55, 0.4);
-}
-
-.cookie-btn.cookie-settings:hover {
-    background: rgba(212, 175, 55, 0.1);
-}
-
-/* Cookie Preferences Panel */
-.cookie-preferences {
-    display: none;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.cookie-preferences.show {
-    display: block;
-}
-
-.cookie-option {
-    margin-bottom: 16px;
-}
-
-.cookie-option label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.cookie-option input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--accent);
-    cursor: pointer;
-}
-
-.cookie-option-name {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.cookie-option p {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin: 4px 0 0 28px;
-    line-height: 1.4;
-}
-
 @media (max-width: 768px) {
     .cookie-content {
         padding: 20px;

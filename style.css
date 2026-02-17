@@ -2113,6 +2113,87 @@ html {
     background: rgba(239, 68, 68, 0.08);
 }
 
+/* Delivery Toggle */
+.delivery-toggle {
+    display: flex;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    margin-bottom: 12px;
+}
+
+.delivery-option {
+    flex: 1;
+    padding: 11px 14px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.delivery-option.active {
+    background: var(--accent);
+    color: #000;
+}
+
+.delivery-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.delivery-info-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.delivery-info-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 3px;
+}
+
+.delivery-info-address {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.delivery-address-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    width: 100%;
+    margin-top: 6px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.delivery-address-input:focus {
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.delivery-address-input::placeholder {
+    color: rgba(160, 160, 160, 0.5);
+}
+
 /* Booking Steps */
 .booking-step {
     margin-bottom: 30px;

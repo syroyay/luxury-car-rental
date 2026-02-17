@@ -190,8 +190,8 @@
 
             <div class="service-block reveal">
                 <div class="service-text">
-                    <h3>Airport & Hotel Delivery</h3>
-                    <p>We bring the car to you. Whether you're landing at the airport or staying at a hotel, your car will be waiting. Hassle-free pickup and drop-off anywhere in Munich.</p>
+                    <h3>Munich Airport & Hotel Delivery</h3>
+                    <p>We bring the car to you. Whether you're landing at Munich Airport or staying at a hotel, your car will be waiting at your doorstep. Hassle-free delivery and collection anywhere in Munich for just €50.</p>
                     <a href="#fleet" class="service-btn">Choose Your Car</a>
                 </div>
                 <div class="service-image">
@@ -674,6 +674,28 @@
                         <label for="specialRequests">Special Requests (Optional)</label>
                         <textarea id="specialRequests" rows="3" placeholder="Any special requirements, decoration preferences, pickup location, etc."></textarea>
                     </div>
+
+                    <div class="booking-field">
+                        <label>Would you like the car delivered to you?</label>
+                        <div class="delivery-toggle">
+                            <button type="button" class="delivery-option active" id="deliveryNo" onclick="setDelivery(false)">No, I'll pick up</button>
+                            <button type="button" class="delivery-option" id="deliveryYes" onclick="setDelivery(true)">Yes, deliver to me (+€50)</button>
+                        </div>
+                        <div class="delivery-info" id="deliveryPickupInfo">
+                            <div class="delivery-info-icon">&#x1F3E2;</div>
+                            <div>
+                                <p class="delivery-info-label">Pick up at our showroom</p>
+                                <p class="delivery-info-address">Adress1</p>
+                            </div>
+                        </div>
+                        <div class="delivery-info delivery-address-info" id="deliveryAddressInfo" style="display:none;">
+                            <div class="delivery-info-icon">&#x1F697;</div>
+                            <div style="flex:1;">
+                                <p class="delivery-info-label">We deliver anywhere in Munich for €50</p>
+                                <input type="text" id="deliveryAddressInput" placeholder="Enter your delivery address in Munich" class="delivery-address-input">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="booking-summary" id="bookingSummary">
@@ -684,6 +706,10 @@
                     <div class="summary-row">
                         <span>Duration</span>
                         <span id="bookingDuration">-</span>
+                    </div>
+                    <div class="summary-row" id="deliveryFeeRow" style="display:none;">
+                        <span>Delivery Fee</span>
+                        <span>€50</span>
                     </div>
                     <div class="summary-row summary-total-row">
                         <span>Estimated Total</span>
@@ -1186,6 +1212,24 @@
         var currentBookingPrice = 0;
         var currentBookingHourlyPrice = 0;
         var BOOKING_BUFFER_MS = 3600000; // 1-hour cleaning buffer
+        var isDelivery = false;
+        var DELIVERY_FEE = 50;
+
+        function setDelivery(val) {
+            isDelivery = val;
+            document.getElementById('deliveryNo').classList.toggle('active', !val);
+            document.getElementById('deliveryYes').classList.toggle('active', val);
+            document.getElementById('deliveryPickupInfo').style.display = val ? 'none' : 'flex';
+            document.getElementById('deliveryAddressInfo').style.display = val ? 'flex' : 'none';
+            document.getElementById('deliveryFeeRow').style.display = val ? 'flex' : 'none';
+            if (val) {
+                document.getElementById('deliveryAddressInput').setAttribute('required', '');
+            } else {
+                document.getElementById('deliveryAddressInput').removeAttribute('required');
+                document.getElementById('deliveryAddressInput').value = '';
+            }
+            recalculate();
+        }
 
         function getBookings() {
             try { return JSON.parse(localStorage.getItem('carBookings') || '[]'); }
@@ -1451,6 +1495,16 @@
             resetTimeSelect('pickupTime');
             resetTimeSelect('returnTime');
 
+            // Reset delivery
+            isDelivery = false;
+            document.getElementById('deliveryNo').classList.add('active');
+            document.getElementById('deliveryYes').classList.remove('active');
+            document.getElementById('deliveryPickupInfo').style.display = 'flex';
+            document.getElementById('deliveryAddressInfo').style.display = 'none';
+            document.getElementById('deliveryFeeRow').style.display = 'none';
+            document.getElementById('deliveryAddressInput').value = '';
+            document.getElementById('deliveryAddressInput').removeAttribute('required');
+
             // Reset calendar state
             var now = new Date();
             calState.pickup = { month: now.getMonth(), year: now.getFullYear(), selected: null, open: false };
@@ -1535,6 +1589,7 @@
                 }
             }
             durationEl.textContent = durationText;
+            if (isDelivery) totalPrice += DELIVERY_FEE;
             totalEl.textContent = '\u20AC' + totalPrice.toLocaleString();
 
             if (diffHours < 3) {
@@ -1603,6 +1658,12 @@
                 return;
             }
 
+            // Validate delivery address if delivery selected
+            if (isDelivery && !document.getElementById('deliveryAddressInput').value.trim()) {
+                alert('Please enter a delivery address.');
+                return;
+            }
+
             var booking = {
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
                 car: currentBookingCar,
@@ -1614,6 +1675,8 @@
                 age: age,
                 purpose: document.getElementById('rentalPurpose').value,
                 specialRequests: document.getElementById('specialRequests').value,
+                delivery: isDelivery,
+                deliveryAddress: isDelivery ? document.getElementById('deliveryAddressInput').value.trim() : 'Showroom pickup - Adress1',
                 estimatedTotal: document.getElementById('bookingTotal').textContent,
                 bookedAt: new Date().toISOString()
             };
@@ -1633,10 +1696,13 @@
                     ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
             };
 
+            var deliveryText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup \u2014 Adress1';
+
             document.getElementById('confirmationDetails').innerHTML =
                 '<div class="conf-row"><span class="conf-label">Car</span><span class="conf-value">' + booking.car + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Pickup</span><span class="conf-value">' + formatDate(booking.pickupDateTime) + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Return</span><span class="conf-value">' + formatDate(booking.returnDateTime) + '</span></div>' +
+                '<div class="conf-row"><span class="conf-label">Location</span><span class="conf-value">' + deliveryText + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Purpose</span><span class="conf-value">' + (purposeLabels[booking.purpose] || booking.purpose) + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Name</span><span class="conf-value">' + booking.name + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Booking ID</span><span class="conf-value conf-id">' + booking.id.toUpperCase() + '</span></div>' +

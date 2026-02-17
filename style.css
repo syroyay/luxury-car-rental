@@ -2091,6 +2091,28 @@ html {
     color: var(--accent);
 }
 
+/* Business Hours Note */
+.booking-hours-note {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.booking-hours-note strong {
+    color: var(--accent);
+}
+
+/* Booked time option styling */
+.booking-field select option:disabled {
+    color: #666;
+    background: rgba(239, 68, 68, 0.08);
+}
+
 /* Booking Steps */
 .booking-step {
     margin-bottom: 30px;

@@ -558,6 +558,7 @@
             <form id="bookingForm" onsubmit="submitBooking(event)">
                 <div class="booking-step">
                     <h3><span class="booking-step-num">1</span> Select Date & Time</h3>
+                    <p class="booking-hours-note">Our opening hours: <strong>08:00 - 17:00</strong> daily</p>
                     <div class="booking-form-row">
                         <div class="booking-field">
                             <label for="pickupDate">Pickup Date</label>
@@ -565,7 +566,19 @@
                         </div>
                         <div class="booking-field">
                             <label for="pickupTime">Pickup Time</label>
-                            <input type="time" id="pickupTime" required>
+                            <select id="pickupTime" required>
+                                <option value="">Select time</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
                         </div>
                     </div>
                     <div class="booking-form-row">
@@ -575,7 +588,19 @@
                         </div>
                         <div class="booking-field">
                             <label for="returnTime">Return Time</label>
-                            <input type="time" id="returnTime" required>
+                            <select id="returnTime" required>
+                                <option value="">Select time</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
                         </div>
                     </div>
                     <div class="availability-status" id="availabilityStatus"></div>
@@ -1132,9 +1157,9 @@
         setTimeout(showCookieBanner, 1000);
 
         // ========== BOOKING SYSTEM ==========
-        let currentBookingCar = '';
-        let currentBookingPrice = 0;
-        let currentBookingHourlyPrice = 0;
+        var currentBookingCar = '';
+        var currentBookingPrice = 0;
+        var currentBookingHourlyPrice = 0;
 
         function getBookings() {
             try {
@@ -1145,30 +1170,80 @@
         }
 
         function saveBooking(booking) {
-            const bookings = getBookings();
+            var bookings = getBookings();
             bookings.push(booking);
             localStorage.setItem('carBookings', JSON.stringify(bookings));
         }
 
         function parsePriceValue(priceStr) {
-            const match = priceStr.match(/[\d,]+/);
+            var match = priceStr.match(/[\d,]+/);
             return match ? parseInt(match[0].replace(/,/g, '')) : 0;
         }
 
+        // Get booked hours for a specific car on a specific date
+        function getBookedHoursForDate(carName, dateStr) {
+            var bookings = getBookings();
+            var bookedHours = {};
+            bookings.forEach(function(b) {
+                if (b.car !== carName) return;
+                var bStart = new Date(b.pickupDateTime);
+                var bEnd = new Date(b.returnDateTime);
+                for (var h = 0; h < 24; h++) {
+                    var hourStart = new Date(dateStr + 'T' + String(h).padStart(2, '0') + ':00:00');
+                    var hourEnd = new Date(hourStart.getTime() + 3600000);
+                    if (hourStart < bEnd && hourEnd > bStart) {
+                        bookedHours[h] = true;
+                    }
+                }
+            });
+            return bookedHours;
+        }
+
+        // Update time select options - disable booked hours
+        function updateTimeSelect(selectId, dateStr) {
+            var select = document.getElementById(selectId);
+            var currentVal = select.value;
+            var bookedHours = {};
+            if (dateStr && currentBookingCar) {
+                bookedHours = getBookedHoursForDate(currentBookingCar, dateStr);
+            }
+            var options = select.querySelectorAll('option');
+            for (var i = 1; i < options.length; i++) {
+                var hour = parseInt(options[i].value.split(':')[0]);
+                var isBooked = bookedHours[hour] === true;
+                options[i].disabled = isBooked;
+                var baseText = options[i].value;
+                options[i].textContent = isBooked ? baseText + '  -  Booked' : baseText;
+                if (isBooked && options[i].selected) {
+                    select.value = '';
+                }
+            }
+        }
+
+        // Reset all time options to enabled
+        function resetTimeSelect(selectId) {
+            var select = document.getElementById(selectId);
+            var options = select.querySelectorAll('option');
+            for (var i = 1; i < options.length; i++) {
+                options[i].disabled = false;
+                options[i].textContent = options[i].value;
+            }
+        }
+
         function openBookingFromCard(btn) {
-            const card = btn.closest('.car-card');
-            const carName = card.querySelector('.car-name').textContent;
+            var card = btn.closest('.car-card');
+            var carName = card.querySelector('.car-name').textContent;
             openBookingModal(carName);
         }
 
         function openBookingFromModal() {
-            const carName = document.getElementById('modalCarName').textContent;
+            var carName = document.getElementById('modalCarName').textContent;
             closeCarModal();
             openBookingModal(carName);
         }
 
         function openBookingModal(carName) {
-            const car = carData[carName];
+            var car = carData[carName];
             if (!car) return;
 
             currentBookingCar = carName;
@@ -1180,7 +1255,7 @@
             document.getElementById('summaryCar').textContent = carName;
 
             // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
+            var today = new Date().toISOString().split('T')[0];
             document.getElementById('pickupDate').min = today;
             document.getElementById('returnDate').min = today;
 
@@ -1190,7 +1265,9 @@
             document.getElementById('availabilityStatus').className = 'availability-status';
             document.getElementById('bookingDuration').textContent = '-';
             document.getElementById('bookingTotal').textContent = '-';
-            document.getElementById('bookingSubmitBtn').disabled = false;
+            document.getElementById('bookingSubmitBtn').disabled = true;
+            resetTimeSelect('pickupTime');
+            resetTimeSelect('returnTime');
 
             document.getElementById('bookingModal').classList.add('show');
             document.body.style.overflow = 'hidden';
@@ -1218,88 +1295,76 @@
             if (e.target === this) closeBookingModal();
         });
 
-        // Check availability when dates change
-        ['pickupDate', 'pickupTime', 'returnDate', 'returnTime'].forEach(function(id) {
-            document.getElementById(id).addEventListener('change', checkAvailability);
+        // When pickup date changes: update available hours, sync return date, recalculate
+        document.getElementById('pickupDate').addEventListener('change', function() {
+            updateTimeSelect('pickupTime', this.value);
+            document.getElementById('returnDate').min = this.value;
+            if (document.getElementById('returnDate').value && document.getElementById('returnDate').value < this.value) {
+                document.getElementById('returnDate').value = this.value;
+            }
+            // Also update return time if return date is same
+            var returnDate = document.getElementById('returnDate').value;
+            if (returnDate) {
+                updateTimeSelect('returnTime', returnDate);
+            }
+            recalculate();
         });
 
-        function checkAvailability() {
-            const pickupDate = document.getElementById('pickupDate').value;
-            const pickupTime = document.getElementById('pickupTime').value;
-            const returnDate = document.getElementById('returnDate').value;
-            const returnTime = document.getElementById('returnTime').value;
+        // When return date changes: update available hours, recalculate
+        document.getElementById('returnDate').addEventListener('change', function() {
+            updateTimeSelect('returnTime', this.value);
+            recalculate();
+        });
 
-            const statusEl = document.getElementById('availabilityStatus');
-            const submitBtn = document.getElementById('bookingSubmitBtn');
+        // When any time changes: recalculate immediately
+        document.getElementById('pickupTime').addEventListener('change', recalculate);
+        document.getElementById('returnTime').addEventListener('change', recalculate);
 
+        function recalculate() {
+            var pickupDate = document.getElementById('pickupDate').value;
+            var pickupTime = document.getElementById('pickupTime').value;
+            var returnDate = document.getElementById('returnDate').value;
+            var returnTime = document.getElementById('returnTime').value;
+
+            var statusEl = document.getElementById('availabilityStatus');
+            var submitBtn = document.getElementById('bookingSubmitBtn');
+            var durationEl = document.getElementById('bookingDuration');
+            var totalEl = document.getElementById('bookingTotal');
+
+            // Not enough info yet
             if (!pickupDate || !pickupTime || !returnDate || !returnTime) {
                 statusEl.innerHTML = '';
                 statusEl.className = 'availability-status';
-                document.getElementById('bookingDuration').textContent = '-';
-                document.getElementById('bookingTotal').textContent = '-';
-                return;
-            }
-
-            const pickupDateTime = new Date(pickupDate + 'T' + pickupTime);
-            const returnDateTime = new Date(returnDate + 'T' + returnTime);
-
-            // Validate dates
-            if (returnDateTime <= pickupDateTime) {
-                statusEl.innerHTML = 'Return date/time must be after pickup date/time';
-                statusEl.className = 'availability-status unavailable';
+                durationEl.textContent = '-';
+                totalEl.textContent = '-';
                 submitBtn.disabled = true;
-                document.getElementById('bookingDuration').textContent = '-';
-                document.getElementById('bookingTotal').textContent = '-';
                 return;
             }
 
-            // Check minimum 3 hours
-            const diffMs = returnDateTime - pickupDateTime;
-            const diffHours = diffMs / (1000 * 60 * 60);
-            if (diffHours < 3) {
-                statusEl.innerHTML = 'Minimum rental period is 3 hours';
+            var pickupDateTime = new Date(pickupDate + 'T' + pickupTime + ':00');
+            var returnDateTime = new Date(returnDate + 'T' + returnTime + ':00');
+            var diffMs = returnDateTime - pickupDateTime;
+            var diffHours = diffMs / (1000 * 60 * 60);
+
+            // Return must be after pickup
+            if (diffHours <= 0) {
+                statusEl.innerHTML = 'Return date/time must be after pickup date/time.';
                 statusEl.className = 'availability-status unavailable';
+                durationEl.textContent = '-';
+                totalEl.textContent = '-';
                 submitBtn.disabled = true;
-                document.getElementById('bookingDuration').textContent = '-';
-                document.getElementById('bookingTotal').textContent = '-';
                 return;
             }
 
-            // Check against existing bookings
-            const bookings = getBookings();
-            const conflicting = bookings.filter(function(b) {
-                if (b.car !== currentBookingCar) return false;
-                const bStart = new Date(b.pickupDateTime);
-                const bEnd = new Date(b.returnDateTime);
-                return pickupDateTime < bEnd && returnDateTime > bStart;
-            });
-
-            if (conflicting.length > 0) {
-                statusEl.innerHTML = 'This car is not available for the selected dates. Please choose different dates.';
-                statusEl.className = 'availability-status unavailable';
-                submitBtn.disabled = true;
-                document.getElementById('bookingDuration').textContent = '-';
-                document.getElementById('bookingTotal').textContent = '-';
-                return;
-            }
-
-            // Available - calculate price
-            statusEl.innerHTML = 'Available for your selected dates!';
-            statusEl.className = 'availability-status available';
-            submitBtn.disabled = false;
-
-            // Calculate duration and price
-            var totalDays = Math.ceil(diffHours / 24);
-            var remainingHours = diffHours % 24;
+            // Calculate duration text and price regardless of availability
             var durationText = '';
             var totalPrice = 0;
-
             if (diffHours < 24) {
-                durationText = Math.round(diffHours) + ' hour' + (Math.round(diffHours) !== 1 ? 's' : '');
-                totalPrice = Math.round(diffHours) * currentBookingHourlyPrice;
+                durationText = diffHours + ' hour' + (diffHours !== 1 ? 's' : '');
+                totalPrice = diffHours * currentBookingHourlyPrice;
             } else {
                 var fullDays = Math.floor(diffHours / 24);
-                var extraHours = Math.round(diffHours % 24);
+                var extraHours = diffHours % 24;
                 if (extraHours > 0) {
                     durationText = fullDays + ' day' + (fullDays !== 1 ? 's' : '') + ', ' + extraHours + ' hour' + (extraHours !== 1 ? 's' : '');
                     totalPrice = (fullDays * currentBookingPrice) + (extraHours * currentBookingHourlyPrice);
@@ -1309,8 +1374,38 @@
                 }
             }
 
-            document.getElementById('bookingDuration').textContent = durationText;
-            document.getElementById('bookingTotal').textContent = '\u20AC' + totalPrice.toLocaleString();
+            // Always show duration and price immediately
+            durationEl.textContent = durationText;
+            totalEl.textContent = '\u20AC' + totalPrice.toLocaleString();
+
+            // Check minimum 3 hours
+            if (diffHours < 3) {
+                statusEl.innerHTML = 'Minimum rental period is 3 hours. Please select a longer duration.';
+                statusEl.className = 'availability-status unavailable';
+                submitBtn.disabled = true;
+                return;
+            }
+
+            // Check against existing bookings for overlap
+            var bookings = getBookings();
+            var conflicting = bookings.filter(function(b) {
+                if (b.car !== currentBookingCar) return false;
+                var bStart = new Date(b.pickupDateTime);
+                var bEnd = new Date(b.returnDateTime);
+                return pickupDateTime < bEnd && returnDateTime > bStart;
+            });
+
+            if (conflicting.length > 0) {
+                statusEl.innerHTML = 'This car is already booked during your selected period. Please choose different dates or times.';
+                statusEl.className = 'availability-status unavailable';
+                submitBtn.disabled = true;
+                return;
+            }
+
+            // All good
+            statusEl.innerHTML = 'Available! Your car is ready for these dates.';
+            statusEl.className = 'availability-status available';
+            submitBtn.disabled = false;
         }
 
         function submitBooking(event) {
@@ -1327,8 +1422,8 @@
                 return;
             }
 
-            var pickupDateTime = new Date(pickupDate + 'T' + pickupTime);
-            var returnDateTime = new Date(returnDate + 'T' + returnTime);
+            var pickupDateTime = new Date(pickupDate + 'T' + pickupTime + ':00');
+            var returnDateTime = new Date(returnDate + 'T' + returnTime + ':00');
 
             // Double-check availability before submitting
             var bookings = getBookings();
@@ -1341,7 +1436,7 @@
 
             if (conflicting.length > 0) {
                 alert('Sorry, this car has just been booked for your selected dates. Please choose different dates.');
-                checkAvailability();
+                recalculate();
                 return;
             }
 
@@ -1399,14 +1494,6 @@
             document.getElementById('bookingConfirmation').classList.remove('show');
             document.body.style.overflow = '';
         }
-
-        // Update return date min when pickup date changes
-        document.getElementById('pickupDate').addEventListener('change', function() {
-            document.getElementById('returnDate').min = this.value;
-            if (document.getElementById('returnDate').value && document.getElementById('returnDate').value < this.value) {
-                document.getElementById('returnDate').value = this.value;
-            }
-        });
     </script>
 </body>
 

@@ -1186,6 +1186,9 @@
             return match ? parseInt(match[0].replace(/,/g, '')) : 0;
         }
 
+        // 1-hour buffer after each booking for cleaning/late returns
+        var BOOKING_BUFFER_MS = 3600000;
+
         // Get booked hours for a specific car on a specific date
         function getBookedHoursForDate(carName, dateStr) {
             var bookings = getBookings();
@@ -1193,7 +1196,7 @@
             bookings.forEach(function(b) {
                 if (b.car !== carName) return;
                 var bStart = new Date(b.pickupDateTime);
-                var bEnd = new Date(b.returnDateTime);
+                var bEnd = new Date(new Date(b.returnDateTime).getTime() + BOOKING_BUFFER_MS);
                 for (var h = 0; h < 24; h++) {
                     var hourStart = new Date(dateStr + 'T' + String(h).padStart(2, '0') + ':00:00');
                     var hourEnd = new Date(hourStart.getTime() + 3600000);
@@ -1392,17 +1395,17 @@
                 return;
             }
 
-            // Check against existing bookings for overlap
+            // Check against existing bookings for overlap (with 1hr cleaning buffer)
             var bookings = getBookings();
             var conflicting = bookings.filter(function(b) {
                 if (b.car !== currentBookingCar) return false;
                 var bStart = new Date(b.pickupDateTime);
-                var bEnd = new Date(b.returnDateTime);
+                var bEnd = new Date(new Date(b.returnDateTime).getTime() + BOOKING_BUFFER_MS);
                 return pickupDateTime < bEnd && returnDateTime > bStart;
             });
 
             if (conflicting.length > 0) {
-                statusEl.innerHTML = 'This car is already booked during your selected period. Please choose different dates or times.';
+                statusEl.innerHTML = 'This car is not available during your selected period (1-hour buffer between bookings for cleaning). Please choose different dates or times.';
                 statusEl.className = 'availability-status unavailable';
                 submitBtn.disabled = true;
                 return;
@@ -1431,12 +1434,12 @@
             var pickupDateTime = new Date(pickupDate + 'T' + pickupTime + ':00');
             var returnDateTime = new Date(returnDate + 'T' + returnTime + ':00');
 
-            // Double-check availability before submitting
+            // Double-check availability before submitting (with cleaning buffer)
             var bookings = getBookings();
             var conflicting = bookings.filter(function(b) {
                 if (b.car !== currentBookingCar) return false;
                 var bStart = new Date(b.pickupDateTime);
-                var bEnd = new Date(b.returnDateTime);
+                var bEnd = new Date(new Date(b.returnDateTime).getTime() + BOOKING_BUFFER_MS);
                 return pickupDateTime < bEnd && returnDateTime > bStart;
             });
 

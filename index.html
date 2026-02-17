@@ -1548,8 +1548,9 @@
         }
 
         function acceptTerms() {
+            var carName = pendingBookingCar;
             closeTermsModal();
-            openBookingModal(pendingBookingCar);
+            openBookingModal(carName);
         }
 
         // Close terms modal on overlay click or Escape

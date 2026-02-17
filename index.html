@@ -561,8 +561,12 @@
                     <p class="booking-hours-note">Our opening hours: <strong>08:00 - 20:00</strong> daily. Cars must be returned by 20:00.</p>
                     <div class="booking-form-row">
                         <div class="booking-field">
-                            <label for="pickupDate">Pickup Date</label>
-                            <input type="date" id="pickupDate" required>
+                            <label>Pickup Date</label>
+                            <div class="custom-date-wrapper">
+                                <div class="custom-date-display" id="pickupDateDisplay" onclick="toggleCalendar('pickup')">Select date</div>
+                                <input type="hidden" id="pickupDate" value="">
+                                <div class="calendar-dropdown" id="pickupCalendar"></div>
+                            </div>
                         </div>
                         <div class="booking-field">
                             <label for="pickupTime">Pickup Time</label>
@@ -586,8 +590,12 @@
                     </div>
                     <div class="booking-form-row">
                         <div class="booking-field">
-                            <label for="returnDate">Return Date</label>
-                            <input type="date" id="returnDate" required>
+                            <label>Return Date</label>
+                            <div class="custom-date-wrapper">
+                                <div class="custom-date-display" id="returnDateDisplay" onclick="toggleCalendar('return')">Select date</div>
+                                <input type="hidden" id="returnDate" value="">
+                                <div class="calendar-dropdown" id="returnCalendar"></div>
+                            </div>
                         </div>
                         <div class="booking-field">
                             <label for="returnTime">Return Time</label>
@@ -1166,13 +1174,11 @@
         var currentBookingCar = '';
         var currentBookingPrice = 0;
         var currentBookingHourlyPrice = 0;
+        var BOOKING_BUFFER_MS = 3600000; // 1-hour cleaning buffer
 
         function getBookings() {
-            try {
-                return JSON.parse(localStorage.getItem('carBookings') || '[]');
-            } catch (e) {
-                return [];
-            }
+            try { return JSON.parse(localStorage.getItem('carBookings') || '[]'); }
+            catch (e) { return []; }
         }
 
         function saveBooking(booking) {
@@ -1186,10 +1192,7 @@
             return match ? parseInt(match[0].replace(/,/g, '')) : 0;
         }
 
-        // 1-hour buffer after each booking for cleaning/late returns
-        var BOOKING_BUFFER_MS = 3600000;
-
-        // Get booked hours for a specific car on a specific date
+        // Get booked hours for a car on a date (with cleaning buffer)
         function getBookedHoursForDate(carName, dateStr) {
             var bookings = getBookings();
             var bookedHours = {};
@@ -1208,10 +1211,24 @@
             return bookedHours;
         }
 
-        // Update time select options - disable booked hours
+        // Check if a date has at least 3 consecutive free business hours
+        function dateHasEnoughFreeHours(carName, dateStr) {
+            var bookedHours = getBookedHoursForDate(carName, dateStr);
+            var consecutive = 0;
+            for (var h = 8; h <= 19; h++) {
+                if (!bookedHours[h]) {
+                    consecutive++;
+                    if (consecutive >= 3) return true;
+                } else {
+                    consecutive = 0;
+                }
+            }
+            return false;
+        }
+
+        // Update time select - disable booked hours
         function updateTimeSelect(selectId, dateStr) {
             var select = document.getElementById(selectId);
-            var currentVal = select.value;
             var bookedHours = {};
             if (dateStr && currentBookingCar) {
                 bookedHours = getBookedHoursForDate(currentBookingCar, dateStr);
@@ -1221,15 +1238,11 @@
                 var hour = parseInt(options[i].value.split(':')[0]);
                 var isBooked = bookedHours[hour] === true;
                 options[i].disabled = isBooked;
-                var baseText = options[i].value;
-                options[i].textContent = isBooked ? baseText + '  -  Booked' : baseText;
-                if (isBooked && options[i].selected) {
-                    select.value = '';
-                }
+                options[i].textContent = isBooked ? options[i].value + '  \u2014  Booked' : options[i].value;
+                if (isBooked && options[i].selected) select.value = '';
             }
         }
 
-        // Reset all time options to enabled
         function resetTimeSelect(selectId) {
             var select = document.getElementById(selectId);
             var options = select.querySelectorAll('option');
@@ -1239,6 +1252,154 @@
             }
         }
 
+        // ========== CUSTOM CALENDAR ==========
+        var calMonthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        var calState = {
+            pickup: { month: new Date().getMonth(), year: new Date().getFullYear(), selected: null, open: false },
+            return: { month: new Date().getMonth(), year: new Date().getFullYear(), selected: null, open: false }
+        };
+
+        function toggleCalendar(type) {
+            var cal = calState[type];
+            var otherType = type === 'pickup' ? 'return' : 'pickup';
+            // Close other
+            calState[otherType].open = false;
+            document.getElementById(otherType + 'Calendar').classList.remove('open');
+
+            cal.open = !cal.open;
+            var el = document.getElementById(type + 'Calendar');
+            if (cal.open) {
+                renderCalendar(type);
+                el.classList.add('open');
+            } else {
+                el.classList.remove('open');
+            }
+        }
+
+        function closeAllCalendars() {
+            ['pickup', 'return'].forEach(function(type) {
+                calState[type].open = false;
+                document.getElementById(type + 'Calendar').classList.remove('open');
+            });
+        }
+
+        // Close calendars when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-date-wrapper')) {
+                closeAllCalendars();
+            }
+        });
+
+        function renderCalendar(type) {
+            var cal = calState[type];
+            var container = document.getElementById(type + 'Calendar');
+            var today = new Date(); today.setHours(0,0,0,0);
+
+            var firstDay = new Date(cal.year, cal.month, 1);
+            var lastDay = new Date(cal.year, cal.month + 1, 0);
+            var startDow = (firstDay.getDay() + 6) % 7; // Monday=0
+
+            var html = '<div class="cal-header">';
+            html += '<button type="button" class="cal-nav-btn" onclick="event.stopPropagation(); calPrev(\'' + type + '\')">\u2039</button>';
+            html += '<span class="cal-title">' + calMonthNames[cal.month] + ' ' + cal.year + '</span>';
+            html += '<button type="button" class="cal-nav-btn" onclick="event.stopPropagation(); calNext(\'' + type + '\')">\u203A</button>';
+            html += '</div>';
+
+            html += '<div class="cal-weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>';
+            html += '<div class="cal-days">';
+
+            for (var e = 0; e < startDow; e++) {
+                html += '<div class="cal-day cal-empty"></div>';
+            }
+
+            for (var d = 1; d <= lastDay.getDate(); d++) {
+                var dateStr = cal.year + '-' + String(cal.month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+                var dateObj = new Date(cal.year, cal.month, d); dateObj.setHours(0,0,0,0);
+
+                var isPast = dateObj < today;
+                var isBeforePickup = false;
+                if (type === 'return' && calState.pickup.selected) {
+                    var pDate = new Date(calState.pickup.selected + 'T00:00:00'); pDate.setHours(0,0,0,0);
+                    isBeforePickup = dateObj < pDate;
+                }
+
+                var available = true;
+                if (!isPast && !isBeforePickup && currentBookingCar) {
+                    available = dateHasEnoughFreeHours(currentBookingCar, dateStr);
+                }
+
+                var isSelected = cal.selected === dateStr;
+                var isToday = dateObj.getTime() === today.getTime();
+
+                var cls = 'cal-day';
+                if (isPast || isBeforePickup) cls += ' cal-disabled';
+                else if (!available) cls += ' cal-disabled cal-fully-booked';
+                else cls += ' cal-available';
+                if (isSelected) cls += ' cal-selected';
+                if (isToday) cls += ' cal-today';
+
+                if (!isPast && !isBeforePickup && available) {
+                    html += '<div class="' + cls + '" onclick="event.stopPropagation(); selectCalDate(\'' + type + '\',\'' + dateStr + '\')">' + d + '</div>';
+                } else {
+                    html += '<div class="' + cls + '">' + d + '</div>';
+                }
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function selectCalDate(type, dateStr) {
+            calState[type].selected = dateStr;
+            document.getElementById(type === 'pickup' ? 'pickupDate' : 'returnDate').value = dateStr;
+
+            var dt = new Date(dateStr + 'T12:00:00');
+            var formatted = dt.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+            var displayEl = document.getElementById(type + 'DateDisplay');
+            displayEl.textContent = formatted;
+            displayEl.classList.add('has-value');
+
+            // Close calendar
+            calState[type].open = false;
+            document.getElementById(type + 'Calendar').classList.remove('open');
+
+            // Update time options for selected date
+            updateTimeSelect(type + 'Time', dateStr);
+
+            // If pickup changed, reset return if it's before pickup
+            if (type === 'pickup') {
+                if (calState.return.selected && calState.return.selected < dateStr) {
+                    calState.return.selected = null;
+                    document.getElementById('returnDate').value = '';
+                    document.getElementById('returnDateDisplay').textContent = 'Select date';
+                    document.getElementById('returnDateDisplay').classList.remove('has-value');
+                    document.getElementById('returnTime').value = '';
+                    resetTimeSelect('returnTime');
+                }
+                // Update return time if same date
+                if (calState.return.selected) {
+                    updateTimeSelect('returnTime', calState.return.selected);
+                }
+            }
+
+            recalculate();
+        }
+
+        function calPrev(type) {
+            var cal = calState[type];
+            cal.month--;
+            if (cal.month < 0) { cal.month = 11; cal.year--; }
+            renderCalendar(type);
+        }
+
+        function calNext(type) {
+            var cal = calState[type];
+            cal.month++;
+            if (cal.month > 11) { cal.month = 0; cal.year++; }
+            renderCalendar(type);
+        }
+
+        // ========== BOOKING MODAL ==========
         function openBookingFromCard(btn) {
             var card = btn.closest('.car-card');
             var carName = card.querySelector('.car-name').textContent;
@@ -1263,13 +1424,14 @@
             document.getElementById('bookingCarPrice').textContent = car.price;
             document.getElementById('summaryCar').textContent = carName;
 
-            // Set minimum date to today
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementById('pickupDate').min = today;
-            document.getElementById('returnDate').min = today;
-
             // Reset form
             document.getElementById('bookingForm').reset();
+            document.getElementById('pickupDate').value = '';
+            document.getElementById('returnDate').value = '';
+            document.getElementById('pickupDateDisplay').textContent = 'Select date';
+            document.getElementById('pickupDateDisplay').classList.remove('has-value');
+            document.getElementById('returnDateDisplay').textContent = 'Select date';
+            document.getElementById('returnDateDisplay').classList.remove('has-value');
             document.getElementById('availabilityStatus').innerHTML = '';
             document.getElementById('availabilityStatus').className = 'availability-status';
             document.getElementById('bookingDuration').textContent = '-';
@@ -1278,6 +1440,11 @@
             resetTimeSelect('pickupTime');
             resetTimeSelect('returnTime');
 
+            // Reset calendar state
+            var now = new Date();
+            calState.pickup = { month: now.getMonth(), year: now.getFullYear(), selected: null, open: false };
+            calState.return = { month: now.getMonth(), year: now.getFullYear(), selected: null, open: false };
+
             document.getElementById('bookingModal').classList.add('show');
             document.body.style.overflow = 'hidden';
         }
@@ -1285,47 +1452,23 @@
         function closeBookingModal() {
             document.getElementById('bookingModal').classList.remove('show');
             document.body.style.overflow = '';
+            closeAllCalendars();
         }
 
-        // Close booking modal with Escape key
+        // Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                if (document.getElementById('bookingModal').classList.contains('show')) {
-                    closeBookingModal();
-                }
-                if (document.getElementById('bookingConfirmation').classList.contains('show')) {
-                    closeConfirmation();
-                }
+                if (document.getElementById('bookingModal').classList.contains('show')) closeBookingModal();
+                if (document.getElementById('bookingConfirmation').classList.contains('show')) closeConfirmation();
             }
         });
 
-        // Close booking modal when clicking overlay
+        // Click overlay to close
         document.getElementById('bookingModal').addEventListener('click', function(e) {
             if (e.target === this) closeBookingModal();
         });
 
-        // When pickup date changes: update available hours, sync return date, recalculate
-        document.getElementById('pickupDate').addEventListener('change', function() {
-            updateTimeSelect('pickupTime', this.value);
-            document.getElementById('returnDate').min = this.value;
-            if (document.getElementById('returnDate').value && document.getElementById('returnDate').value < this.value) {
-                document.getElementById('returnDate').value = this.value;
-            }
-            // Also update return time if return date is same
-            var returnDate = document.getElementById('returnDate').value;
-            if (returnDate) {
-                updateTimeSelect('returnTime', returnDate);
-            }
-            recalculate();
-        });
-
-        // When return date changes: update available hours, recalculate
-        document.getElementById('returnDate').addEventListener('change', function() {
-            updateTimeSelect('returnTime', this.value);
-            recalculate();
-        });
-
-        // When any time changes: recalculate immediately
+        // Recalculate on time change
         document.getElementById('pickupTime').addEventListener('change', recalculate);
         document.getElementById('returnTime').addEventListener('change', recalculate);
 
@@ -1340,7 +1483,6 @@
             var durationEl = document.getElementById('bookingDuration');
             var totalEl = document.getElementById('bookingTotal');
 
-            // Not enough info yet
             if (!pickupDate || !pickupTime || !returnDate || !returnTime) {
                 statusEl.innerHTML = '';
                 statusEl.className = 'availability-status';
@@ -1355,7 +1497,6 @@
             var diffMs = returnDateTime - pickupDateTime;
             var diffHours = diffMs / (1000 * 60 * 60);
 
-            // Return must be after pickup
             if (diffHours <= 0) {
                 statusEl.innerHTML = 'Return date/time must be after pickup date/time.';
                 statusEl.className = 'availability-status unavailable';
@@ -1365,7 +1506,7 @@
                 return;
             }
 
-            // Calculate duration text and price regardless of availability
+            // Calculate duration and price immediately
             var durationText = '';
             var totalPrice = 0;
             if (diffHours < 24) {
@@ -1382,12 +1523,9 @@
                     totalPrice = fullDays * currentBookingPrice;
                 }
             }
-
-            // Always show duration and price immediately
             durationEl.textContent = durationText;
             totalEl.textContent = '\u20AC' + totalPrice.toLocaleString();
 
-            // Check minimum 3 hours
             if (diffHours < 3) {
                 statusEl.innerHTML = 'Minimum rental period is 3 hours. Please select a longer duration.';
                 statusEl.className = 'availability-status unavailable';
@@ -1395,7 +1533,7 @@
                 return;
             }
 
-            // Check against existing bookings for overlap (with 1hr cleaning buffer)
+            // Check overlap with existing bookings (incl. cleaning buffer)
             var bookings = getBookings();
             var conflicting = bookings.filter(function(b) {
                 if (b.car !== currentBookingCar) return false;
@@ -1405,13 +1543,12 @@
             });
 
             if (conflicting.length > 0) {
-                statusEl.innerHTML = 'This car is not available during your selected period (1-hour buffer between bookings for cleaning). Please choose different dates or times.';
+                statusEl.innerHTML = 'This car is not available during your selected period (1-hour buffer between bookings for cleaning).';
                 statusEl.className = 'availability-status unavailable';
                 submitBtn.disabled = true;
                 return;
             }
 
-            // All good
             statusEl.innerHTML = 'Available! Your car is ready for these dates.';
             statusEl.className = 'availability-status available';
             submitBtn.disabled = false;
@@ -1424,8 +1561,14 @@
             var pickupTime = document.getElementById('pickupTime').value;
             var returnDate = document.getElementById('returnDate').value;
             var returnTime = document.getElementById('returnTime').value;
-            var age = parseInt(document.getElementById('bookingAge').value);
 
+            // Validate dates are selected
+            if (!pickupDate || !returnDate) {
+                alert('Please select both pickup and return dates.');
+                return;
+            }
+
+            var age = parseInt(document.getElementById('bookingAge').value);
             if (age < 25) {
                 alert('You must be at least 25 years old to rent a car.');
                 return;
@@ -1434,7 +1577,7 @@
             var pickupDateTime = new Date(pickupDate + 'T' + pickupTime + ':00');
             var returnDateTime = new Date(returnDate + 'T' + returnTime + ':00');
 
-            // Double-check availability before submitting (with cleaning buffer)
+            // Double-check availability (with cleaning buffer)
             var bookings = getBookings();
             var conflicting = bookings.filter(function(b) {
                 if (b.car !== currentBookingCar) return false;
@@ -1449,7 +1592,6 @@
                 return;
             }
 
-            // Save booking
             var booking = {
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
                 car: currentBookingCar,
@@ -1466,18 +1608,12 @@
             };
 
             saveBooking(booking);
-
-            // Show confirmation
             closeBookingModal();
 
             var purposeLabels = {
-                fun: 'Just For Fun',
-                wedding: 'Wedding',
-                trip: 'Trip / Tour',
-                business: 'Business Event',
-                photoshoot: 'Photoshoot / Film',
-                airport: 'Airport Transfer',
-                other: 'Other'
+                fun: 'Just For Fun', wedding: 'Wedding', trip: 'Trip / Tour',
+                business: 'Business Event', photoshoot: 'Photoshoot / Film',
+                airport: 'Airport Transfer', other: 'Other'
             };
 
             var formatDate = function(dateStr) {

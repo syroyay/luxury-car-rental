@@ -2230,16 +2230,171 @@ html {
     min-height: 80px;
 }
 
-/* Color scheme for date/time inputs */
-.booking-field input[type="date"],
-.booking-field input[type="time"] {
+/* Custom Date Picker */
+.custom-date-wrapper {
+    position: relative;
+}
+
+.custom-date-display {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: rgba(160, 160, 160, 0.5);
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.custom-date-display.has-value {
+    color: var(--text-primary);
+}
+
+.custom-date-display:hover {
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* Calendar Dropdown */
+.calendar-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 320px;
+    background: var(--secondary);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    z-index: 100;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+}
+
+.calendar-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 0 4px;
+}
+
+.cal-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cal-nav-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.cal-nav-btn:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 6px;
+}
+
+.cal-weekdays span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 0;
+}
+
+.cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.cal-day {
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.cal-empty {
+    visibility: hidden;
+}
+
+.cal-available {
+    color: var(--text-primary);
     cursor: pointer;
 }
 
-.booking-field input[type="date"]::-webkit-calendar-picker-indicator,
-.booking-field input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.7);
-    cursor: pointer;
+.cal-available:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--accent);
+}
+
+.cal-disabled {
+    color: rgba(160, 160, 160, 0.25);
+    cursor: not-allowed;
+}
+
+.cal-fully-booked {
+    color: rgba(239, 68, 68, 0.4);
+    text-decoration: line-through;
+}
+
+.cal-today {
+    box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.cal-selected {
+    background: var(--accent) !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+    .calendar-dropdown {
+        width: 280px;
+        padding: 12px;
+    }
+    .cal-day {
+        padding: 6px 2px;
+        font-size: 0.8rem;
+    }
 }
 
 /* Availability Status */

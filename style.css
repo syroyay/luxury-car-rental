@@ -1940,3 +1940,579 @@ html {
         text-align: center;
     }
 }
+
+/* ========== RENT NOW BUTTON ========== */
+.rent-now-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.rent-now-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.rent-now-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+.rent-now-btn:hover::before {
+    left: 100%;
+}
+
+.rent-now-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.modal-rent-btn {
+    padding: 16px 24px;
+    font-size: 1.1rem;
+}
+
+/* ========== BOOKING MODAL ========== */
+.booking-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    padding: 40px 20px;
+}
+
+.booking-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-modal {
+    background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 680px;
+    padding: 40px;
+    position: relative;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 60px rgba(212, 175, 55, 0.05);
+    margin: auto;
+}
+
+.booking-overlay.show .booking-modal {
+    transform: translateY(0) scale(1);
+}
+
+.booking-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    color: var(--text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.booking-close:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    transform: rotate(90deg);
+}
+
+/* Booking Header */
+.booking-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.booking-header h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.booking-car-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.booking-car-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Booking Steps */
+.booking-step {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.booking-step:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.booking-step h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.booking-step-num {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+/* Form Layout */
+.booking-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.booking-form-row:last-child {
+    margin-bottom: 0;
+}
+
+.booking-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.booking-form-row .booking-field {
+    margin-bottom: 0;
+}
+
+.booking-field label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.booking-field input,
+.booking-field select,
+.booking-field textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+    width: 100%;
+}
+
+.booking-field input:focus,
+.booking-field select:focus,
+.booking-field textarea:focus {
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.booking-field input::placeholder,
+.booking-field textarea::placeholder {
+    color: rgba(160, 160, 160, 0.5);
+}
+
+.booking-field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0A0A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+.booking-field select option {
+    background: var(--secondary);
+    color: var(--text-primary);
+}
+
+.booking-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Color scheme for date/time inputs */
+.booking-field input[type="date"],
+.booking-field input[type="time"] {
+    cursor: pointer;
+}
+
+.booking-field input[type="date"]::-webkit-calendar-picker-indicator,
+.booking-field input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+    cursor: pointer;
+}
+
+/* Availability Status */
+.availability-status {
+    margin-top: 12px;
+    padding: 0;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+}
+
+.availability-status.available,
+.availability-status.unavailable {
+    padding: 12px 16px;
+    max-height: 80px;
+}
+
+.availability-status.available {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+
+.availability-status.unavailable {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+/* Booking Summary */
+.booking-summary {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.summary-row + .summary-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-total-row {
+    margin-top: 5px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-border) !important;
+}
+
+.summary-total {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+/* Submit Button */
+.booking-submit-btn {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: #000;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+}
+
+.booking-submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+.booking-submit-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+
+.booking-submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ========== BOOKING CONFIRMATION ========== */
+.booking-confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
+    z-index: 10002;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    padding: 20px;
+}
+
+.booking-confirmation-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-confirmation {
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.98));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 24px;
+    padding: 50px 40px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    transform: scale(0.9);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4),
+                0 0 80px rgba(212, 175, 55, 0.08);
+}
+
+.booking-confirmation-overlay.show .booking-confirmation {
+    transform: scale(1);
+}
+
+.confirmation-checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+}
+
+.confirmation-checkmark svg {
+    width: 100%;
+    height: 100%;
+}
+
+.confirmation-checkmark circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: checkCircle 0.6s 0.3s ease forwards;
+}
+
+.confirmation-checkmark path {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkMark 0.4s 0.8s ease forwards;
+}
+
+@keyframes checkCircle {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes checkMark {
+    to { stroke-dashoffset: 0; }
+}
+
+.booking-confirmation h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.booking-confirmation > p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.confirmation-details {
+    text-align: left;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.conf-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    gap: 10px;
+}
+
+.conf-row + .conf-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.conf-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.conf-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+}
+
+.conf-id {
+    font-family: 'Space Grotesk', monospace;
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+}
+
+.conf-total-row {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-border) !important;
+}
+
+.conf-total {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent) !important;
+}
+
+/* ========== BOOKING RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .booking-overlay {
+        padding: 20px 15px;
+    }
+
+    .booking-modal {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .booking-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .booking-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .booking-confirmation {
+        padding: 35px 25px;
+    }
+
+    .booking-confirmation h2 {
+        font-size: 1.4rem;
+    }
+
+    .conf-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .conf-value {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-modal {
+        padding: 25px 15px;
+    }
+
+    .booking-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .booking-car-name {
+        font-size: 1.1rem;
+    }
+
+    .summary-total {
+        font-size: 1.2rem;
+    }
+}

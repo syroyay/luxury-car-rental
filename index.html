@@ -1571,21 +1571,53 @@
                 return;
             }
 
-            // Calculate duration and price immediately
+            // Calculate duration and price (12 business hours = 1 day)
             var durationText = '';
             var totalPrice = 0;
-            if (diffHours < 24) {
-                durationText = diffHours + ' hour' + (diffHours !== 1 ? 's' : '');
-                totalPrice = diffHours * currentBookingHourlyPrice;
-            } else {
-                var fullDays = Math.floor(diffHours / 24);
-                var extraHours = diffHours % 24;
-                if (extraHours > 0) {
-                    durationText = fullDays + ' day' + (fullDays !== 1 ? 's' : '') + ', ' + extraHours + ' hour' + (extraHours !== 1 ? 's' : '');
-                    totalPrice = (fullDays * currentBookingPrice) + (extraHours * currentBookingHourlyPrice);
+            var pickupHour = parseInt(pickupTime);
+            var returnHour = parseInt(returnTime);
+
+            if (pickupDate === returnDate) {
+                // Same day rental
+                var hours = returnHour - pickupHour;
+                if (hours >= 12) {
+                    durationText = '1 day';
+                    totalPrice = currentBookingPrice;
                 } else {
-                    durationText = fullDays + ' day' + (fullDays !== 1 ? 's' : '');
-                    totalPrice = fullDays * currentBookingPrice;
+                    durationText = hours + ' hour' + (hours !== 1 ? 's' : '');
+                    totalPrice = hours * currentBookingHourlyPrice;
+                }
+            } else {
+                // Multi-day rental
+                var pDate = new Date(pickupDate + 'T00:00:00');
+                var rDate = new Date(returnDate + 'T00:00:00');
+                var calendarDays = Math.round((rDate - pDate) / (1000 * 60 * 60 * 24));
+
+                var firstDayHours = 20 - pickupHour;
+                var lastDayHours = returnHour - 8;
+                var middleDays = calendarDays - 1;
+
+                var totalDays = middleDays;
+                var totalExtraHours = 0;
+
+                if (firstDayHours >= 12) { totalDays++; }
+                else { totalExtraHours += firstDayHours; }
+
+                if (lastDayHours >= 12) { totalDays++; }
+                else if (lastDayHours > 0) { totalExtraHours += lastDayHours; }
+
+                // If accumulated extra hours fill a day, convert
+                if (totalExtraHours >= 12) {
+                    totalDays++;
+                    totalExtraHours -= 12;
+                }
+
+                totalPrice = (totalDays * currentBookingPrice) + (totalExtraHours * currentBookingHourlyPrice);
+
+                if (totalExtraHours > 0) {
+                    durationText = totalDays + ' day' + (totalDays !== 1 ? 's' : '') + ', ' + totalExtraHours + ' hour' + (totalExtraHours !== 1 ? 's' : '');
+                } else {
+                    durationText = totalDays + ' day' + (totalDays !== 1 ? 's' : '');
                 }
             }
             durationEl.textContent = durationText;

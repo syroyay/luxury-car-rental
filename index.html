@@ -555,6 +555,65 @@
     </footer>
 
 
+    <!-- Terms & Conditions Modal -->
+    <div class="terms-overlay" id="termsModal">
+        <div class="terms-modal">
+            <button class="booking-close" onclick="closeTermsModal()">&times;</button>
+            <h2 class="terms-modal-title">Terms & Conditions</h2>
+            <p class="terms-modal-sub">Please read and accept our terms before proceeding with your booking.</p>
+
+            <div class="terms-modal-content">
+                <div class="terms-group">
+                    <h4>Rental Requirements</h4>
+                    <ul>
+                        <li>Minimum rental period is 3 hours</li>
+                        <li>Valid driver's license required (minimum 2 years experience)</li>
+                        <li>Minimum age requirement: 25 years old</li>
+                        <li>Security deposit required at time of pickup</li>
+                        <li>Full comprehensive insurance included</li>
+                    </ul>
+                </div>
+                <div class="terms-group">
+                    <h4>Vehicle Usage</h4>
+                    <ul>
+                        <li>Daily mileage limit of 250 km or 60 km/hr included</li>
+                        <li>Extra mileage charged at €3 per km</li>
+                        <li>Vehicle must be returned with same fuel level</li>
+                        <li>No smoking allowed in any vehicle</li>
+                        <li>No racing, off-road driving, or reckless behaviour</li>
+                    </ul>
+                </div>
+                <div class="terms-group">
+                    <h4>Delivery & Returns</h4>
+                    <ul>
+                        <li>Opening hours: 08:00 - 20:00 daily</li>
+                        <li>Delivery available throughout Munich (+€50)</li>
+                        <li>Cars must be returned by 20:00</li>
+                        <li>Late returns over 45 minutes incur a €60 fee</li>
+                        <li>1-hour buffer between bookings for vehicle preparation</li>
+                    </ul>
+                </div>
+                <div class="terms-group">
+                    <h4>Cancellation & Payment</h4>
+                    <ul>
+                        <li>48-hour cancellation for full refund</li>
+                        <li>Full payment required before pickup or delivery</li>
+                        <li>Damage to the vehicle will be charged to the renter</li>
+                    </ul>
+                </div>
+            </div>
+
+            <label class="terms-checkbox-label" id="termsCheckLabel">
+                <input type="checkbox" id="termsCheckbox" onchange="updateTermsBtn()">
+                <span>I have read and agree to the Terms & Conditions</span>
+            </label>
+
+            <button class="booking-submit-btn" id="termsAcceptBtn" disabled onclick="acceptTerms()">
+                Continue to Booking
+            </button>
+        </div>
+    </div>
+
     <!-- Booking Modal -->
     <div class="booking-overlay" id="bookingModal">
         <div class="booking-modal">
@@ -712,7 +771,7 @@
                         <span>€50</span>
                     </div>
                     <div class="summary-row summary-total-row">
-                        <span>Estimated Total</span>
+                        <span>Total</span>
                         <span id="bookingTotal" class="summary-total">-</span>
                     </div>
                 </div>
@@ -1455,17 +1514,48 @@
         }
 
         // ========== BOOKING MODAL ==========
+        // ========== TERMS & CONDITIONS ==========
+        var pendingBookingCar = '';
+
         function openBookingFromCard(btn) {
             var card = btn.closest('.car-card');
             var carName = card.querySelector('.car-name').textContent;
-            openBookingModal(carName);
+            showTermsModal(carName);
         }
 
         function openBookingFromModal() {
             var carName = document.getElementById('modalCarName').textContent;
             closeCarModal();
-            openBookingModal(carName);
+            showTermsModal(carName);
         }
+
+        function showTermsModal(carName) {
+            pendingBookingCar = carName;
+            document.getElementById('termsCheckbox').checked = false;
+            document.getElementById('termsAcceptBtn').disabled = true;
+            document.getElementById('termsModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.remove('show');
+            document.body.style.overflow = '';
+            pendingBookingCar = '';
+        }
+
+        function updateTermsBtn() {
+            document.getElementById('termsAcceptBtn').disabled = !document.getElementById('termsCheckbox').checked;
+        }
+
+        function acceptTerms() {
+            closeTermsModal();
+            openBookingModal(pendingBookingCar);
+        }
+
+        // Close terms modal on overlay click or Escape
+        document.getElementById('termsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeTermsModal();
+        });
 
         function openBookingModal(carName) {
             var car = carData[carName];
@@ -1523,6 +1613,7 @@
         // Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                if (document.getElementById('termsModal').classList.contains('show')) closeTermsModal();
                 if (document.getElementById('bookingModal').classList.contains('show')) closeBookingModal();
                 if (document.getElementById('bookingConfirmation').classList.contains('show')) closeConfirmation();
             }
@@ -1738,7 +1829,7 @@
                 '<div class="conf-row"><span class="conf-label">Purpose</span><span class="conf-value">' + (purposeLabels[booking.purpose] || booking.purpose) + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Name</span><span class="conf-value">' + booking.name + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Booking ID</span><span class="conf-value conf-id">' + booking.id.toUpperCase() + '</span></div>' +
-                '<div class="conf-row conf-total-row"><span class="conf-label">Estimated Total</span><span class="conf-value conf-total">' + booking.estimatedTotal + '</span></div>';
+                '<div class="conf-row conf-total-row"><span class="conf-label">Total</span><span class="conf-value conf-total">' + booking.estimatedTotal + '</span></div>';
 
             document.getElementById('bookingConfirmation').classList.add('show');
             document.body.style.overflow = 'hidden';

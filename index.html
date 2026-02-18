@@ -1851,15 +1851,22 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(booking)
             })
-            .then(function(res) { return res.json(); })
+            .then(function(res) {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
+                }
+                return res.json();
+            })
             .then(function(data) {
                 if (data.success) {
                     showEmailToast('Confirmation email sent to ' + booking.email, false);
                 } else {
+                    console.error('Email API error:', data);
                     showEmailToast('Could not send confirmation email. We\'ll contact you directly.', true);
                 }
             })
-            .catch(function() {
+            .catch(function(err) {
+                console.error('Email fetch failed:', err);
                 showEmailToast('Could not send confirmation email. We\'ll contact you directly.', true);
             });
         }

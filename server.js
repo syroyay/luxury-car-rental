@@ -21,20 +21,14 @@ app.post('/api/send-confirmation', async (req, res) => {
     return res.status(400).json({ error: 'Missing required booking fields' });
   }
 
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-      ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  };
-
   const purposeLabels = {
     fun: 'Just For Fun', wedding: 'Wedding', trip: 'Trip / Tour',
     business: 'Business Event', photoshoot: 'Photoshoot / Film',
     airport: 'Airport Transfer', other: 'Other'
   };
 
-  const pickupFormatted = formatDate(booking.pickupDateTime);
-  const returnFormatted = formatDate(booking.returnDateTime);
+  const pickupFormatted = booking.pickupFormatted || booking.pickupDateTime;
+  const returnFormatted = booking.returnFormatted || booking.returnDateTime;
   const purposeText = purposeLabels[booking.purpose] || booking.purpose;
   const locationText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup';
 

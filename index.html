@@ -1805,6 +1805,15 @@
                 bookedAt: new Date().toISOString()
             };
 
+            var formatDate = function(dateStr) {
+                var d = new Date(dateStr);
+                return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
+                    ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            };
+
+            booking.pickupFormatted = formatDate(booking.pickupDateTime);
+            booking.returnFormatted = formatDate(booking.returnDateTime);
+
             saveBooking(booking);
             sendConfirmationEmail(booking);
             closeBookingModal();
@@ -1813,12 +1822,6 @@
                 fun: 'Just For Fun', wedding: 'Wedding', trip: 'Trip / Tour',
                 business: 'Business Event', photoshoot: 'Photoshoot / Film',
                 airport: 'Airport Transfer', other: 'Other'
-            };
-
-            var formatDate = function(dateStr) {
-                var d = new Date(dateStr);
-                return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-                    ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
             };
 
             var deliveryText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup \u2014 Adress1';
@@ -1830,7 +1833,6 @@
                 '<div class="conf-row"><span class="conf-label">Location</span><span class="conf-value">' + deliveryText + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Purpose</span><span class="conf-value">' + (purposeLabels[booking.purpose] || booking.purpose) + '</span></div>' +
                 '<div class="conf-row"><span class="conf-label">Name</span><span class="conf-value">' + booking.name + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Booking ID</span><span class="conf-value conf-id">' + booking.id.toUpperCase() + '</span></div>' +
                 '<div class="conf-row conf-total-row"><span class="conf-label">Total</span><span class="conf-value conf-total">' + booking.estimatedTotal + '</span></div>';
 
             document.getElementById('bookingConfirmation').classList.add('show');

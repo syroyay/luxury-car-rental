@@ -15,22 +15,16 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required booking fields' });
   }
 
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-      ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  };
-
   const purposeLabels = {
     fun: 'Just For Fun', wedding: 'Wedding', trip: 'Trip / Tour',
     business: 'Business Event', photoshoot: 'Photoshoot / Film',
     airport: 'Airport Transfer', other: 'Other'
   };
 
-  const pickupFormatted = formatDate(booking.pickupDateTime);
-  const returnFormatted = formatDate(booking.returnDateTime);
+  const pickupFormatted = booking.pickupFormatted || booking.pickupDateTime;
+  const returnFormatted = booking.returnFormatted || booking.returnDateTime;
   const purposeText = purposeLabels[booking.purpose] || booking.purpose;
-  const locationText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup';
+  const locationText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup — Adress1';
 
   const customerHtml = `
 <!DOCTYPE html>
@@ -51,12 +45,6 @@ module.exports = async function handler(req, res) {
             <h2 style="margin:0 0 5px;color:#D4AF37;font-size:22px;font-weight:400;">Booking Confirmed</h2>
             <p style="margin:0 0 30px;color:#888;font-size:14px;">Thank you, ${booking.name}! Your reservation is confirmed.</p>
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#222;border-radius:8px;overflow:hidden;">
-              <tr>
-                <td style="padding:20px 25px;border-bottom:1px solid #333;">
-                  <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Booking ID</span><br>
-                  <span style="color:#D4AF37;font-size:18px;font-weight:600;letter-spacing:2px;">${booking.id.toUpperCase()}</span>
-                </td>
-              </tr>
               <tr>
                 <td style="padding:20px 25px;border-bottom:1px solid #333;">
                   <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Car</span><br>
@@ -89,7 +77,7 @@ module.exports = async function handler(req, res) {
               </tr>
               <tr>
                 <td style="padding:20px 25px;background:#1a1a1a;">
-                  <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Estimated Total</span><br>
+                  <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Total</span><br>
                   <span style="color:#D4AF37;font-size:22px;font-weight:600;">${booking.estimatedTotal}</span>
                 </td>
               </tr>
@@ -126,12 +114,8 @@ module.exports = async function handler(req, res) {
         <tr>
           <td style="padding:30px;">
             <table width="100%" cellpadding="8" cellspacing="0" style="font-size:14px;">
-              <tr style="background:#f9f9f9;">
-                <td style="color:#666;font-weight:600;width:140px;border-bottom:1px solid #eee;">Booking ID</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.id.toUpperCase()}</td>
-              </tr>
               <tr>
-                <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Car</td>
+                <td style="color:#666;font-weight:600;width:140px;border-bottom:1px solid #eee;">Car</td>
                 <td style="color:#333;border-bottom:1px solid #eee;">${booking.car}</td>
               </tr>
               <tr style="background:#f9f9f9;">
@@ -171,7 +155,7 @@ module.exports = async function handler(req, res) {
                 <td style="color:#333;border-bottom:1px solid #eee;">${booking.specialRequests || 'None'}</td>
               </tr>
               <tr>
-                <td style="color:#666;font-weight:600;border-bottom:2px solid #D4AF37;">Estimated Total</td>
+                <td style="color:#666;font-weight:600;border-bottom:2px solid #D4AF37;">Total</td>
                 <td style="color:#D4AF37;font-weight:700;font-size:16px;border-bottom:2px solid #D4AF37;">${booking.estimatedTotal}</td>
               </tr>
             </table>

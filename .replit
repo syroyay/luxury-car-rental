@@ -19,8 +19,8 @@ mode = "parallel"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node server.js"
-waitForPort = 80
+waitForPort = 3000
 
 [[ports]]
-localPort = 80
+localPort = 3000
 externalPort = 80

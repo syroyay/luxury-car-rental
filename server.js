@@ -105,17 +105,9 @@ app.post('/api/send-confirmation', async (req, res) => {
               </tr>
             </table>
 
-            <p style="margin:30px 0 15px;color:#888;font-size:13px;line-height:1.6;">
-              If you have any questions or need to make changes, please contact us:
+            <p style="margin:30px 0 0;color:#888;font-size:13px;line-height:1.6;">
+              If you have any questions or need to make changes, please contact <a href="mailto:sammychennupati11@gmail.com" style="color:#D4AF37;text-decoration:none;">sammychennupati11@gmail.com</a>
             </p>
-            <table cellpadding="0" cellspacing="0">
-              <tr>
-                <td style="padding:5px 0;color:#ccc;font-size:13px;">WhatsApp / Phone: <a href="tel:+971502136375" style="color:#D4AF37;text-decoration:none;">+971 50 213 6375</a></td>
-              </tr>
-              <tr>
-                <td style="padding:5px 0;color:#ccc;font-size:13px;">Instagram: <a href="https://instagram.com/exclusivedriveuae_com" style="color:#D4AF37;text-decoration:none;">@exclusivedriveuae_com</a></td>
-              </tr>
-            </table>
           </td>
         </tr>
         <!-- Footer -->
@@ -229,7 +221,7 @@ app.post('/api/send-confirmation', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,0 +1,14 @@
+{
+  "name": "luxury-car-rental",
+  "version": "1.0.0",
+  "description": "Luxury car rental website with booking confirmation emails",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "resend": "^4.1.2"
+  }
+}

@@ -2958,3 +2958,33 @@ html {
         font-size: 1.2rem;
     }
 }
+
+/* Email toast notification */
+.email-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-left: 4px solid #D4AF37;
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 100000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    max-width: 360px;
+}
+
+.email-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.email-toast.error {
+    border-left-color: #e74c3c;
+}

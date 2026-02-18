@@ -1806,6 +1806,7 @@
             };
 
             saveBooking(booking);
+            sendConfirmationEmail(booking);
             closeBookingModal();
 
             var purposeLabels = {
@@ -1836,11 +1837,39 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function showEmailToast(message, isError) {
+            var toast = document.getElementById('emailToast');
+            toast.textContent = message;
+            toast.className = 'email-toast' + (isError ? ' error' : '');
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 5000);
+        }
+
+        function sendConfirmationEmail(booking) {
+            fetch('/api/send-confirmation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(booking)
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    showEmailToast('Confirmation email sent to ' + booking.email, false);
+                } else {
+                    showEmailToast('Could not send confirmation email. We\'ll contact you directly.', true);
+                }
+            })
+            .catch(function() {
+                showEmailToast('Could not send confirmation email. We\'ll contact you directly.', true);
+            });
+        }
+
         function closeConfirmation() {
             document.getElementById('bookingConfirmation').classList.remove('show');
             document.body.style.overflow = '';
         }
     </script>
+    <div class="email-toast" id="emailToast"></div>
 </body>
 
 </html>

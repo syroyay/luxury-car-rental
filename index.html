@@ -700,6 +700,7 @@
                         <div class="booking-field">
                             <label for="bookingAge">Age</label>
                             <input type="number" id="bookingAge" min="25" max="99" placeholder="25+" required>
+                            <span class="age-error" id="ageError">You must be at least 25 years old to rent a car.</span>
                         </div>
                     </div>
                 </div>
@@ -1595,6 +1596,17 @@
         }
 
         // Booking modals only close via X button
+
+        // Age validation
+        document.getElementById('bookingAge').addEventListener('input', function() {
+            var val = this.value;
+            var errorEl = document.getElementById('ageError');
+            if (val !== '' && parseInt(val) < 25) {
+                errorEl.classList.add('show');
+            } else {
+                errorEl.classList.remove('show');
+            }
+        });
 
         // Recalculate on time change
         document.getElementById('pickupTime').addEventListener('change', recalculate);

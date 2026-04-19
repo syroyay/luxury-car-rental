@@ -2576,6 +2576,18 @@ html {
     min-height: 80px;
 }
 
+/* Age Error */
+.age-error {
+    font-size: 0.82rem;
+    color: #ef4444;
+    display: none;
+    margin-top: 2px;
+}
+
+.age-error.show {
+    display: block;
+}
+
 /* Fixed Return Time */
 .fixed-return-time {
     background: rgba(255, 255, 255, 0.05);

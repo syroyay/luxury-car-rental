@@ -119,7 +119,7 @@ app.post('/api/send-confirmation', async (req, res) => {
             </table>
 
             <p style="margin:30px 0 0;color:#888;font-size:13px;line-height:1.6;">
-              If you have any questions or need to make changes, please contact <a href="mailto:${OWNER_EMAIL}" style="color:#D4AF37;text-decoration:none;">${OWNER_EMAIL}</a>
+              For any questions or booking problems, please contact us at <a href="tel:+491234567890" style="color:#D4AF37;text-decoration:none;">+49 123 456 7890</a>
             </p>
           </td>
         </tr>

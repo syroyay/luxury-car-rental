@@ -632,7 +632,7 @@
             <form id="bookingForm" onsubmit="submitBooking(event)">
                 <div class="booking-step">
                     <h3><span class="booking-step-num">1</span> Select Date & Time</h3>
-                    <p class="booking-hours-note">Our opening hours: <strong>08:00 - 20:00</strong> daily. Cars must be returned by 20:00.</p>
+                    <p class="booking-hours-note">Our opening hours: <strong>08:00 - 20:00</strong> daily. Cars must be returned by <strong>18:00</strong>.</p>
                     <div class="booking-form-row">
                         <div class="booking-field">
                             <label>Pickup Date</label>
@@ -672,23 +672,9 @@
                             </div>
                         </div>
                         <div class="booking-field">
-                            <label for="returnTime">Return Time</label>
-                            <select id="returnTime" required>
-                                <option value="">Select time</option>
-                                <option value="08:00">08:00</option>
-                                <option value="09:00">09:00</option>
-                                <option value="10:00">10:00</option>
-                                <option value="11:00">11:00</option>
-                                <option value="12:00">12:00</option>
-                                <option value="13:00">13:00</option>
-                                <option value="14:00">14:00</option>
-                                <option value="15:00">15:00</option>
-                                <option value="16:00">16:00</option>
-                                <option value="17:00">17:00</option>
-                                <option value="18:00">18:00</option>
-                                <option value="19:00">19:00</option>
-                                <option value="20:00">20:00</option>
-                            </select>
+                            <label>Return Time</label>
+                            <div class="fixed-return-time">Latest by 18:00</div>
+                            <input type="hidden" id="returnTime" value="18:00">
                         </div>
                     </div>
                     <div class="availability-status" id="availabilityStatus"></div>
@@ -1484,22 +1470,15 @@
             calState[type].open = false;
             document.getElementById(type + 'Calendar').classList.remove('open');
 
-            // Update time options for selected date
-            updateTimeSelect(type + 'Time', dateStr);
-
-            // If pickup changed, reset return if it's before pickup
+            // Update pickup time options for selected date
             if (type === 'pickup') {
+                updateTimeSelect('pickupTime', dateStr);
+                // Reset return if it's before pickup
                 if (calState.return.selected && calState.return.selected < dateStr) {
                     calState.return.selected = null;
                     document.getElementById('returnDate').value = '';
                     document.getElementById('returnDateDisplay').textContent = 'Select date';
                     document.getElementById('returnDateDisplay').classList.remove('has-value');
-                    document.getElementById('returnTime').value = '';
-                    resetTimeSelect('returnTime');
-                }
-                // Update return time if same date
-                if (calState.return.selected) {
-                    updateTimeSelect('returnTime', calState.return.selected);
                 }
             }
 
@@ -1560,10 +1539,7 @@
             openBookingModal(carName);
         }
 
-        // Close terms modal on overlay click or Escape
-        document.getElementById('termsModal').addEventListener('click', function(e) {
-            if (e.target === this) closeTermsModal();
-        });
+        // Terms modal only closes via X button
 
         function openBookingModal(carName) {
             var car = carData[carName];
@@ -1591,7 +1567,7 @@
             document.getElementById('bookingTotal').textContent = '-';
             document.getElementById('bookingSubmitBtn').disabled = true;
             resetTimeSelect('pickupTime');
-            resetTimeSelect('returnTime');
+            document.getElementById('returnTime').value = '18:00';
 
             // Reset delivery
             isDelivery = false;
@@ -1618,23 +1594,10 @@
             closeAllCalendars();
         }
 
-        // Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (document.getElementById('termsModal').classList.contains('show')) closeTermsModal();
-                if (document.getElementById('bookingModal').classList.contains('show')) closeBookingModal();
-                if (document.getElementById('bookingConfirmation').classList.contains('show')) closeConfirmation();
-            }
-        });
-
-        // Click overlay to close
-        document.getElementById('bookingModal').addEventListener('click', function(e) {
-            if (e.target === this) closeBookingModal();
-        });
+        // Booking modals only close via X button
 
         // Recalculate on time change
         document.getElementById('pickupTime').addEventListener('change', recalculate);
-        document.getElementById('returnTime').addEventListener('change', recalculate);
 
         function recalculate() {
             var pickupDate = document.getElementById('pickupDate').value;
@@ -1647,7 +1610,7 @@
             var durationEl = document.getElementById('bookingDuration');
             var totalEl = document.getElementById('bookingTotal');
 
-            if (!pickupDate || !pickupTime || !returnDate || !returnTime) {
+            if (!pickupDate || !pickupTime || !returnDate) {
                 statusEl.innerHTML = '';
                 statusEl.className = 'availability-status';
                 durationEl.textContent = '-';
@@ -1670,15 +1633,14 @@
                 return;
             }
 
-            // Calculate duration and price (12 business hours = 1 day)
+            // Calculate duration and price
             var durationText = '';
             var totalPrice = 0;
             var pickupHour = parseInt(pickupTime);
-            var returnHour = parseInt(returnTime);
 
             if (pickupDate === returnDate) {
-                // Same day rental
-                var hours = returnHour - pickupHour;
+                // Same day rental - charge by hours
+                var hours = 18 - pickupHour;
                 if (hours >= 12) {
                     durationText = '1 day';
                     totalPrice = currentBookingPrice;
@@ -1687,37 +1649,14 @@
                     totalPrice = hours * currentBookingHourlyPrice;
                 }
             } else {
-                // Multi-day rental
+                // Multi-day rental - flat daily rate per calendar day
                 var pDate = new Date(pickupDate + 'T00:00:00');
                 var rDate = new Date(returnDate + 'T00:00:00');
-                var calendarDays = Math.round((rDate - pDate) / (1000 * 60 * 60 * 24));
+                var totalDays = Math.round((rDate - pDate) / (1000 * 60 * 60 * 24));
+                if (totalDays < 1) totalDays = 1;
 
-                var firstDayHours = 20 - pickupHour;
-                var lastDayHours = returnHour - 8;
-                var middleDays = calendarDays - 1;
-
-                var totalDays = middleDays;
-                var totalExtraHours = 0;
-
-                if (firstDayHours >= 12) { totalDays++; }
-                else { totalExtraHours += firstDayHours; }
-
-                if (lastDayHours >= 12) { totalDays++; }
-                else if (lastDayHours > 0) { totalExtraHours += lastDayHours; }
-
-                // If accumulated extra hours fill a day, convert
-                if (totalExtraHours >= 12) {
-                    totalDays++;
-                    totalExtraHours -= 12;
-                }
-
-                totalPrice = (totalDays * currentBookingPrice) + (totalExtraHours * currentBookingHourlyPrice);
-
-                if (totalExtraHours > 0) {
-                    durationText = totalDays + ' day' + (totalDays !== 1 ? 's' : '') + ', ' + totalExtraHours + ' hour' + (totalExtraHours !== 1 ? 's' : '');
-                } else {
-                    durationText = totalDays + ' day' + (totalDays !== 1 ? 's' : '');
-                }
+                totalPrice = totalDays * currentBookingPrice;
+                durationText = totalDays + ' day' + (totalDays !== 1 ? 's' : '');
             }
             durationEl.textContent = durationText;
             if (isDelivery) totalPrice += DELIVERY_FEE;

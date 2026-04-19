@@ -2576,6 +2576,18 @@ html {
     min-height: 80px;
 }
 
+/* Fixed Return Time */
+.fixed-return-time {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+}
+
 /* Custom Date Picker */
 .custom-date-wrapper {
     position: relative;

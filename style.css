@@ -44,10 +44,10 @@ body {
 
 /* Modern Header */
 header {
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.65) 100%),
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.75) 100%),
                 url('images/banner.webp') center/cover no-repeat;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 120px 0;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 140px 0 120px;
     position: relative;
     z-index: 10;
     overflow: hidden;
@@ -215,6 +215,19 @@ nav a:hover::after {
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.fleet-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 15px auto 0;
+    opacity: 0.7;
 }
 
 /* Modern Filter Section */
@@ -230,6 +243,20 @@ nav a:hover::after {
     border-radius: 20px;
     backdrop-filter: blur(10px);
     border: 1px solid var(--card-border);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 /* Modern Dropdowns */
@@ -268,7 +295,7 @@ nav a:hover::after {
 /* Modern Car Grid */
 .car-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
     gap: 30px;
     margin-bottom: 80px;
 }
@@ -280,7 +307,7 @@ nav a:hover::after {
     border: 1px solid var(--card-border);
     border-radius: 20px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
     position: relative;
     min-height: 550px;
     display: flex;
@@ -315,11 +342,49 @@ nav a:hover::after {
     width: 100%;
     height: 240px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease;
 }
 
 .car-card:hover .car-image {
-    transform: scale(1.05);
+    transform: scale(1.08);
+}
+
+.car-card::after {
+    content: 'View Details';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.car-card:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.car-card > .car-image + .car-info::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, var(--card-bg), transparent);
+    pointer-events: none;
 }
 
 .car-info {
@@ -515,10 +580,20 @@ nav a:hover::after {
     text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 300;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: -0.02em;
+}
+
+.services-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 15px auto 0;
+    opacity: 0.7;
 }
 
 .service-block {
@@ -598,12 +673,19 @@ nav a:hover::after {
 
 @media (max-width: 768px) {
     .service-block {
+        flex-direction: column;
+        gap: 25px;
         margin-bottom: 35px;
         padding-bottom: 35px;
     }
 
     .service-image {
-        display: none;
+        flex: none;
+        width: 100%;
+    }
+
+    .service-image img {
+        height: 200px;
     }
 }
 

@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supercarrentals.de</title>
+    <title>Supercarrentals.de | Luxury Car Rental in Munich</title>
+    <meta name="description" content="Rent supercars and luxury vehicles in Munich. Porsche, Ferrari, Lamborghini, Mercedes-AMG and more. Delivery to your hotel or airport. Book online today.">
+    <meta name="theme-color" content="#0a0a0a">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="images/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -221,6 +225,7 @@
                     <label class="filter-label">Category</label>
                     <select class="category-filter" id="categoryFilter">
                         <option value="all">All Categories</option>
+                        <option value="sports">Sports</option>
                         <option value="suv">SUVs</option>
                         <option value="luxury">Luxury</option>
                         <option value="everyday-sports">Everyday Sports</option>
@@ -231,13 +236,12 @@
                     <label class="filter-label">Brand</label>
                     <select class="brand-filter" id="brandFilter">
                         <option value="">All Brands</option>
-                        <option value="porsche">Porsche</option>
-                        <option value="mclaren">McLaren</option>
                         <option value="audi">Audi</option>
-                        <option value="mercedes-benz">Mercedes-Benz</option>
                         <option value="bmw">BMW</option>
-                        <option value="lamborghini">Lamborghini</option>
                         <option value="ferrari">Ferrari</option>
+                        <option value="lamborghini">Lamborghini</option>
+                        <option value="mercedes-benz">Mercedes-Benz</option>
+                        <option value="porsche">Porsche</option>
                     </select>
                 </div>
 
@@ -263,14 +267,14 @@
                 </div>
 
                 <div class="filter-results">
-                    <span class="results-count">Showing <strong id="carCount">9</strong> vehicles</span>
+                    <span class="results-count">Showing <strong id="carCount">10</strong> vehicles</span>
                 </div>
             </div>
 
             <div class="car-grid">
                 <!-- Car 1: Porsche 911 Turbo S -->
                 <div class="car-card reveal" data-category="sports" data-brand="porsche" data-seats="4" data-boot="small">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/porsche1.avif"
                         alt="Porsche 911">
                     <div class="car-info">
@@ -294,8 +298,8 @@
                 </div>
 
                 <!-- Car 2: Mercedes-AMG G 63 -->
-                <div class="car-card reveal" data-category="suv" data-brand="mercedes" data-seats="5" data-boot="large">
-                    <img class="car-image" loading="lazy"
+                <div class="car-card reveal" data-category="suv" data-brand="mercedes-benz" data-seats="5" data-boot="large">
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/g1.avif"
                         alt="Mercedes-AMG G 63">
                     <div class="car-info">
@@ -320,7 +324,7 @@
 
                 <!-- Car 3: Audi RS6 -->
                 <div class="car-card reveal" data-category="everyday-sports" data-brand="audi" data-seats="5" data-boot="large">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/audi1.avif"
                         alt="Audi RS6">
                     <div class="car-info">
@@ -345,7 +349,7 @@
 
                 <!-- Car 4: Porsche Cayenne -->
                 <div class="car-card reveal" data-category="suv everyday-sports" data-brand="porsche" data-seats="5" data-boot="large">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/p1.avif"
                         alt="Porsche Cayenne">
                     <div class="car-info">
@@ -370,7 +374,7 @@
 
                 <!-- Car 5: Ferrari 296 GTB -->
                 <div class="car-card reveal" data-category="sports" data-brand="ferrari" data-seats="2" data-boot="small">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/ferrari1.avif"
                         alt="Ferrari 296 GTB">
                     <div class="car-info">
@@ -395,7 +399,7 @@
 
                 <!-- Car 6: BMW M3 -->
                 <div class="car-card reveal" data-category="everyday-sports" data-brand="bmw" data-seats="5" data-boot="medium">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/bmw1.avif"
                         alt="Bmw M3">
                     <div class="car-info">
@@ -420,7 +424,7 @@
 
                 <!-- Car 7: Lamborghini Urus -->
                 <div class="car-card reveal" data-category="suv sports" data-brand="lamborghini" data-seats="5" data-boot="medium">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/l1.avif"
                         alt="Lamborghini Urus">
                     <div class="car-info">
@@ -445,7 +449,7 @@
 
                 <!-- Car 8: Mercedes-Benz S450 -->
                 <div class="car-card reveal" data-category="luxury" data-brand="mercedes-benz" data-seats="5" data-boot="medium">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/benz1.avif"
                         alt="Mercedes-Benz S450"
                         style="object-position: center 90%;">
@@ -471,7 +475,7 @@
 
                 <!-- Car 9: BMW X5 -->
                 <div class="car-card reveal" data-category="suv" data-brand="bmw" data-seats="7" data-boot="large">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/b1.avif"
                         alt="BMW X5"
                         style="object-position: center 100%;">
@@ -497,7 +501,7 @@
 
                 <!-- Car 10: Lamborghini Huracán Tecnica -->
                 <div class="car-card reveal" data-category="sports" data-brand="lamborghini" data-seats="2" data-boot="small">
-                    <img class="car-image" loading="lazy"
+                    <img class="car-image" loading="lazy" width="400" height="240"
                         src="images/la1.avif"
                         alt="Lamborghini Huracán Tecnica">
                     <div class="car-info">
@@ -744,7 +748,7 @@
                             <div class="delivery-info-icon">&#x1F3E2;</div>
                             <div>
                                 <p class="delivery-info-label">Pick up at our showroom</p>
-                                <p class="delivery-info-address">Adress1</p>
+                                <p class="delivery-info-address">Our showroom in Munich</p>
                             </div>
                         </div>
                         <div class="delivery-info delivery-address-info" id="deliveryAddressInfo" style="display:none;">
@@ -1042,7 +1046,10 @@
             car.images.forEach((img, index) => {
                 const thumb = document.createElement('div');
                 thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
-                thumb.innerHTML = `<img src="${img}" alt="${carName} view ${index + 1}">`;
+                const thumbImg = document.createElement('img');
+                thumbImg.src = img;
+                thumbImg.alt = carName + ' view ' + (index + 1);
+                thumb.appendChild(thumbImg);
                 thumb.onclick = () => switchImage(index);
                 gallery.appendChild(thumb);
             });
@@ -1800,7 +1807,7 @@
                 purpose: document.getElementById('rentalPurpose').value,
                 specialRequests: document.getElementById('specialRequests').value,
                 delivery: isDelivery,
-                deliveryAddress: isDelivery ? document.getElementById('deliveryAddressInput').value.trim() : 'Showroom pickup - Adress1',
+                deliveryAddress: isDelivery ? document.getElementById('deliveryAddressInput').value.trim() : 'Showroom pickup - Our showroom in Munich',
                 estimatedTotal: document.getElementById('bookingTotal').textContent,
                 bookedAt: new Date().toISOString()
             };
@@ -1824,16 +1831,32 @@
                 airport: 'Airport Transfer', other: 'Other'
             };
 
-            var deliveryText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup \u2014 Adress1';
+            var deliveryText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup \u2014 Our showroom in Munich';
 
-            document.getElementById('confirmationDetails').innerHTML =
-                '<div class="conf-row"><span class="conf-label">Car</span><span class="conf-value">' + booking.car + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Pickup</span><span class="conf-value">' + formatDate(booking.pickupDateTime) + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Return</span><span class="conf-value">' + formatDate(booking.returnDateTime) + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Location</span><span class="conf-value">' + deliveryText + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Purpose</span><span class="conf-value">' + (purposeLabels[booking.purpose] || booking.purpose) + '</span></div>' +
-                '<div class="conf-row"><span class="conf-label">Name</span><span class="conf-value">' + booking.name + '</span></div>' +
-                '<div class="conf-row conf-total-row"><span class="conf-label">Total</span><span class="conf-value conf-total">' + booking.estimatedTotal + '</span></div>';
+            var confDetails = document.getElementById('confirmationDetails');
+            confDetails.innerHTML = '';
+            var rows = [
+                ['Car', booking.car],
+                ['Pickup', formatDate(booking.pickupDateTime)],
+                ['Return', formatDate(booking.returnDateTime)],
+                ['Location', deliveryText],
+                ['Purpose', purposeLabels[booking.purpose] || booking.purpose],
+                ['Name', booking.name],
+                ['Total', booking.estimatedTotal]
+            ];
+            rows.forEach(function(r, i) {
+                var row = document.createElement('div');
+                row.className = 'conf-row' + (i === rows.length - 1 ? ' conf-total-row' : '');
+                var label = document.createElement('span');
+                label.className = 'conf-label';
+                label.textContent = r[0];
+                var value = document.createElement('span');
+                value.className = 'conf-value' + (i === rows.length - 1 ? ' conf-total' : '');
+                value.textContent = r[1];
+                row.appendChild(label);
+                row.appendChild(value);
+                confDetails.appendChild(row);
+            });
 
             document.getElementById('bookingConfirmation').classList.add('show');
             document.body.style.overflow = 'hidden';

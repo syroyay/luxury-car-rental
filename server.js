@@ -9,10 +9,20 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const SENDER_EMAIL = process.env.SENDER_EMAIL || 'bookings@supercarrentals.de';
 const OWNER_EMAIL = process.env.OWNER_EMAIL || 'bookings@supercarrentals.de';
 
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 app.use(express.static(path.join(__dirname), {
   index: 'index.html'
 }));
+
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 app.post('/api/send-confirmation', async (req, res) => {
   const booking = req.body;
@@ -27,10 +37,19 @@ app.post('/api/send-confirmation', async (req, res) => {
     airport: 'Airport Transfer', other: 'Other'
   };
 
-  const pickupFormatted = booking.pickupFormatted || booking.pickupDateTime;
-  const returnFormatted = booking.returnFormatted || booking.returnDateTime;
-  const purposeText = purposeLabels[booking.purpose] || booking.purpose;
-  const locationText = booking.delivery ? 'Delivery to: ' + booking.deliveryAddress : 'Showroom pickup';
+  const pickupFormatted = escapeHtml(booking.pickupFormatted || booking.pickupDateTime);
+  const returnFormatted = escapeHtml(booking.returnFormatted || booking.returnDateTime);
+  const purposeText = escapeHtml(purposeLabels[booking.purpose] || booking.purpose);
+  const locationText = booking.delivery ? 'Delivery to: ' + escapeHtml(booking.deliveryAddress) : 'Showroom pickup';
+  const safeName = escapeHtml(booking.name);
+  const safeCar = escapeHtml(booking.car);
+  const safeEmail = escapeHtml(booking.email);
+  const safePhone = escapeHtml(booking.phone);
+  const safeAge = escapeHtml(String(booking.age));
+  const safeId = escapeHtml(booking.id);
+  const safeTotal = escapeHtml(booking.estimatedTotal);
+  const safeSpecialRequests = escapeHtml(booking.specialRequests || 'None');
+  const safeBookedAt = escapeHtml(booking.bookedAt);
 
   // Customer confirmation email
   const customerHtml = `
@@ -52,19 +71,19 @@ app.post('/api/send-confirmation', async (req, res) => {
         <tr>
           <td style="padding:40px;">
             <h2 style="margin:0 0 5px;color:#D4AF37;font-size:22px;font-weight:400;">Booking Confirmed</h2>
-            <p style="margin:0 0 30px;color:#888;font-size:14px;">Thank you, ${booking.name}! Your reservation is confirmed.</p>
+            <p style="margin:0 0 30px;color:#888;font-size:14px;">Thank you, ${safeName}! Your reservation is confirmed.</p>
 
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#222;border-radius:8px;overflow:hidden;">
               <tr>
                 <td style="padding:20px 25px;border-bottom:1px solid #333;">
                   <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Booking ID</span><br>
-                  <span style="color:#D4AF37;font-size:18px;font-weight:600;letter-spacing:2px;">${booking.id.toUpperCase()}</span>
+                  <span style="color:#D4AF37;font-size:18px;font-weight:600;letter-spacing:2px;">${safeId.toUpperCase()}</span>
                 </td>
               </tr>
               <tr>
                 <td style="padding:20px 25px;border-bottom:1px solid #333;">
                   <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Car</span><br>
-                  <span style="color:#fff;font-size:16px;">${booking.car}</span>
+                  <span style="color:#fff;font-size:16px;">${safeCar}</span>
                 </td>
               </tr>
               <tr>
@@ -94,13 +113,13 @@ app.post('/api/send-confirmation', async (req, res) => {
               <tr>
                 <td style="padding:20px 25px;background:#1a1a1a;">
                   <span style="color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Estimated Total</span><br>
-                  <span style="color:#D4AF37;font-size:22px;font-weight:600;">${booking.estimatedTotal}</span>
+                  <span style="color:#D4AF37;font-size:22px;font-weight:600;">${safeTotal}</span>
                 </td>
               </tr>
             </table>
 
             <p style="margin:30px 0 0;color:#888;font-size:13px;line-height:1.6;">
-              If you have any questions or need to make changes, please contact <a href="mailto:sammychennupati11@gmail.com" style="color:#D4AF37;text-decoration:none;">sammychennupati11@gmail.com</a>
+              If you have any questions or need to make changes, please contact <a href="mailto:${OWNER_EMAIL}" style="color:#D4AF37;text-decoration:none;">${OWNER_EMAIL}</a>
             </p>
           </td>
         </tr>
@@ -135,27 +154,27 @@ app.post('/api/send-confirmation', async (req, res) => {
             <table width="100%" cellpadding="8" cellspacing="0" style="font-size:14px;">
               <tr style="background:#f9f9f9;">
                 <td style="color:#666;font-weight:600;width:140px;border-bottom:1px solid #eee;">Booking ID</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.id.toUpperCase()}</td>
+                <td style="color:#333;border-bottom:1px solid #eee;">${safeId.toUpperCase()}</td>
               </tr>
               <tr>
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Car</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.car}</td>
+                <td style="color:#333;border-bottom:1px solid #eee;">${safeCar}</td>
               </tr>
               <tr style="background:#f9f9f9;">
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Customer Name</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.name}</td>
+                <td style="color:#333;border-bottom:1px solid #eee;">${safeName}</td>
               </tr>
               <tr>
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Email</td>
-                <td style="color:#333;border-bottom:1px solid #eee;"><a href="mailto:${booking.email}" style="color:#D4AF37;">${booking.email}</a></td>
+                <td style="color:#333;border-bottom:1px solid #eee;"><a href="mailto:${safeEmail}" style="color:#D4AF37;">${safeEmail}</a></td>
               </tr>
               <tr style="background:#f9f9f9;">
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Phone</td>
-                <td style="color:#333;border-bottom:1px solid #eee;"><a href="tel:${booking.phone}" style="color:#D4AF37;">${booking.phone}</a></td>
+                <td style="color:#333;border-bottom:1px solid #eee;"><a href="tel:${safePhone}" style="color:#D4AF37;">${safePhone}</a></td>
               </tr>
               <tr>
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Age</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.age}</td>
+                <td style="color:#333;border-bottom:1px solid #eee;">${safeAge}</td>
               </tr>
               <tr style="background:#f9f9f9;">
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Pickup</td>
@@ -175,14 +194,14 @@ app.post('/api/send-confirmation', async (req, res) => {
               </tr>
               <tr style="background:#f9f9f9;">
                 <td style="color:#666;font-weight:600;border-bottom:1px solid #eee;">Special Requests</td>
-                <td style="color:#333;border-bottom:1px solid #eee;">${booking.specialRequests || 'None'}</td>
+                <td style="color:#333;border-bottom:1px solid #eee;">${safeSpecialRequests}</td>
               </tr>
               <tr>
                 <td style="color:#666;font-weight:600;border-bottom:2px solid #D4AF37;">Estimated Total</td>
-                <td style="color:#D4AF37;font-weight:700;font-size:16px;border-bottom:2px solid #D4AF37;">${booking.estimatedTotal}</td>
+                <td style="color:#D4AF37;font-weight:700;font-size:16px;border-bottom:2px solid #D4AF37;">${safeTotal}</td>
               </tr>
             </table>
-            <p style="margin:20px 0 0;color:#999;font-size:12px;">Booked at: ${booking.bookedAt}</p>
+            <p style="margin:20px 0 0;color:#999;font-size:12px;">Booked at: ${safeBookedAt}</p>
           </td>
         </tr>
       </table>
@@ -196,13 +215,13 @@ app.post('/api/send-confirmation', async (req, res) => {
       resend.emails.send({
         from: SENDER_EMAIL,
         to: [booking.email],
-        subject: `Booking Confirmed — ${booking.car} | Supercarrentals.de`,
+        subject: `Booking Confirmed — ${safeCar} | Supercarrentals.de`,
         html: customerHtml
       }),
       resend.emails.send({
         from: SENDER_EMAIL,
         to: [OWNER_EMAIL],
-        subject: `New Booking — ${booking.car} | ${booking.name}`,
+        subject: `New Booking — ${safeCar} | ${safeName}`,
         html: ownerHtml
       })
     ]);

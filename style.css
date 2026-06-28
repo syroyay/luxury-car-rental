@@ -3093,3 +3093,61 @@ html {
 .email-toast.error {
     border-left-color: #e74c3c;
 }
+
+/* Brand Marquee */
+.brand-strip {
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 22px 0;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.brand-track {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: brand-scroll 50s linear infinite;
+    will-change: transform;
+}
+
+.brand-strip:hover .brand-track {
+    animation-play-state: paused;
+}
+
+.brand-set {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.brand-logo {
+    height: 44px;
+    width: auto;
+    flex-shrink: 0;
+    margin-right: 80px;
+    filter: brightness(0);
+    opacity: 0.75;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.brand-logo:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+@keyframes brand-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-25%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-track {
+        animation: none;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
